@@ -78,13 +78,12 @@
                     @endauth
                 </div>
             @endif
-
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
+                    First Laravel App
                 </div>
 
-                <div class="links">
+                <div class="links m-b-md">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
@@ -93,6 +92,15 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                </div>
+                <div class="flex-center links">
+                    <a href="/hello0000">/hello0000</a>
+                    <a href="/hello0001">/hello0001</a>
+                    <a href="/hello0002">/hello0002 Alex</a>
+                    <a href="/hello0003">/hello0003 Smith</a>
+                    <a href="/hello0004">/hello0003 John</a>
+                    <a href="/user">/user</a>
+                    <a href="/user/'some_variable'">/user/'some_variable'</a>
                 </div>
             </div>
         </div>
