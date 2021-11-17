@@ -48,6 +48,10 @@
                 font-size: 84px;
             }
 
+            .big {
+                font-size: 26px;
+            }
+
             .links > a {
                 color: #636b6f;
                 padding: 0 25px;
@@ -93,6 +97,7 @@
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
+
                 <div class="flex-center links">
                     <a href="/hello0000">/hello0000</a>
                     <a href="/hello0001">/hello0001</a>
@@ -102,7 +107,25 @@
                     <a href="/user">/user</a>
                     <a href="/user/'some_variable'">/user/'some_variable'</a>
                 </div>
+
+                <div class="flex-center">
+                    <div>
+                    <a href="http://127.0.0.1:8000/categories" class="big">Categories: </a>
+                    <ul> @foreach($categories as $category) <li>
+                            <a href="http://127.0.0.1:8000/categories/{{ $category->id }}"> {{ $category->name }} </a>
+                        </li> @endforeach </ul>
+                    </div>
+
+                    <div>
+                    <a href="http://127.0.0.1:8000/products" class="big">Products: </a>
+                    <ul> @foreach($products as $product) <li>
+                            <a href="http://127.0.0.1:8000/products/{{ $product->id }}"> {{ $product->name }} </a>
+                        </li> @endforeach </ul>
+                    </div>
+                </div>
+
             </div>
         </div>
     </body>
 </html>
+
