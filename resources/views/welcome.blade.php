@@ -10,64 +10,17 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
 
         <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" >
 
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .big {
-                font-size: 26px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
     </head>
     <body>
+
+{{--    <form method="post" action="{{route('photos.store')}}">--}}
+{{--        @csrf--}}
+{{--        <input type="text">--}}
+{{--        <button type="submit">submit</button>--}}
+{{--    </form>--}}
+
         <div class="flex-center position-ref full-height">
             @if (Route::has('login'))
                 <div class="top-right links">
@@ -98,32 +51,35 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
 
-                <div class="flex-center links">
-                    <a href="/hello0000">/hello0000</a>
-                    <a href="/hello0001">/hello0001</a>
-                    <a href="/hello0002">/hello0002 Alex</a>
-                    <a href="/hello0003">/hello0003 Smith</a>
-                    <a href="/hello0004">/hello0003 John</a>
-                    <a href="/user">/user</a>
-                    <a href="/user/'some_variable'">/user/'some_variable'</a>
+                <div class="links">
+                    1. <a href="/hello0000">/hello0000</a>
+                    2. <a href="/hello0001">/hello0001</a>
+                    3. <a href="/hello0002">/hello0002 Alex</a>
+                    4. <a href="/hello0003">/hello0003 Smith</a>
+                    5. <a href="/hello0004">/hello0003 John</a>
+                    6. <a href="/user">/user</a>
+                    7. <a href="/user/'some_variable'">/user/'some_variable'</a>
                 </div>
 
                 <div class="flex-center">
-                    <div>
-                    <a href="http://127.0.0.1:8000/categories" class="big">Categories: </a>
-                    <ul> @foreach($categories as $category) <li>
-                            <a href="http://127.0.0.1:8000/categories/{{ $category->id }}"> {{ $category->name }} </a>
-                        </li> @endforeach </ul>
+                    <div class="cards">
+                        <a href="http://127.0.0.1:8000/categories" class="big no-decoration">Categories: </a>
+                        <ul>
+                            @foreach($categories as $category)
+                            @if($category->parent_id == null)
+                                <li>
+                                    <a href="http://127.0.0.1:8000/categories/{{ $category->id }}"
+                                       class="big no-decoration"> {{ $category->name }} </a>
+                                </li>
+                            @endif
+                            @endforeach
+                        </ul>
                     </div>
 
-                    <div>
-                    <a href="http://127.0.0.1:8000/products" class="big">Products: </a>
-                    <ul> @foreach($products as $product) <li>
-                            <a href="http://127.0.0.1:8000/products/{{ $product->id }}"> {{ $product->name }} </a>
-                        </li> @endforeach </ul>
+                    <div class="cards">
+                        <a href="http://127.0.0.1:8000/products" class="big no-decoration">Products</a>
                     </div>
                 </div>
-
             </div>
         </div>
     </body>
