@@ -36,6 +36,7 @@
                 </div>
             @endif
             <div class="content">
+                <div class="cards">
                 <div class="title m-b-md">
                     First Laravel App
                 </div>
@@ -51,15 +52,30 @@
                     <a href="https://github.com/laravel/laravel">GitHub</a>
                 </div>
 
-                <div class="links">
-                    1. <a href="/hello0000">/hello0000</a>
-                    2. <a href="/hello0001">/hello0001</a>
-                    3. <a href="/hello0002">/hello0002 Alex</a>
-                    4. <a href="/hello0003">/hello0003 Smith</a>
-                    5. <a href="/hello0004">/hello0003 John</a>
-                    6. <a href="/user">/user</a>
-                    7. <a href="/user/'some_variable'">/user/'some_variable'</a>
+                <div class="grid-container" style="grid-gap: 1px; padding: 1px;">
+                    <div><a class="no-decoration" href="/hello0000">1. /hello0000</a></div>
+                    <div><a class="no-decoration" href="/hello0001">2. /hello0001</a></div>
+                    <div><a class="no-decoration" href="/hello0002">3. /hello0002 Alex</a></div>
+                    <div><a class="no-decoration" href="/hello0003">4. /hello0003 Smith</a></div>
+                    <div><a class="no-decoration" href="/hello0004">5. /hello0003 John</a></div>
+                    <div><a class="no-decoration" href="/user">6. /user</a></div>
+                    <div><a class="no-decoration flex-center" href="/user/'some_variable'">7. /user/'some_variable'</a></div>
+
+                    <div style="grid-column: 2 / 4">
+                        <form action="/index.php" method="post" autocomplete="on" id="var_form"
+                              oninput=" let new_link = '/user/'.concat(variable.value)
+                                        link.value = 'link'
+                                        myAnchor.href = new_link ">
+                            @csrf
+                            <label for="variable">Input: </label>
+                            <input type="text" name="variable" id="variable" placeholder="Variable">
+
+                            <a id="myAnchor" style="color: crimson"><output name="link" for="variable" form="var_form"></output></a>
+                        </form>
+
+                    </div>
                 </div>
+
 
                 <div class="flex-center">
                     <div class="cards">
@@ -79,6 +95,7 @@
                     <div class="cards">
                         <a href="http://127.0.0.1:8000/products" class="big no-decoration">Products</a>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

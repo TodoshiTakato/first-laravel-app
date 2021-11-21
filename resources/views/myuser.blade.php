@@ -13,7 +13,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             @if($variable_name_doesn_matter)
-                <h1>User, your variable is {{ $variable_name_doesn_matter }}!</h1>
+                <h1>User, your variable is "{{ $variable_name_doesn_matter }}"!</h1>
             @endif
 
             <br><br>

@@ -68,7 +68,8 @@ Route::get('/categories', function () {
 Route::get('/categories/{id}', function ($id) {
 //    $category = DB::table('Categories')->find($id);
     $category = App\Category::find($id);
-    return view('category', compact('category'));
+    $categories = App\Category::all();
+    return view('category', compact('category'), compact('categories'));
 });
 
 Route::get('/products', function () {

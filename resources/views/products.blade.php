@@ -31,6 +31,7 @@
                         @endfor
                     </div>
                 </div>
+                <h3><a href="http://127.0.0.1:8000/" class="no-decoration">Назад</a></h3>
             </div>
         </div>
     </div>
