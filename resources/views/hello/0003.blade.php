@@ -3,8 +3,10 @@
 @section('content')
     <div class="flex-center position-ref full-height">
         <div class="text-center">
-            @if($variable_name_doesn_matter)
-                <h1>User, your variable is "{{ $variable_name_doesn_matter }}"!</h1>
+            <h1>Hello, World!</h1>
+
+            @if($name)
+                <h1>Your name is {{ $name }}!</h1>
             @endif
 
             <br><br>

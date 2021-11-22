@@ -1,17 +1,8 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+@extends('layout.base')
 
-    <title>Product Info</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" >
-</head>
-<body>
+@section('content')
     <div class="flex-center position-ref full-height">
-        <div class="content">
+        <div class="text-center">
             <h3>{{ $product->name }}</h3>
             <ul>
                 <li>
@@ -42,5 +33,4 @@
             <h3><a href="http://127.0.0.1:8000/products" class="no-decoration">Назад</a></h3>
         </div>
     </div>
-</body>
-</html>
+@endsection

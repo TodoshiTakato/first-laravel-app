@@ -1,19 +1,10 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+@extends('layout.base')
 
-    <title>List of Products</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" >
-</head>
-<body>
+@section('content')
     <div class="flex-center position-ref full-height">
-        <div class="content">
+        <div class="text-center">
             <div class="cards">
-                <a href="http://127.0.0.1:8000/products" class="big no-decoration">Products: </a>
+                <div><a href="http://127.0.0.1:8000/products" class="big no-decoration">Products: </a></div>
                 <div>
                     <div class="grid-container">
                         @php $j = 0; @endphp
@@ -31,9 +22,8 @@
                         @endfor
                     </div>
                 </div>
-                <h3><a href="http://127.0.0.1:8000/" class="no-decoration">Назад</a></h3>
+                <div><h3><a href="http://127.0.0.1:8000/" class="no-decoration">Назад</a></h3></div>
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection
