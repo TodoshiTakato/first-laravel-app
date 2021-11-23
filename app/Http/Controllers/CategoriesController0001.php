@@ -25,6 +25,14 @@ class CategoriesController0001 extends Controller
         return view('categories.category', compact('category'), compact('categories'));
     }
 
+    public function nurlan() {
+        $parent_categories_var = Category::parent_categories();                    //передаём Родительские категории
+        return view('categories.nurlan', ['parent_categories' => $parent_categories_var]);
+    }
+
+
+
+
 
 
 

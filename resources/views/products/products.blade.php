@@ -4,17 +4,23 @@
     <div class="flex-center position-ref full-height">
         <div class="text-center">
             <div class="cards">
-                <div><a href="http://127.0.0.1:8000/products" class="big no-decoration">Products: </a></div>
+                <div><a href="http://127.0.0.1:8000/products" class="big">Products: </a></div>
                 <div>
                     <div class="grid-container">
                         @php $j = 0; @endphp
-                        @for($i = 0; $i < 15; $i++)
-                            <div class="text-left">
+                        @for($i = 0; $i < $subcategory_counter; $i++)
+                            <div>
+                                <span class="text-center d-block"><a href="/categories/{{$category_ids[$i]}}">{{$category_names[$i]}}: </a></span>
+                                <hr>
                                 @while ( $j < count($products) )
-                                    <a href="http://127.0.0.1:8000/products/{{ $products[$j]->id }}" class="no-decoration">
-                                        {{$products[$j]->id}} {{ $products[$j]->name }}
-                                    </a>
-                                    <br>
+                                    <div style="display: flex; justify-content: space-between; width: 100%;">
+                                        <div>
+                                            <a href="http://127.0.0.1:8000/products/{{ $products[$j]->id }}">
+                                                {{$products[$j]->id}}. {{ $products[$j]->name }}&nbsp;
+                                            </a>
+                                        </div>
+                                        <div>&ensp;&emsp;{{ $products[$j]->price }}</div>
+                                    </div>
                                     @php $j++; @endphp
                                     @if( $j%4 == 0 and $j != 0 ) @break @endif
                                 @endwhile
@@ -22,7 +28,7 @@
                         @endfor
                     </div>
                 </div>
-                <div><h3><a href="http://127.0.0.1:8000/" class="no-decoration">Назад</a></h3></div>
+                <div><h3><a href="http://127.0.0.1:8000/"> Назад </a></h3></div>
             </div>
         </div>
     </div>

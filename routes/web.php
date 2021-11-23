@@ -14,7 +14,7 @@ Route::get('/hello0004', 'MyController0001@hello0004'); // Passing variable way 
 Route::get('/user',      'MyController0001@index');     // User. Using Controller. Returning HTML as a string.
 Route::get('/user/{variable?}', 'MyController0001@outputting_variable'); // Routing with optional variable.
                                                                                   // Passing variable way #1
-Route::get('/nurlan',      'MyController0001@nurlan');     // User. Using Controller. Returning HTML as a string.
+Route::get('/nurlan',      'CategoriesController0001@nurlan');     // User. Using Controller. Returning HTML as a string.
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version

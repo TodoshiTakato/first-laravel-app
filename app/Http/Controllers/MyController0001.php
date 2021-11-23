@@ -64,8 +64,5 @@ class MyController0001 extends Controller
         return view('myuser', compact('variable_name_doesn_matter'));
     }
 
-    public function nurlan() {
-        return view('nurlan');
-    }
 
 }

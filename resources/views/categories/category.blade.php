@@ -10,7 +10,7 @@
                     @for($i = 0; $i < count($categories); $i++)
                         @if($category->id == $categories[$i]->parent_id)
                             <li>
-                                <a href="http://127.0.0.1:8000/categories/{{ $categories[$i]->id }}" class="no-decoration">
+                                <a href="http://127.0.0.1:8000/categories/{{ $categories[$i]->id }}">
                                 {{ $counter }} {{$categories[$i]->name}}</a>
                                 <br>
                             </li>
@@ -18,7 +18,7 @@
                         @endif
                     @endfor
                 </ul>
-                <h3><a href="http://127.0.0.1:8000/categories" class="no-decoration">Назад</a></h3>
+                <h3><a href="http://127.0.0.1:8000/categories">Назад</a></h3>
             @else
         <div class="text-center">
                 <h3>{{ $category->name }}</h3>
@@ -39,7 +39,7 @@
                         updated_at: {{ $category->updated_at }}
                     </li>
                 </ul>
-                <h3><a href="http://127.0.0.1:8000/categories/{{ $category->parent_id }}" class="no-decoration">Назад</a></h3>
+                <h3><a href="http://127.0.0.1:8000/categories/{{ $category->parent_id }}">Назад</a></h3>
             @endif
         </div>
     </div>

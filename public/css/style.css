@@ -1,12 +1,43 @@
+@font-face {
+    font-family: 'URW-DIN';
+    src: url('../fonts/URWDIN-Regular.ttf');
+    src: local('URWDIN-Regular'), local('URWDIN-Regular'),
+         url('../fonts/URWDIN-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Impact LT Std';
+    src: url('../fonts/ImpactLTStd.ttf');
+    src: local('Impact LT Std Roman'), local('ImpactLTStd'),
+         url('../fonts/ImpactLTStd.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
 
 html, body {
-    background-color: #fff;
     color: #636b6f;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 200;
+    font-family: URW-DIN, 'Impact LT Std', 'Nunito', sans-serif, "Times New Roman";
+    font-weight: 600;
+    /*font-size: 18px;*/
     margin: 0;
     padding: 0;
     height: 100%;
+    background: #959595;
+
+}
+
+a {
+    color: #636b6f;
+    text-decoration: none;
+}
+
+ul {
+    line-height: 150%;
+    margin: 10px;
 }
 
 /*--------------------------------------------WRAPPER GRID------------------------------------------------------------*/
@@ -15,38 +46,45 @@ html, body {
     height: 100%;
     display: flex;
     flex-direction: column;
-    /*justify-content: space-between;*/
-    /*align-content: center;*/
+    /*justify-content: center;*/
+    align-content: center;
     /*align-items: center;*/
+    overflow: auto;
+
 }
 
 .wrapper > div.nav-bar {
     /*align-self: stretch;*/
-    background: aquamarine;
-    border: solid black;
+    background: #2980B9;
+    font-size: 20px;
+
 }
 
 .wrapper > div.content {
+    align-self: center;
     flex-grow: 1;
     background: white;
+    /*border: 5px solid red;*/
+    /*border: 2px solid gray;*/
+    /*border-radius: 25px;*/
+    min-width: 900px;
+    padding: 10px;
 }
 
 .wrapper > div.footer {
     /*align-self: stretch;*/
-    background: aquamarine;
-    border: solid black;
+    background: #2980B9;
+    font-size: 20px;
+
 }
 
 /*--------------------------------------------WRAPPER GRID END--------------------------------------------------------*/
 
 .full-height {
     height: 100%;
+    min-width: 100%;
 }
 
-ul {
-    line-height: 150%;
-    margin: 10px;
-}
 /*--------------------------------------------NAVIGATION BAR----------------------------------------------------------*/
 ul.nav-bar {
     list-style-type: none;
@@ -54,17 +92,19 @@ ul.nav-bar {
     padding: 0;
     overflow: hidden;
     background-color: #333;
+    display: flex;
+    justify-content: space-around;
 }
 
-li.nav-item {
-    float: left;
+.nav-item, .dropbtn {
+    /*float: left;*/
 }
 
-li.nav-item a, .dropbtn {
+.nav-item a, .dropbtn {
     display: inline-block;
     color: white;
     text-align: center;
-    padding: 14px 16px;
+    padding: 15px;
     text-decoration: none;
 }
 
@@ -72,8 +112,9 @@ li.nav-item a:hover, .dropdown:hover .dropbtn {
     background-color: red;
 }
 
-li.dropdown {
+.dropdown {
     display: inline-block;
+    /*float: left;*/
 }
 
 .dropdown-content {
@@ -82,7 +123,7 @@ li.dropdown {
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 2;
 }
 
 .dropdown-content a {
@@ -90,42 +131,142 @@ li.dropdown {
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    text-align: left;
+    /*text-align: left;*/
 }
 
-.dropdown-content a:hover {background-color: #f1f1f1;}
+.dropdown-content a:hover {background-color: #2980B9;}
 
 .dropdown:hover .dropdown-content {
     display: block;
 }
 /*--------------------------------------------NAVIGATION BAR END------------------------------------------------------*/
+/*----------------------------------------------FOOTER BAR END--------------------------------------------------------*/
 
-.text-center {
-    text-align: center;
+
+/* The container <div> - needed to position the dropup content */
+.dropup {
+    position: relative;
+    display: inline-block;
 }
 
+/* Dropup content (Hidden by Default) */
+.dropup-content {
+    display: none;
+    position: fixed;
+    bottom: 54px;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+}
+
+/* Links inside the dropup */
+.dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropup links on hover */
+.dropup-content a:hover {background-color: #2980B9}
+
+/* Show the dropup menu on hover */
+.dropup:hover .dropup-content {
+    display: block;
+}
+
+/* Change the background color of the dropup button when the dropup content is shown */
+.dropup:hover .dropbtn {
+    background-color: red;
+}
+
+/*----------------------------------------------FOOTER BAR END--------------------------------------------------------*/
+
+
 .flex-center {
-    align-items: center;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    justify-content: space-around;
+    flex-direction: column;
+}
+
+.d-inline {
+    display: inline;
+}
+
+.d-inline-block {
+    display: inline-block;
+}
+
+.d-block {
+    display: block;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-none {
+    float: none;
 }
 
 .position-ref {
     position: relative;
 }
 
-.top-right {
-    position: absolute;
-    right: 10px;
-    top: 18px;
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
+}
+
+.h-inherit {
+    height: inherit;
+}
+
+/*------------------------------------------------TEXT FORMATTING-----------------------------------------------------*/
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.no-decoration {
+    color: #636b6f;
+    text-decoration: none;
+}
+.big {
+    font-size: 26px;
 }
 
 .title {
     font-size: 84px;
 }
 
-.big {
-    font-size: 26px;
+/*----------------------------------------------TEXT FORMATTING END---------------------------------------------------*/
+/*&nbsp; - space, &ensp; - an en space, &emsp; - an em space*/
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
 }
 
 .cards {
@@ -134,27 +275,23 @@ li.dropdown {
     box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.4);
 }
 
-/*.text-left {*/
-/*    text-align: left;*/
-/*}*/
-.no-decoration {
-    color: #636b6f;
-    text-decoration: none;
-}
+
+/*----------------------------------------------CSS GRID-CONTAINER----------------------------------------------------*/
 
 .grid-container {
     display: inline-grid;
     grid-template-columns: auto auto auto;
-    grid-gap: 3px;
+    grid-gap: 1px;
     background-color: rgb(0, 0, 0);
-    padding: 3px;
+    padding: 1px;
 }
 
 .grid-container > div {
     background-color: rgb(255, 255, 255);
-    text-align: left;
     padding: 10px;
 }
+
+/*-------------------------------------------CSS GRID-CONTAINER END---------------------------------------------------*/
 
 .links > a {
     color: #636b6f;

@@ -30,7 +30,7 @@
                     updated_at: {{ $product->updated_at }}
                 </li>
             </ul>
-            <h3><a href="http://127.0.0.1:8000/products" class="no-decoration">Назад</a></h3>
+            <h3><a href="http://127.0.0.1:8000/products">Назад</a></h3>
         </div>
     </div>
 @endsection
