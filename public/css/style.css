@@ -18,6 +18,10 @@
     font-display: swap;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 html, body {
     color: #636b6f;
     font-family: URW-DIN, 'Impact LT Std', 'Nunito', sans-serif, "Times New Roman";
@@ -60,22 +64,63 @@ ul {
 
 }
 
-.wrapper > div.content {
+.wrapper > div.container {
+    /*height: 100%;*/
+    flex-grow: 1;
+    /*background: pink;*/
+    /*min-width: 900px;*/
+}
+
+.wrapper > div.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.wrapper > div.container > div.column {
+    float: left;
+    padding: 15px;
+}
+
+.wrapper > div.container > div.sidebar {
+    height: 100%;
+    align-self: center;
+    /*background: #2980B9;*/
+    padding: 10px;
+    width: 15%;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 8px;
+    margin-bottom: 8px;
+    background-color: #33b5e5;
+    color: #ffffff;
+}
+
+.sidebar li:hover {
+    background-color: #0077bb;
+}
+
+.wrapper > div.container > div.content {
+    height: 100%;
     align-self: center;
     flex-grow: 1;
     background: white;
-    /*border: 5px solid red;*/
-    /*border: 2px solid gray;*/
-    /*border-radius: 25px;*/
     min-width: 900px;
     padding: 10px;
+    width: 70%;
 }
 
 .wrapper > div.footer {
     /*align-self: stretch;*/
     background: #2980B9;
     font-size: 20px;
-
 }
 
 /*--------------------------------------------WRAPPER GRID END--------------------------------------------------------*/
@@ -191,6 +236,7 @@ li.nav-item a:hover, .dropdown:hover .dropbtn {
 }
 
 .flex-column {
+    display: flex;
     justify-content: space-around;
     flex-direction: column;
 }

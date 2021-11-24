@@ -10,11 +10,18 @@
             <div class="nav-bar">
                 @include('layout.nav-bar')
             </div>
-            <div class="content">
-
-                @section('content')
-                    This is the master content.
-                @show
+            <div class="container">
+                <div class="column sidebar">
+                    <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
+                </div>
+                <div class="column content">
+                    @section('content')
+                        This is the master content.
+                    @show
+                </div>
+                <div class="column sidebar">
+                    <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
+                </div>
             </div>
             <div class="footer">
                 @include('layout.footer')

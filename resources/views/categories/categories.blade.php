@@ -1,19 +1,17 @@
 @extends('layout.base')
 
 @section('content')
-    <div style="display: block; height: 100%;">
-        <div style="display: flex; flex-direction: column">
-        <div style="flex-grow: 1;">
 
-        </div>
-        <div class="cards d-flex" style="flex-grow: 5;">
-
-            <div class="flex-center" style="border: solid">
+        <div class="flex-column" style="height: 100%">
+            <div class="text-center" style="padding: 10px; border: 2px solid black;">
+                HEADER/TITLE SECTION
+            </div>
+            <div class="grid-container" style="flex-grow: 1; grid-template-columns: auto auto; grid-gap: 1px; padding: 1px; margin: 10px 0;">
                 @php $x=0; @endphp
-                @for ($i = 0; $i < count($categories); $i++)
-                    @if($categories[$i]->parent_id == null)
-                        @if ($x%2 == 0)
-                            <div> @endif
+                    @for ($i = 0; $i < count($categories); $i++)
+                        @if($categories[$i]->parent_id == null)
+
+                            <div style="display: flex; align-items: center; justify-content: center">
                                 <div class="cards">
                                     <ul>
                                         <li>
@@ -29,18 +27,17 @@
                                                 @php $x++; @endphp
                                             @endfor
                                         </ul>
-                                </div>
-                        @if ($x%2 == 0)
-                        </div> @endif
                                     </ul>
+                                </div>
+                            </div>
+
                     @endif
-                @endfor
+                    @endfor
+            </div>
+
+            <div class="text-center" style="padding: 10px; border: 2px solid black;">
+                FOOTER SECTION
             </div>
         </div>
 
-        <div class="text-center" style="flex-grow: 1;">
-            <h3><a href="http://127.0.0.1:8000/">Назад</a></h3>
-        </div>
-    </div>
-    </div>
 @endsection

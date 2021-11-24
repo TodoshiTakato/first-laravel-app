@@ -14,12 +14,12 @@
                                 <hr>
                                 @while ( $j < count($products) )
                                     <div style="display: flex; justify-content: space-between; width: 100%;">
-                                        <div>
+                                        <div class="text-left">
                                             <a href="http://127.0.0.1:8000/products/{{ $products[$j]->id }}">
                                                 {{$products[$j]->id}}. {{ $products[$j]->name }}&nbsp;
                                             </a>
                                         </div>
-                                        <div>&ensp;&emsp;{{ $products[$j]->price }}</div>
+                                        <div style="text-align: right">&ensp;&emsp;{{ $products[$j]->price }}</div>
                                     </div>
                                     @php $j++; @endphp
                                     @if( $j%4 == 0 and $j != 0 ) @break @endif
