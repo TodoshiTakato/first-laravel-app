@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('content')
+@section('content1')
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

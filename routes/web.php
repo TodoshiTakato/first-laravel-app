@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//use Illuminate\Http\Request;
 
 //                            Hello World Pages
                                                                  // Hello World. Returning HTML as a string. No variable passing.
@@ -14,7 +15,6 @@ Route::get('/hello0004', 'MyController0001@hello0004'); // Passing variable way 
 Route::get('/user',      'MyController0001@index');     // User. Using Controller. Returning HTML as a string.
 Route::get('/user/{variable?}', 'MyController0001@outputting_variable'); // Routing with optional variable.
                                                                                   // Passing variable way #1
-Route::get('/nurlan',      'CategoriesController0001@nurlan');     // User. Using Controller. Returning HTML as a string.
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version
@@ -26,14 +26,11 @@ Route::get('/categories/{id}', 'CategoriesController0001@Category');
 Route::get('/products',     'ProductsController0001@Products');
 Route::get('/products/{id}', 'ProductsController0001@Product');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/tasks',      'TaskController@index')->name('get_task');
+Route::post('/task',      'TaskController@post')->name('task');
+Route::delete('/task/{task_id}',      'TaskController@delete');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+

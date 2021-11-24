@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('content')
+@section('content1')
 
         <div class="flex-column1" style="height: 100%">
             <div class="text-center1" style="padding: 10px; border: 2px solid black;">

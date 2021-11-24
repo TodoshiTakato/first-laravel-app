@@ -15,7 +15,7 @@
                     <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
                 </div>
                 <div class="column content">
-                    @section('content')
+                    @section('content1')
                         This is the master content.
                     @show
                 </div>

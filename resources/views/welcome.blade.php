@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('content')
+@section('content1')
 <div class="flex-center position-ref full-height">
 
     <div class="text-center1">   <!-- Wrapper -->
@@ -53,44 +53,46 @@
                         <a id="myAnchor" style="color: deeppink;"><output name="link" for="variable" form="var_form"></output></a>
                     </form>
                 </div>
-                <div><a href="/nurlan">nurlan</a></div>
+                <div><a href="/tasks">tasks</a></div>
             </div>  <!-- Hello world Links -->
 
+            <br>
+            <br>
 
-            <div class="flex-center">  <!-- DataBase Cards -->
-            <div class="cards">  <!-- Categories Card -->
-                <a href="http://127.0.0.1:8000/categories" class="big no-decoration">Categories: </a>
-                <ul>
-                    @foreach($categories as $category)
-                    @if($category->parent_id == null)
-                        <li>
-                            <a href="http://127.0.0.1:8000/categories/{{ $category->id }}"
-                               class="big no-decoration"> {{ $category->name }} </a>
-                        </li>
-                    @endif
-                    @endforeach
-                </ul>
-            </div>  <!-- Categories Card -->
-
-            <div class="cards">  <!-- Products Card -->
-                <a href="http://127.0.0.1:8000/products" class="big no-decoration">Products</a>
-            </div>  <!-- Products Card -->
-        </div>  <!-- DataBase Cards -->
-        <div>
-            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
-                <tr>
-                    <th style="border: 1px solid black; border-collapse: collapse;">Name</th>
-                    <td style="border: 1px solid black; border-collapse: collapse;">Jill</td>
-                </tr>
-                <tr>
-                    <th rowspan="2" style="border: 1px solid black; border-collapse: collapse;">Phone</th>
-                    <td style="border: 1px solid black; border-collapse: collapse;">555-1234</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black; border-collapse: collapse;">555-8745</td>
-                </tr>
-            </table>
-        </div>
+            <div>
+                <table class="table table-bordered">
+                    <tr>
+                        <td>
+                            <div class="h-100">
+                            <a class="big no-decoration d-block1" href="http://127.0.0.1:8000/categories">
+                                Categories:
+                            </a></div>
+                        </td>
+                        <td rowspan="2">
+                            <a class="big no-decoration d-block1" href="http://127.0.0.1:8000/products">
+                                Products
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="d-flex1 justify-content-center align-items-center">
+                                <ul class="text-left1" style="line-height: 200%">
+                                    @foreach($categories as $category)
+                                        @if($category->parent_id == null)
+                                            <li>
+                                                <a class="big no-decoration" href="http://127.0.0.1:8000/categories/{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>   <!-- Main Card in the center -->
     </div>   <!-- Wrapper -->
 </div>

@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
 use App\Category;
+use App\Product;
 
 class CategoriesController0001 extends Controller
 {
     public function index_page () {
-        $categories = DB::table('Categories')->get();
-        $products = DB::table('Products')->get();
-        return view('welcome', compact('categories'), compact('products'));
+//        $categories = DB::table('Categories')->get();
+//        $products = DB::table('Products')->get();
+        $categories = Category::all();
+        $products = Product::all();
+        $user = Auth::user();
+        return view('welcome', compact('categories'), compact('products'))->with('User_Dropdown', $user);
     }
     public function Categories() {
      // $categories = DB::table('Categories')->get();       //Аналог. Alternative того что снизу
@@ -25,10 +31,6 @@ class CategoriesController0001 extends Controller
         return view('categories.category', compact('category'), compact('categories'));
     }
 
-    public function nurlan() {
-        $parent_categories_var = Category::parent_categories();                    //передаём Родительские категории
-        return view('categories.nurlan', ['parent_categories' => $parent_categories_var]);
-    }
 
 
 

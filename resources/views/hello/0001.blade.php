@@ -1,6 +1,6 @@
 @extends('layout.base')
 
-@section('content')
+@section('content1')
     <div class="flex-center position-ref full-height">
         <div class="text-center1">
             <h1>Hello, World!</h1>

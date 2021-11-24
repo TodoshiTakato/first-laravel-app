@@ -1967,18 +1967,19 @@ pre code {
 
 .table th,
 .table td {
-  padding: 0.75rem;
-  vertical-align: top;
-  border-top: 1px solid #dee2e6;
+  /*padding: 0.75rem;*/
+  padding: 0;
+  vertical-align: center;
+  /*border-top: 1px solid #dee2e6;*/
 }
 
 .table thead th {
   vertical-align: bottom;
-  border-bottom: 2px solid #dee2e6;
+  /*border-bottom: 2px solid #dee2e6;*/
 }
 
 .table tbody + tbody {
-  border-top: 2px solid #dee2e6;
+  /*border-top: 2px solid #dee2e6;*/
 }
 
 .table-sm th,
@@ -1992,7 +1993,7 @@ pre code {
 
 .table-bordered th,
 .table-bordered td {
-  border: 1px solid #dee2e6;
+  border: 1px solid #000000;
 }
 
 .table-bordered thead th,
@@ -3926,7 +3927,7 @@ ul.nav-bar {
 .nav-item1 a, .dropbtn {
     display: inline-block;
     color: white;
-    text-align: center;
+    text-align: left;
     padding: 15px;
     text-decoration: none;
 }
@@ -7589,6 +7590,8 @@ button.bg-dark:focus {
 
 .d-flex1 {
     display: flex;
+    margin: 0;
+    padding: 0;
 }
 
 .d-inline-flex {
