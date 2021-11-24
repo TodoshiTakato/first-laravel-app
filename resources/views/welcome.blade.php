@@ -3,7 +3,7 @@
 @section('content')
 <div class="flex-center position-ref full-height">
 
-    <div class="text-center">   <!-- Wrapper -->
+    <div class="text-center1">   <!-- Wrapper -->
         @if (Route::has('login'))   <!-- Authentication -->
             <div class="top-right links">
                 @auth
@@ -32,7 +32,7 @@
                 <a href="https://github.com/laravel/laravel">GitHub</a>
             </div> <!-- Laravel Links -->
 
-            <div class="grid-container text-left" style="grid-template-columns: auto auto auto auto auto;">   <!-- Hello world Links -->
+            <div class="grid-container text-left1" style="grid-template-columns: auto auto auto auto auto;">   <!-- Hello world Links -->
                 <div><a href="/hello0000">1. /hello0000</a></div>
                 <div><a href="/hello0001">2. /hello0001</a></div>
                 <div><a href="/hello0002">3. /hello0002 Alex</a></div>
@@ -48,7 +48,7 @@
                         @csrf
                         <label for="variable">8. </label>
                         <input type="text" name="variable" id="variable" placeholder="Variable"
-                               size="4" style="line-height: 160%;">
+                               size="4">
 
                         <a id="myAnchor" style="color: deeppink;"><output name="link" for="variable" form="var_form"></output></a>
                     </form>

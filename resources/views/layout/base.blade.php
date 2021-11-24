@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
     <head>
@@ -10,7 +10,7 @@
             <div class="nav-bar">
                 @include('layout.nav-bar')
             </div>
-            <div class="container">
+            <div class="container1">
                 <div class="column sidebar">
                     <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
                 </div>

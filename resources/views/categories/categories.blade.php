@@ -2,8 +2,8 @@
 
 @section('content')
 
-        <div class="flex-column" style="height: 100%">
-            <div class="text-center" style="padding: 10px; border: 2px solid black;">
+        <div class="flex-column1" style="height: 100%">
+            <div class="text-center1" style="padding: 10px; border: 2px solid black;">
                 HEADER/TITLE SECTION
             </div>
             <div class="grid-container" style="flex-grow: 1; grid-template-columns: auto auto; grid-gap: 1px; padding: 1px; margin: 10px 0;">
@@ -35,7 +35,7 @@
                     @endfor
             </div>
 
-            <div class="text-center" style="padding: 10px; border: 2px solid black;">
+            <div class="text-center1" style="padding: 10px; border: 2px solid black;">
                 FOOTER SECTION
             </div>
         </div>

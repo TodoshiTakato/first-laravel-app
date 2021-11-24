@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="flex-center position-ref full-height">
-        <div class="text-center">
+        <div class="text-center1">
             <h1>Hello, World!</h1>
 
             <br><br>

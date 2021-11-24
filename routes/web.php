@@ -25,3 +25,15 @@ Route::get('/categories', 'CategoriesController0001@Categories');
 Route::get('/categories/{id}', 'CategoriesController0001@Category');
 Route::get('/products',     'ProductsController0001@Products');
 Route::get('/products/{id}', 'ProductsController0001@Product');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

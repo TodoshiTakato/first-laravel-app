@@ -20,7 +20,7 @@
                 </ul>
                 <h3><a href="http://127.0.0.1:8000/categories">Назад</a></h3>
             @else
-        <div class="text-center">
+        <div class="text-center1">
                 <h3>{{ $category->name }}</h3>
                 <ul>
                     <li>

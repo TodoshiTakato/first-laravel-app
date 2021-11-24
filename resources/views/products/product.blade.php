@@ -2,8 +2,8 @@
 
 @section('content')
     <div class="flex-center position-ref full-height">
-        <div class="text-center">
-            <h3>{{ $product->name }}</h3>
+        <div class="text-center1">
+            <h1>{{ $product->name }}</h1>
             <ul>
                 <li>
                     Product_id: {{ $product->id }}
@@ -30,7 +30,7 @@
                     updated_at: {{ $product->updated_at }}
                 </li>
             </ul>
-            <h3><a href="http://127.0.0.1:8000/products">Назад</a></h3>
+            <h1><a href="http://127.0.0.1:8000/products">Назад</a></h1>
         </div>
     </div>
 @endsection
