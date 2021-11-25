@@ -15,8 +15,9 @@ Route::get('/hello0004', 'MyController0001@hello0004'); // Passing variable way 
 Route::get('/user',      'MyController0001@index');     // User. Using Controller. Returning HTML as a string.
 Route::get('/user/{variable?}', 'MyController0001@outputting_variable'); // Routing with optional variable.
                                                                                   // Passing variable way #1
-Route::get('/http',      'MyController0001@http')->name('get_http');              // Using HTTP request.
+Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http');              // Using HTTP request.
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
+Route::get('/login_form',      'UserController@login_form')->name('login_form');  // Using HTTP request.
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version
@@ -33,7 +34,4 @@ Route::post('/task',      'TaskController@post')->name('post_a_task');
 Route::put('/task/{task_id}',      'TaskController@update')->name('update_a_task');
 Route::delete('/task/{task_id}',      'TaskController@delete')->name('delete_a_task');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 

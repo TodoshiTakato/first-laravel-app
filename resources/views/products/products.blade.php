@@ -6,7 +6,7 @@
             <div class="cards">
                 <div><a href="http://127.0.0.1:8000/products" class="big">Products: </a></div>
                 <div>
-                    <div class="grid-container">
+                    <div class="grid-container1">
                         @php $j = 0; @endphp
                         @for($i = 0; $i < $subcategory_counter; $i++)
                             <div>

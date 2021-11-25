@@ -65,7 +65,7 @@ class MyController0001 extends Controller
         return view('myuser', compact('variable_name_doesn_matter'));
     }
 
-    public function http() {
+    public function parsed_http() {
         $collection = Http::get('https://reqres.in/api/users?page=1');
         return view('hello.http', ['collection'=>$collection['data']]);
     }
@@ -74,6 +74,7 @@ class MyController0001 extends Controller
         $raw_http = Http::get('https://reqres.in/api/users?page=1');
         return view('hello.http', ['raw_http'=>$raw_http]);
     }
+
 
 
 }

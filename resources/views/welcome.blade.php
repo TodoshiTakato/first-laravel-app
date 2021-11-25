@@ -32,7 +32,7 @@
                 <a href="https://github.com/laravel/laravel">GitHub</a>
             </div> <!-- Laravel Links -->
 
-            <div class="grid-container text-left1" style="grid-template-columns: auto auto auto auto auto;">   <!-- Hello world Links -->
+            <div class="grid-container1 text-left1" style="grid-template-columns: auto auto auto auto auto;">    <!-- Hello world Links -->
                 <div><a href="/hello0000">1. /hello0000</a></div>
                 <div><a href="/hello0001">2. /hello0001</a></div>
                 <div><a href="/hello0002">3. /hello0002 Alex</a></div>
@@ -54,7 +54,8 @@
                     </form>
                 </div>
                 <div><a href="{{route('tasks_main_page')}}">/tasks</a></div>
-                <div><a href="{{route('get_http')}}">HTTP Parser</a></div>
+                <div><a href="{{route('get_parsed_http')}}">HTTP Parser</a></div>
+                <div><a href="{{route('login_form')}}">Login Page</a></div>
             </div>  <!-- Hello world Links -->
 
             <br>
