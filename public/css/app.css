@@ -5,7 +5,7 @@
     url('../fonts/URWDIN-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    /*font-display: swap;*/
 }
 
 @font-face {
@@ -15,10 +15,10 @@
     url('../fonts/ImpactLTStd.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
-    font-display: swap;
+    /*font-display: swap;*/
 }
 
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+/*@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";*/
 
 /*!
  * Bootstrap v4.6.1 (https://getbootstrap.com/)
@@ -1961,20 +1961,22 @@ pre code {
 
 .table {
   width: 100%;
-  margin-bottom: 1rem;
+  /*margin-bottom: 1rem;*/
   color: #212529;
 }
 
 .table th,
 .table td {
   /*padding: 0.75rem;*/
-  padding: 0;
+  padding: 5px;
+  text-align: center;
   vertical-align: center;
   /*border-top: 1px solid #dee2e6;*/
 }
 
 .table thead th {
-  vertical-align: bottom;
+  text-align: center;
+  vertical-align: center;
   /*border-bottom: 2px solid #dee2e6;*/
 }
 
@@ -1993,7 +1995,7 @@ pre code {
 
 .table-bordered th,
 .table-bordered td {
-  border: 1px solid #000000;
+  border: 1px solid #dee2e6;
 }
 
 .table-bordered thead th,
@@ -6725,7 +6727,7 @@ a.close.disabled {
   z-index: 1070;
   display: block;
   margin: 0;
-  font-family: "Nunito", sans-serif;
+  font-family: URW-DIN, 'Impact LT Std', 'Nunito', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;
@@ -6850,7 +6852,7 @@ a.close.disabled {
   z-index: 1060;
   display: block;
   max-width: 276px;
-  font-family: "Nunito", sans-serif;
+  font-family: URW-DIN, 'Impact LT Std', 'Nunito', sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 1.6;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class MyController0001 extends Controller
 {
@@ -62,6 +63,16 @@ class MyController0001 extends Controller
 
     public function outputting_variable($variable_name_doesn_matter = null) {
         return view('myuser', compact('variable_name_doesn_matter'));
+    }
+
+    public function http() {
+        $collection = Http::get('https://reqres.in/api/users?page=1');
+        return view('hello.http', ['collection'=>$collection['data']]);
+    }
+
+    public function raw_http() {
+        $raw_http = Http::get('https://reqres.in/api/users?page=1');
+        return view('hello.http', ['raw_http'=>$raw_http]);
     }
 
 
