@@ -25,16 +25,17 @@
 
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" id="task" placeholder="Enter a task name" name="task">
+                            <input type="text" class="form-control" id="task" name="task"
+                                   placeholder="Enter a task name">
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-2">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-plus-square"></i>
                                 Add task
                             </button>
                         </div>
-                        <div class="col-sm-4 text-danger d-flex align-items-center">
+                        <div class="col-4 text-danger d-flex align-items-center">
                             @error('task')
                             {{$message}}
                             @enderror
@@ -52,32 +53,38 @@
                     All tasks:
                 </div>
                 <div class="card-body">
-                    <table class="table table-hover task-table">
+                    <table class="table table-hover task-table table-bordered">
 
                         <thead class="thead-dark">
                             <th>Task:</th>
                             <th>Deletion:</th>
+                            <th>Editing:</th>
                         </thead>
 
                         <tbody>
                         @foreach($tasks as $task)
                             <tr>
-                                <td>{{$task->name}}</td>
-                                <td>
+                                <td class="col-md-8">
+                                    {{$task->name}}
+                                </td>
+                                <td class="col-md-2">
                                     <form action="{{route('delete_a_task', $task->id)}}" method="post">
                                         @csrf
                                         {{method_field('delete')}}
-                                        <button class="btn btn-danger">
+                                        <button type="submit" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
                                             Delete
                                         </button>
                                     </form>
                                 </td>
-                                <td>
-                                    <form action="{{route('delete_a_task', $task->id)}}" method="post">
+
+                                <td class="col-md-2">
+                                    <form action="{{route('update_task_page', $task->id)}}" method="get">
                                         @csrf
-                                        {{method_field('delete')}}
-                                        <button class="btn btn-danger">
-                                            Delete
+                                        {{method_field('get')}}
+                                        <button type="submit" class="btn btn-dark">
+                                            <i class="fas fa-edit"></i>
+                                            Edit
                                         </button>
                                     </form>
                                 </td>

@@ -17,7 +17,10 @@ Route::get('/user/{variable?}', 'MyController0001@outputting_variable'); // Rout
                                                                                   // Passing variable way #1
 Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http');              // Using HTTP request.
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
-Route::get('/login_form',      'UserController@login_form')->name('login_form');  // Using HTTP request.
+
+Route::get('/register',      'UserController@register')->name('register');  // User Login Page.
+Route::get('/login',      'UserController@login')->name('login');  // User Login Page.
+Route::post('/login',      'UserController@login_verify')->name('login_verify');  // Verify the user data.
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version
@@ -31,7 +34,8 @@ Route::get('/products/{id}', 'ProductsController0001@Product');
 
 Route::get('/tasks',      'TaskController@index')->name('tasks_main_page');
 Route::post('/task',      'TaskController@post')->name('post_a_task');
+Route::get('/task/{task_id}',      'TaskController@update_page')->name('update_task_page');
 Route::put('/task/{task_id}',      'TaskController@update')->name('update_a_task');
-Route::delete('/task/{task_id}',      'TaskController@delete')->name('delete_a_task');
+Route::delete('/task/delete/{task_id}',      'TaskController@delete')->name('delete_a_task');
 
 
