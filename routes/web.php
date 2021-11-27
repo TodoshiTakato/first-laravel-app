@@ -17,6 +17,7 @@ Route::get('/user/{variable?}', 'MyController0001@outputting_variable'); // Rout
                                                                                   // Passing variable way #1
 Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http');              // Using HTTP request.
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
+Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verify the user data.
 
 Route::get('/register',      'UserController@register')->name('register');  // User Login Page.
 Route::get('/login',      'UserController@login')->name('login');  // User Login Page.

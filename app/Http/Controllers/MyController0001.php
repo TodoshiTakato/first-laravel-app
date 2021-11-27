@@ -75,6 +75,10 @@ class MyController0001 extends Controller
         return view('hello.http', ['raw_http'=>$raw_http]);
     }
 
+    public function layout() {
+        return view('hello.layout');
+    }
+
 
 
 }

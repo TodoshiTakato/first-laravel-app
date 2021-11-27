@@ -17,6 +17,7 @@ class UserController extends Controller
             'password'=>'required'
         ]);
         $data = $request->input();
+        $data['Hashed password'] = Hash::make($data['password']);
         return view('auth.home', compact('data'));
     }
 

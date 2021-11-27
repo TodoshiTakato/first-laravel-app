@@ -604,7 +604,55 @@ mark,
   padding: 0.2em;
   background-color: #fcf8e3;
 }
-
+/*--------------------------------------------WRAPPER GRID------------------------------------------------------------*/
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    color: white;
+    font-size: 40px;
+}
+#navbar {
+    margin-bottom: 10px;
+}
+#inner-navbar {
+    height: 200px;
+    background: #3f9ae5;
+}
+#content {
+    width: 70%;
+    height: 100%;
+    float: left;
+}
+#inner-content {
+    height: 100%;
+    background: #3f9ae5;
+}
+#sidebar1 {
+    width: 15%;
+    /*height: 100%;*/
+    float: left;
+    padding-right: 10px;
+}
+#sidebar2 {
+    width: 15%;
+    /*height: 100%;*/
+    float: left;
+    padding-left: 10px;
+}
+#inner-sidebar {
+    /*height: 100%;*/
+    position: sticky;
+    top: 0;
+    background: #4d3b9a;
+}
+#footer {
+    margin-top: 10px;
+}
+#inner-footer {
+    height: 200px;
+    background: #3f9ae5;
+}
 
 /*--------------------------------------------WRAPPER GRID------------------------------------------------------------*/
 

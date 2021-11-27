@@ -56,6 +56,7 @@
                 <div><a href="{{route('tasks_main_page')}}">/tasks</a></div>
                 <div><a href="{{route('get_parsed_http')}}">HTTP Parser</a></div>
                 <div><a href="{{route('login')}}">Login Page</a></div>
+                <div><a href="{{route('layout')}}">layout page</a></div>
             </div>  <!-- Hello world Links -->
 
             <br>
