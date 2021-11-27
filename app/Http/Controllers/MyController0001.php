@@ -62,7 +62,7 @@ class MyController0001 extends Controller
     }
 
     public function outputting_variable($variable_name_doesn_matter = null) {
-        return view('myuser', compact('variable_name_doesn_matter'));
+        return view('hello.myuser', compact('variable_name_doesn_matter'));
     }
 
     public function parsed_http() {

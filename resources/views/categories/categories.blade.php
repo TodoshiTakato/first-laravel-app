@@ -37,6 +37,7 @@
 
             <div class="text-center1" style="padding: 10px; border: 2px solid black;">
                 FOOTER SECTION
+                <a href='/'>Return to the main page</a>
             </div>
         </div>
 

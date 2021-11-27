@@ -6,25 +6,39 @@
     </head>
 
     <body>
-        <div class="wrapper">
-            <div class="nav-bar">
-                @include('layout.nav-bar')
-            </div>
-            <div class="container1">
-                <div class="column sidebar">
-                    <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
-                </div>
-                <div class="column content">
-                    @section('content1')
-                        This is the master content.
-                    @show
-                </div>
-                <div class="column sidebar">
-                    <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
+        <div id="wrapper">
+            <div id="navbar">
+                <div id="inner-navbar">
+                    @include('layout.nav-bar')
                 </div>
             </div>
-            <div class="footer">
-                @include('layout.footer')
+
+            <div class="clearfix flex-grow-1">
+                <div id="sidebar1">
+                    <div id="inner-sidebar">
+                        <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
+                    </div>
+                </div>
+
+                <div id="content">
+                    <div id="inner-content">
+                        @section('content1')
+                            This is the master content.
+                        @show
+                    </div>
+                </div>
+
+                <div id="sidebar2">
+                    <div id="inner-sidebar">
+                        <ul><li>The Flight</li><li>The City</li><li>The Island</li><li>The Food</li></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="footer">
+                <div id="inner-footer">
+                    @include('layout.footer')
+                </div>
             </div>
         </div>
     </body>

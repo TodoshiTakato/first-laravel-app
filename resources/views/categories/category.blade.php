@@ -42,5 +42,8 @@
                 <h3><a href="http://127.0.0.1:8000/categories/{{ $category->parent_id }}">Назад</a></h3>
             @endif
         </div>
+        <div class="big text-center1">
+            <a href='/'>Return to the main page</a>
+        </div>
     </div>
 @endsection

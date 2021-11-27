@@ -15,6 +15,9 @@
                 </tr>
             @endforeach
         </table>
+        <div class="big text-center1">
+            <a href='/'>Return to the main page</a>
+        </div>
     @endisset
     @isset($raw_http)
         {{$raw_http}}
