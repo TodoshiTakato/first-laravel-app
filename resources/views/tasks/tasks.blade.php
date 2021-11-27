@@ -17,10 +17,13 @@
                 <div class="form-group">
 
                     <div class="row">
+                        <div class="col-1">256 symbols:</div>
+                        <div class="col-11 text-break pb-3">{{$string_with_256_symbols}}</div>
+                    </div>
+                    <div class="row">
                         <div class="col">
                             <label for="task">Task:</label>
                         </div>
-                        <div class="col"></div>
                     </div>
 
                     <div class="row">
@@ -64,7 +67,7 @@
                         <tbody>
                         @foreach($tasks as $task)
                             <tr>
-                                <td class="col-md-8">
+                                <td class="col-md-8 text-break">
                                     {{$task->name}}
                                 </td>
                                 <td class="col-md-2">

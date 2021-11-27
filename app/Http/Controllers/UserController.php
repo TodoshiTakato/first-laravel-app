@@ -12,8 +12,8 @@ class UserController extends Controller
 
     public function login_verify(Request $request) {
         $request->validate([
-            'username'=>'required | max:10',
-            'password'=>'required | min:5'
+            'username'=>'required',
+            'password'=>'required'
         ]);
         $data = $request->input();
         return view('auth.home', compact('data'));

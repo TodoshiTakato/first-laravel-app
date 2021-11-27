@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use mysql_xdevapi\Exception;
+use Illuminate\Support\Str;
+//use mysql_xdevapi\Exception;
 
 
 class TaskController extends Controller
@@ -13,8 +14,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::orderBy('created_at', 'asc')->get();
-
-        return view('tasks.tasks', compact('tasks'));
+        $string_with_256_symbols = Str::random(256);
+        return view('tasks.tasks', compact('tasks', 'string_with_256_symbols'));
     }
 
     public function post(Request $request)
