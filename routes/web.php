@@ -19,9 +19,11 @@ Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http'
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
 Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verify the user data.
 
-Route::get('/register',      'UserController@register')->name('register');  // User Login Page.
+Route::get('/register',      'UserController@register')->name('register');  // User Register Page.
 Route::get('/login',      'UserController@login')->name('login');  // User Login Page.
 Route::post('/login',      'UserController@login_verify')->name('login_verify');  // Verify the user data.
+Route::get('/home',      'UserController@home')->name('home');  // Verify the user data.
+Route::post('/logout',      'UserController@logout')->name('logout');  // Verify the user data.
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version

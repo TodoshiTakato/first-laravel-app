@@ -6,6 +6,7 @@ use App\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Debugbar;
 //use mysql_xdevapi\Exception;
 
 
@@ -15,6 +16,12 @@ class TaskController extends Controller
     {
         $tasks = Task::orderBy('created_at', 'asc')->get();
         $string_with_256_symbols = Str::random(256);
+
+        Debugbar::info($string_with_256_symbols);    // Debugbar usage example
+        Debugbar::error('Error!');
+        Debugbar::warning('Watch out…');
+        Debugbar::addMessage('Another message', 'mylabel');
+
         return view('tasks.tasks', compact('tasks', 'string_with_256_symbols'));
     }
 

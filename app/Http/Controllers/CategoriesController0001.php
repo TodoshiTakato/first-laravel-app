@@ -16,8 +16,8 @@ class CategoriesController0001 extends Controller
 //        $products = DB::table('Products')->get();
         $categories = Category::all();
         $products = Product::all();
-        $user = Auth::user();
-        return view('welcome', compact('categories'), compact('products'))->with('User_Dropdown', $user);
+        $User_Dropdown = Auth::user();
+        return view('welcome', compact('categories','products', 'User_Dropdown'));
     }
     public function Categories() {
      // $categories = DB::table('Categories')->get();       //Аналог. Alternative того что снизу

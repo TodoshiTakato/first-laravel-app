@@ -5,6 +5,11 @@
         <strong>
             Ошибка заполнения формы...
         </strong>
+        <strong>
+        @if($message = Session::get('error'))
+            {{$message}}
+        @endif
+        </strong>
         <ul>
             @foreach($errors->all() as $error)
                 <li>{{$error}}</li>

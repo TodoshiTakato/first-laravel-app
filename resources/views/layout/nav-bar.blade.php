@@ -7,11 +7,11 @@
                 <a href="#dropdown" class="dropbtn">Guest</a>
                 <div class="dropdown1-content">
                     <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                    <a href="#">Link 4</a>
+                    <a href="#">Link 5</a>
+                    <a href="#">Link 6</a>
                 </div>
             @elseif (isset($User_Dropdown))
                 <a href="#dropdown" class="dropbtn">{{$User_Dropdown->name}}</a>
@@ -24,8 +24,7 @@
                     <a href="#">updated_at: {{$User_Dropdown->updated_at}}</a>
                     <div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -37,11 +36,11 @@
                 <a href="#dropdown" class="dropbtn">User</a>
                 <div class="dropdown1-content">
                     <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 1</a>
+                    <a href="#">Link 2</a>
+                    <a href="#">Link 3</a>
+                    <a href="#">Link 4</a>
+                    <a href="#">Link 5</a>
+                    <a href="#">Link 6</a>
                 </div>
             @endguest
         </div>

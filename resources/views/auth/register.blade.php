@@ -2,15 +2,6 @@
 
 @section('content1')
     <?php error_reporting(E_ALL); ?>
-
-
-
-    @if(Auth::user())
-        <script>
-            window.location = "/";
-        </script>
-    @endif
-
     <div class="grid-container">
         <div></div> {{-- 1 --}}
         <div> {{-- 2 --}}
@@ -42,7 +33,7 @@
                 @endif   <!-- Authentication -->
                 </div>
             <div class="w-50 flex-grow-1 align-items-center">
-                <div class="text-center"><h1>Login page</h1></div>
+                <div class="big text-center">Register page</div>
                 <br>
 
                 @include('auth.auth_errors')

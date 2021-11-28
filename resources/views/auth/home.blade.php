@@ -10,9 +10,30 @@
         <div> {{-- 5 - center --}}
             <h1>Home page</h1>
             <br>
+            @isset(Auth::user()->username)
+                <div class="big">
+                    Welcome, {{Auth::user()->username}}!
+                </div>
+                <div>
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
+            @else
+                <script>
+                    window.location = "/";
+                </script>
+            @endisset
+
+            @isset($data)
             @foreach($data as $key => $value)
                 {{$key}}: {{$value}}<br>
             @endforeach
+            @endisset
 
         </div> {{-- 5 - center --}}
         <div></div> {{-- 6 --}}
