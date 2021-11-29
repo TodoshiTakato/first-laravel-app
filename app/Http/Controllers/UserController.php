@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
+//use Illuminate\Support\Facades\Redirect;
+//use Illuminate\Support\Facades\Validator;
 
 
 class UserController extends Controller
@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function login() {
         if (Auth::user()) {
-            redirect()->route('home');
+           return redirect()->route('home');
         }
         else {
             return view('auth.login');
@@ -26,34 +26,21 @@ class UserController extends Controller
     }
 
     public function login_verify(Request $request) {
-//        $request->validate([
-//            'username'=>'required',
-//            'password'=>'required'
-//        ]);
-//        $data = $request->input();
-//        $data['Hashed password'] = Hash::make($data['password']);
-//        return view('auth.home', compact('data'));
         $input = $request->all();
-        $this->validate($request, [
-            'username' => 'required | string',
+        $validatedData = $request->validate([
+            'username' => 'required | string | max:30',
             'password' => 'required | min:3',
-//            'password' => 'required | alpha_num | min:3',
         ]);
-
-//        $x = expr1 ? expr2 : expr3   Returns the value of $x.
-//        The value of $x is expr2 if expr1 = TRUE.
-//        The value of $x is expr3 if expr1 = FALSE
-//        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        $fieldType = 'username';
+        $user_remember = $request['remember'];
+        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         $userData = array($fieldType => $input['username'], 'password' => $input['password']);
-        if (auth()->attempt($userData))
-        {
-            return redirect()->route('home');
+        if (Auth::attempt($userData, $user_remember)) {
+            return redirect()->route('home')->with('User_Dropdown', Auth::user());
         }
         else {
-//            return back()->with('error', 'Wrong Login Details');
             return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+                        ->withErrors($validatedData)
+                        ->withInput();
         }
     }
 
@@ -62,7 +49,12 @@ class UserController extends Controller
     }
 
     public function home() {
-        return view('auth.home');
+        if (Auth::user()) {
+            return view('auth.home')->with('User_Dropdown', Auth::user());
+        }
+        else {
+            return view('auth.login');
+        }
     }
 
     public function logout()

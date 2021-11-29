@@ -6,7 +6,7 @@
             <div class="text-center1" style="padding: 10px; border: 2px solid black;">
                 HEADER/TITLE SECTION
             </div>
-            <div class="grid-container" style="flex-grow: 1; grid-template-columns: auto auto; grid-gap: 1px; padding: 1px; margin: 10px 0;">
+            <div class="grid-container1" style="flex-grow: 1; grid-template-columns: auto auto; grid-gap: 1px; padding: 1px; margin: 10px 0;">
                 @php $x=0; @endphp
                     @for ($i = 0; $i < count($categories); $i++)
                         @if($categories[$i]->parent_id == null)

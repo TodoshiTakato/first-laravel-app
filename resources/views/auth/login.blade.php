@@ -7,7 +7,7 @@
 
     @if(Auth::user())
         <script>
-            window.location = "/";
+            window.location = "{{route('main_page')}}";
         </script>
     @endif
 
@@ -60,6 +60,17 @@
                     </div>
                     @error('password') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
 
+                    <div class="form-group d-flex justify-content-center">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                                <label class="form-check-label" for="remember">
+                                    {{ __('Remember Me') }}
+                                </label>
+                            </div>
+
+                    </div>
+
                     <div class="row align-items-center text-nowrap">
 
                         <div class="col">
@@ -73,7 +84,6 @@
                         <div class="col text-right">
                             <a href="#">Register</a>
                         </div>
-
                     </div>
 
                 </form>

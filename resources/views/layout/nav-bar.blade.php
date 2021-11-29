@@ -4,7 +4,7 @@
     <li class="nav-item1">
         <div class="dropdown1">
             @guest
-                <a href="#dropdown" class="dropbtn">Guest</a>
+                <a href="#" class="dropbtn">Guest</a>
                 <div class="dropdown1-content">
                     <a href="#">Link 1</a>
                     <a href="#">Link 2</a>
@@ -13,15 +13,16 @@
                     <a href="#">Link 5</a>
                     <a href="#">Link 6</a>
                 </div>
-            @elseif (isset($User_Dropdown))
-                <a href="#dropdown" class="dropbtn">{{$User_Dropdown->name}}</a>
+            @elseif (Auth::check())
+                <a href="#" class="dropbtn">{{Auth::user()->username}}</a>
                 <div class="dropdown1-content">
-                    <a href="#">id: {{$User_Dropdown->id}}</a>
-                    <a href="#">name: {{$User_Dropdown->name}}</a>
-                    <a href="#">email: {{$User_Dropdown->email}}</a>
-                    <a href="#">email_verified_at: {{$User_Dropdown->email_verified_at}}</a>
-                    <a href="#">created_at: {{$User_Dropdown->created_at}}</a>
-                    <a href="#">updated_at: {{$User_Dropdown->updated_at}}</a>
+                    <a href="#">id: {{Auth::user()->id}}</a>
+                    <a href="#">name: {{Auth::user()->name}}</a>
+                    <a href="#">username: {{Auth::user()->username}}</a>
+                    <a href="#">email: {{Auth::user()->email}}</a>
+                    <a href="#">email_verified_at: {{Auth::user()->email_verified_at}}</a>
+                    <a href="#">created_at: {{Auth::user()->created_at}}</a>
+                    <a href="#">updated_at: {{Auth::user()->updated_at}}</a>
                     <div>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -31,16 +32,6 @@
                             @csrf
                         </form>
                     </div>
-                </div>
-            @else
-                <a href="#dropdown" class="dropbtn">User</a>
-                <div class="dropdown1-content">
-                    <a href="#">Link 1</a>
-                    <a href="#">Link 2</a>
-                    <a href="#">Link 3</a>
-                    <a href="#">Link 4</a>
-                    <a href="#">Link 5</a>
-                    <a href="#">Link 6</a>
                 </div>
             @endguest
         </div>
