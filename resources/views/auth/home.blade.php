@@ -65,6 +65,14 @@
                     remember_token:<br>{{Auth::user()->remember_token}}<br>
                     created_at: {{Auth::user()->created_at}}<br>
                     updated_at: {{Auth::user()->updated_at}}<br>
+                    Auth::viaRemember(): @dump(\Illuminate\Support\Facades\Auth::viaRemember())
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        {{ __('Logout') }}
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                 </div>
 
             @else

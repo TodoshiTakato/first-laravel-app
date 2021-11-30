@@ -26,13 +26,20 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col">
+                    <div class="row align-items-center">
+                        <div class="col-5">
                             <input type="text" class="form-control" id="task" name="task"
                                    placeholder="Enter a task name">
                         </div>
+                        <div class="rate">
+                            <i class="bi bi-star text-warning"></i>
+                            <i class="bi bi-star text-warning"></i>
+                            <i class="bi bi-star text-warning"></i>
+                            <i class="bi bi-star text-warning"></i>
+                            <i class="bi bi-star text-warning"></i>
+                        </div>
 
-                        <div class="col-2">
+                        <div class="col-3">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-plus-square"></i>
                                 Add task
@@ -60,6 +67,7 @@
 
                         <thead class="thead-dark">
                             <th>Task:</th>
+                            <th>Rating:</th>
                             <th>Deletion:</th>
                             <th>Editing:</th>
                         </thead>
@@ -67,8 +75,17 @@
                         <tbody>
                         @foreach($tasks as $task)
                             <tr>
-                                <td class="col-md-8 text-break">
+                                <td class="col-md-6 text-break">
                                     {{$task->name}}
+                                </td>
+                                <td class="col-md-2">
+                                    <div class="rate">
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                        <i class="bi bi-star text-warning"></i>
+                                    </div>
                                 </td>
                                 <td class="col-md-2">
                                     <form action="{{route('delete_a_task', $task->id)}}" method="post">

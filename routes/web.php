@@ -27,7 +27,9 @@ Route::post('/logout',      'UserController@logout')->name('logout');  // Verify
 
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version
-Route::get('/', 'CategoriesController0001@index_page')->name('main_page');
+Route::get('/', 'CategoriesController0001@index_page')
+    ->name('main_page')
+    ->middleware('auth');
 
 //                            Categories & Products PAGE
 Route::get('/categories', 'CategoriesController0001@Categories');

@@ -3,8 +3,6 @@
 @section('content1')
     <?php error_reporting(E_ALL); ?>
 
-
-
     @if(Auth::user())
         <script>
             window.location = "{{route('main_page')}}";
@@ -50,25 +48,32 @@
                 <form action="{{route('login_verify')}}" method="POST">
                     @csrf
 
-                    <div class="form-group">
-                        <input type="text" name="username" placeholder="Username" class="form-control text-center1">
+                    <div class="form-group row align-items-center">
+                        <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
+                        <div class="col-md-6">
+                            <input id="username" type="text" name="username" value="{{ old('username') }}" required
+                                   autocomplete="username" placeholder="Username" class="form-control text-center1"
+                                   autofocus>
+                            @error('username') <div class="form-group alert alert-danger"> Неверное имя пользователя </div> @enderror
+                        </div>
                     </div>
-                    @error('username') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
 
-                    <div class="form-group">
-                        <input type="password" name="password" placeholder="Password" class="form-control text-center1">
+                    <div class="form-group row align-items-center">
+                        <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                        <div class="col-md-6">
+                            <input id="password" type="password" name="password" placeholder="Password" class="form-control text-center1">
+                            @error('password') <div class="form-group alert alert-danger"> Неверный пароль </div> @enderror
+                        </div>
                     </div>
-                    @error('password') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
 
                     <div class="form-group d-flex justify-content-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
 
-                                <label class="form-check-label" for="remember">
-                                    {{ __('Remember Me') }}
-                                </label>
-                            </div>
-
+                            <label class="form-check-label" for="remember">
+                                {{ __('Remember Me') }}
+                            </label>
+                        </div>
                     </div>
 
                     <div class="row align-items-center text-nowrap">
