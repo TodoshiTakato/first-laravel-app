@@ -15,13 +15,14 @@ class CreateRatingsTable extends Migration
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('task_id');
-            $table->enum('rating', [1, 2, 3, 4, 5]);
-            $table->timestamps();
-
+            $table->string('comments', 255)->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->enum('rating', [1, 2, 3, 4, 5])->nullable();
+            $table->timestamps();
+
+//            $table->unsignedBigInteger('user_id');
+//            $table->unsignedBigInteger('task_id');
         });
     }
 

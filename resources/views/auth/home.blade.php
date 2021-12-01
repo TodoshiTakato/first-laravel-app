@@ -53,26 +53,61 @@
 
             @isset(Auth::user()->id)
 
-                <div class="big">
-                    Welcome, {{Auth::user()->username}}!<br>
-                </div>
-                <div>
-                    id: {{Auth::user()->id}}<br>
-                    email: {{Auth::user()->email}}<br>
-                    username: {{Auth::user()->username}}<br>
-                    email_verified_at: {{Auth::user()->email_verified_at}}<br>
-                    password:<br>{{Auth::user()->password}}<br>
-                    remember_token:<br>{{Auth::user()->remember_token}}<br>
-                    created_at: {{Auth::user()->created_at}}<br>
-                    updated_at: {{Auth::user()->updated_at}}<br>
-                    Auth::viaRemember(): @dump(\Illuminate\Support\Facades\Auth::viaRemember())
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                        @csrf
-                    </form>
+                <div class="container">
+                    <h2>Welcome, {{Auth::user()->username}}!</h2>
+                    <div class="card">
+
+                        <div class="card-header">
+                            Username: {{Auth::user()->username}}
+                        </div>
+
+                        <div class="card-body">
+                            <table class="table table-hover task-table table-bordered">
+
+                                <thead class="thead-dark">
+                                <th>Key:</th>
+                                <th>Value:</th>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <td>ID</td><td>{{Auth::user()->id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>E-Mail</td><td>{{Auth::user()->email}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>E-Mail verified at</td><td>{{Auth::user()->email_verified_at}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Password:</td><td>{{Auth::user()->password}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Remember Token:</td><td>{{Auth::user()->remember_token}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Created at:</td><td>{{Auth::user()->created_at}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Updated at:</td><td>{{Auth::user()->updated_at}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Auth::viaRemember():</td><td>@dump(\Illuminate\Support\Facades\Auth::viaRemember())</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer">
+                            <a href="{{ route('logout') }}"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                {{ __('Logout') }}
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </div>
                 </div>
 
             @else

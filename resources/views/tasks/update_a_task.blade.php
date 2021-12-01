@@ -29,6 +29,26 @@
                             <input type="text" class="form-control" id="task" name="task" value="{{$found_task->name}}">
                         </div>
 
+                        <div class="col">checked
+                            <div id="rate" class="">
+                                <span>
+                                    <input type="radio" class="" id="rating-1" name="rating" value="1">
+                                    <input type="radio" class="" id="rating-2" name="rating" value="2">
+                                    <input type="radio" class="" id="rating-3" name="rating" value="3">
+                                    <input type="radio" class="" id="rating-4" name="rating" value="4">
+                                    <input type="radio" class="" id="rating-5" name="rating" value="5">
+                                </span>
+                                <span>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                    <i class="bi bi-star text-warning"></i>
+                                </span>
+                                <span style="background: #1d2124; color: #ffffff">: {{$found_task->rating()}}</span>
+                            </div>
+                        </div>
+
                         <div class="col-2">
                             <button type="submit" class="btn btn-success">
                                 <i class="fas fa-save"></i>

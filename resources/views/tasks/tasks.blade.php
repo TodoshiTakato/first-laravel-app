@@ -31,13 +31,25 @@
                             <input type="text" class="form-control" id="task" name="task"
                                    placeholder="Enter a task name">
                         </div>
-                        <div class="rate">
-                            <i class="bi bi-star text-warning"></i>
-                            <i class="bi bi-star text-warning"></i>
-                            <i class="bi bi-star text-warning"></i>
-                            <i class="bi bi-star text-warning"></i>
-                            <i class="bi bi-star text-warning"></i>
+
+                        <div id="rate" class="">
+                            <span>
+                                <input type="radio" class="" id="rating-1" name="rating" value="1">
+                                <input type="radio" class="" id="rating-2" name="rating" value="2">
+                                <input type="radio" class="" id="rating-3" name="rating" value="3">
+                                <input type="radio" class="" id="rating-4" name="rating" value="4">
+                                <input type="radio" class="" id="rating-5" name="rating" value="5">
+                            </span>
+                            <span>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
+                                <i class="bi bi-star text-warning"></i>
+                            </span>
                         </div>
+
+
 
                         <div class="col-3">
                             <button type="submit" class="btn btn-success">
@@ -85,6 +97,7 @@
                                         <i class="bi bi-star text-warning"></i>
                                         <i class="bi bi-star text-warning"></i>
                                         <i class="bi bi-star text-warning"></i>
+                                        {{$task->rating()}}
                                     </div>
                                 </td>
                                 <td class="col-md-2">
@@ -111,8 +124,8 @@
                             </tr>
                         @endforeach
                         </tbody>
-
                     </table>
+                    {{$tasks->links()}}
                 </div>
             </div>
         @endif
