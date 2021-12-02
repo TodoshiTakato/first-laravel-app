@@ -7,22 +7,23 @@ use InvalidArgumentException;
 
 class Task extends Model
 {
-    protected $fillable = ['name'];
-//    /**
-//     * Rate the article.
-//     *
-//     * @param int       $rating
-//     * @param User|null $user
-//     */
-//    public function rate($rating, $user = null)
-//    {
-//        if ($rating > 5 || $rating < 1) {
-//            throw new InvalidArgumentException('Ratings must be between 1-5.');
-//        }
-//        $userId = $user ? $user->id : auth()->id();
-//
-//        $this->ratings()->updateOrCreate(['user_id' => $userId], compact('rating'));
-//    }
+    protected $fillable = ['name', 'rating'];
+
+    /**
+     * Rate the article.
+     *
+     * @param int       $rating
+     * @param User|null $user
+     */
+    public function rate($rating, $user = null)
+    {
+        if ($rating > 5 || $rating < 1) {
+            throw new InvalidArgumentException('Ratings must be between 1-5.');
+        }
+        $userId = $user ? $user->id : auth()->id();
+
+        return $this->ratings()->updateOrCreate(['user_id' => $userId], compact('rating'));
+    }
 
     /**
      * Fetch the average rating for the article.

@@ -1,0 +1,14 @@
+<?php
+
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use App\Task;
+use Faker\Generator as Faker;
+
+$factory->define(Task::class, function (Faker $faker) {
+    return [
+        'name' => $faker->text(200),
+        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
+        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
+    ];
+});

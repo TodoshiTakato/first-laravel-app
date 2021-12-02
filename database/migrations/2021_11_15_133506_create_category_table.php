@@ -14,6 +14,9 @@ class CreateCategoryTable extends Migration
     public function up()
     {
         Schema::create('Categories', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+            $table->charset = 'utf8mb4';
+            $table->collation = 'utf8mb4_unicode_ci';
             $table->id()->index();
 //            $table->foreign('parent_id')->references('id')->on('Categories')->onDelete('cascade');;
             $table->foreignId('parent_id')->nullable()->constrained('Categories')->onDelete('cascade');

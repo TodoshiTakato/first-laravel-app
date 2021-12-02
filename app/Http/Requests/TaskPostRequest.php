@@ -25,7 +25,7 @@ class TaskPostRequest extends FormRequest
     {
         return [
             'task' => 'required | max:255',
-            'rating' => 'integer | between:1,5'
+            'rating' => 'nullable | integer | between:1,5'
         ];
     }
 

@@ -18,7 +18,7 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('created_at', 'asc')->paginate(5);
+        $tasks = Task::orderBy('id', 'asc')->paginate(9);
         $string_with_256_symbols = Str::random(256);
 
         Debugbar::info($string_with_256_symbols);    // Debugbar usage example
@@ -33,28 +33,10 @@ class TaskController extends Controller
     {
         $validated = $request->validated();
         $task = Task::create($validated);
-
-//        if ( $validated->fails() ) {
-//            if ($request->rating > 5 || $request->rating < 1) {
-//                throw new InvalidArgumentException('Ratings must be between 1-5.');
-//            }
-//            return redirect()->route('tasks_main_page')->withErrors($validated)->withInput();
-//        }
-//        else {
-//            $task = new Task();
-//            $task->name = $request->task;
-//
-//            if ( !( $task->save() ) ) {
-//                return redirect()->route('tasks_main_page')
-//                    ->withErrors($validator)
-//                    ->withInput();
-//            }
-
-        $rating = $request->rating;
-        $task->ratings()->updateOrCreate(['task_id' => $task->id, 'user_id' => Auth::id()], compact('rating'));
-
+        if ($request->rating) {
+            $task->rate($request->rating, Auth::user());
+        }
         return redirect()->route('tasks_main_page');
-
     }
 
     public function update_page($task_ID)

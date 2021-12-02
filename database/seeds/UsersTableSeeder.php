@@ -11,13 +11,17 @@ class UsersTableSeeder extends Seeder
      *
      * @return void
      */
+//    public function run()
+//    {
+//        User::create([
+//            'name' => Str::random(10),
+//            'username' => Str::random(10),
+//            'email' => Str::random(10).'@gmail.com',
+//            'password' => Hash::make('123'),
+//        ]);
+//    }
     public function run()
     {
-        User::create([
-            'name' => Str::random(10),
-            'username' => Str::random(10),
-            'email' => Str::random(10).'@gmail.com',
-            'password' => Hash::make('123'),
-        ]);
+        factory(User::class)->create();
     }
 }
