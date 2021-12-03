@@ -47,7 +47,7 @@
 
                 <form action="{{route('login_verify')}}" method="POST">
                     @csrf
-
+                    @method('POST')
                     <div class="form-group row align-items-center">
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
                         <div class="col-md-6">

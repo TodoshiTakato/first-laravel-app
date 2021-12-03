@@ -41,11 +41,12 @@
                 <div><a href="/user">6. /user</a></div>
                 <div><a href="/user/'some_variable'">7. /user/'some_variable'</a></div>
                 <div> {{-- style="grid-column: 2 / 4" --}}
-                    <form action="/index.php" method="post" autocomplete="on" id="var_form"
+                    <form action="/index.php" method="GET" autocomplete="on" id="var_form"
                           oninput=" let new_link = '/user/'.concat(variable.value)
                                     link.value = new_link
                                     myAnchor.href = new_link ">
                         @csrf
+                        @method('GET')
                         <label for="variable">8. </label>
                         <input type="text" name="variable" id="variable" placeholder="Variable"
                                size="4">
@@ -57,6 +58,7 @@
                 <div><a href="{{route('get_parsed_http')}}">HTTP Parser</a></div>
                 <div><a href="{{route('login')}}">Login Page</a></div>
                 <div><a href="{{route('tasks_main_page')}}">/tasks</a></div>
+                <div><a href="{{route('shop.index')}}">/shop</a></div>
             </div>  <!-- Hello world Links -->
 
             <br>

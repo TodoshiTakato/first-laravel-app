@@ -14,6 +14,7 @@
         <div class="row">
             <form action="{{route('post_a_task')}}" method="post" class="col">
                 @csrf
+                @method('POST')
                 <div class="form-group">
 
                     <div class="row">
@@ -103,7 +104,8 @@
                                 <td class="col-md-2">
                                     <form action="{{route('delete_a_task', $task->id)}}" method="post">
                                         @csrf
-                                        {{method_field('delete')}}
+                                        @method('DELETE')
+{{--                                        {{method_field('delete')}}--}}
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fas fa-trash-alt"></i>
                                             Delete
@@ -112,9 +114,10 @@
                                 </td>
 
                                 <td class="col-md-2">
-                                    <form action="{{route('update_task_page', $task->id)}}" method="get">
+                                    <form action="{{route('update_task_page', $task->id)}}" method="GET">
                                         @csrf
-                                        {{method_field('get')}}
+                                        @method('GET')
+{{--                                        {{method_field('get')}}--}}
                                         <button type="submit" class="btn btn-dark">
                                             <i class="fas fa-edit"></i>
                                             Edit

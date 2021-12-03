@@ -13,19 +13,30 @@ class CreateRatingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('ratings', function (Blueprint $table) {
-            $table->engine = 'InnoDB';
-            $table->charset = 'utf8mb4';
-            $table->collation = 'utf8mb4_unicode_ci';
-            $table->id();
-            $table->string('comments', 255)->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('task_id')->nullable()->constrained('tasks')->onUpdate('cascade')->onDelete('cascade');
-            $table->enum('rating', [1, 2, 3, 4, 5])->nullable();
-            $table->timestamps();
-
-//            $table->unsignedBigInteger('user_id');
-//            $table->unsignedBigInteger('task_id');
+        if (!Schema::hasTable('ratings')) {
+            Schema::create('ratings', function (Blueprint $table) {
+                $table->engine = 'InnoDB';
+                $table->charset = 'utf8mb4';
+                $table->collation = 'utf8mb4_unicode_ci';
+                $table->id();
+                $table->string('comment', 255)->nullable();
+                $table->enum('rating', [1, 2, 3, 4, 5])->nullable();
+                $table->timestamps();
+            });
+        }
+        Schema::table('ratings', function (Blueprint $table) {
+            $table->foreignId('user_id')
+                ->after('id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+            $table->foreignId('task_id')
+                ->after('id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 
@@ -36,6 +47,12 @@ class CreateRatingsTable extends Migration
      */
     public function down()
     {
+        Schema::table('ratings', function (Blueprint $table) {
+            $table->dropForeign(['user_id', 'task_id']);
+        });
         Schema::dropIfExists('ratings');
+
+//        Schema::enableForeignKeyConstraints();
+//        Schema::disableForeignKeyConstraints();
     }
 }

@@ -34,6 +34,11 @@ Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http'
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
 Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verify the user data.
 
+Route::get('/shop',      'ShopController@index')->name('shop.index');  // Verify the user data.
+Route::get('/shop/products',      'ShopController@products')->name('shop.products');  // Verify the user data.
+Route::get('/shop/contact',      'ShopController@contact')->name('shop.contact');  // Verify the user data.
+Route::get('/shop/about',      'ShopController@about')->name('shop.about');  // Verify the user data.
+
 
 Route::middleware([
     'auth',
@@ -44,6 +49,12 @@ Route::middleware([
     Route::get('/categories/{id}', 'CategoriesController0001@Category');
     Route::get('/products',     'ProductsController0001@Products');
     Route::get('/products/{id}', 'ProductsController0001@Product');
+
+
+    //                            Orders & OrderItems PAGE
+    Route::resource('orders', 'OrderController');
+    Route::resource('order-items', 'OrderItemController');
+
 
     //                            Tasks PAGE
     Route::get('/tasks',      'TaskController@index')->name('tasks_main_page');

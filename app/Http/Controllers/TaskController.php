@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskPostRequest;
 use App\Task;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
-use \Debugbar;
+use Illuminate\Http\Request;
 use InvalidArgumentException;
-
+use Faker\Generator as Faker;
+//use Illuminate\Support\Str;
 //use mysql_xdevapi\Exception;
+//use Illuminate\Support\Facades\Validator;
+use \Debugbar;
 
 
 class TaskController extends Controller
@@ -19,7 +19,8 @@ class TaskController extends Controller
     public function index()
     {
         $tasks = Task::orderBy('id', 'asc')->paginate(9);
-        $string_with_256_symbols = Str::random(256);
+        $faker = new Faker;
+        $string_with_256_symbols = $faker->text(110);
 
         Debugbar::info($string_with_256_symbols);    // Debugbar usage example
         Debugbar::error('Error!');

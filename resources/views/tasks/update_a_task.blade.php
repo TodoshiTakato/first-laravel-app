@@ -14,7 +14,8 @@
         <div class="row">
             <form action="{{route('update_a_task', $found_task->id)}}" method="post" class="col">
                 @csrf
-                {{method_field('put')}}
+                @method('PUT')
+{{--                {{method_field('put')}}--}}
                 <div class="form-group">
 
                     <div class="row">
