@@ -20,9 +20,8 @@ class OrderItem extends Model
         return $this->hasOne('App\Product');
     }
 
-    public function setItemPriceAttribute ($quantity) {
-        $price = $this->product()->price;
-        $this->attributes['item_price'] = ($price*$quantity);
-    }
-
+//    public function setItemPriceAttribute ($quantity) {
+//        $price = $this->product()->price;
+//        $this->attributes['item_price'] = ($price*$quantity);
+//    }
 }

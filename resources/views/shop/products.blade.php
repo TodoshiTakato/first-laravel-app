@@ -1,5 +1,7 @@
 @extends('shop.layout.base')
 
+@section('navbar products', 'active')
+
 @section('content')
     <div class="page-heading products-heading header-text">
       <div class="container">

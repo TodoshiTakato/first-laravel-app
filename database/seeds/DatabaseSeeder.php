@@ -17,5 +17,10 @@ class DatabaseSeeder extends Seeder
             TasksTableSeeder::class,
 //            RatingsTableSeeder::class,
         ]);
+//        $this->call(CategorySeeder::class);
+//        $this->call(ProductSeeder::class);
+//        $this->call(UserSeeder::class);
+//        $this->call(OrderSeeder::class);
+//        $this->call(OrderItemSeeder::class);
     }
 }

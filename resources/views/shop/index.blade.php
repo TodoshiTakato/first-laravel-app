@@ -1,5 +1,7 @@
 @extends('shop.layout.base')
 
+@section('navbar home', 'active')
+
 @section('content')
     <!-- Banner Starts Here -->
     <div class="banner header-text">

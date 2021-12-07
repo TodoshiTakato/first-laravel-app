@@ -13,11 +13,10 @@ class ShopController extends Controller
     public function products() {
         return view('shop.products');
     }
-    public function contact() {
-        return view('shop.contact');
-    }
     public function about() {
         return view('shop.about');
     }
-
+    public function contact() {
+        return view('shop.contact');
+    }
 }
