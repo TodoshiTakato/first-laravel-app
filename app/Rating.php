@@ -6,9 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
 {
+    protected $fillable = [
+        'rating',
+        'comment',
+    ];
+
     public function task()
     {
         return $this->belongsTo('App\Task');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 
     /**

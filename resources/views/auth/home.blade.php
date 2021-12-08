@@ -55,7 +55,7 @@
             @isset(Auth::user()->id)
 
                 <div class="container">
-                    <h2>Welcome, {{Auth::user()->username}}!</h2>
+                    <h2>Welcome, {{Auth::user()->name}}!</h2>
                     <div class="card">
 
                         <div class="card-header">
@@ -73,6 +73,12 @@
                                 <tbody>
                                     <tr>
                                         <td>ID</td><td>{{Auth::user()->id}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Name</td><td>{{Auth::user()->name}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Username</td><td>{{Auth::user()->username}}</td>
                                     </tr>
                                     <tr>
                                         <td>E-Mail</td><td>{{Auth::user()->email}}</td>

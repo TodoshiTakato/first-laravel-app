@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             Schema::create('orders', function (Blueprint $table) {
                 $table->id();
                 $table->unsignedDecimal('total_price', 16, 2)->default(0.00)->nullable();
-                $table->boolean('paid')->default(false)->nullable();
+                $table->unsignedTinyInteger('paid')->default(0)->nullable();
                 $table->timestamp('paid_at', 0)->nullable();
                 $table->timestamps();
             });

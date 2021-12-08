@@ -12,14 +12,16 @@ class TasksTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(Task::class, 1)->create()
-            ->each(
-                function ($task) {
-                    $task->ratings()->createMany(
-                        factory(App\Rating::class, 1)->make()->toArray()
-                    );
-                }
-            );
+        factory(Task::class)->create();
+
+//        factory(Task::class, 1)->create()
+//            ->each(
+//                function ($task) {
+//                    $task->ratings()->createMany(
+//                        factory(App\Rating::class, 1)->make()->toArray()
+//                    );
+//                }
+//            );
 //        factory(Task::class, 100)->create();
     }
 }

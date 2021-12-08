@@ -19,8 +19,8 @@ class CreateRatingsTable extends Migration
                 $table->charset = 'utf8mb4';
                 $table->collation = 'utf8mb4_unicode_ci';
                 $table->id();
-                $table->string('comment', 255)->nullable();
                 $table->enum('rating', [1, 2, 3, 4, 5])->nullable();
+                $table->text('comment')->nullable();
                 $table->timestamps();
             });
         }

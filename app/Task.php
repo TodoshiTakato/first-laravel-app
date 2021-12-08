@@ -7,7 +7,15 @@ use InvalidArgumentException;
 
 class Task extends Model
 {
-    protected $fillable = ['name', 'rating'];
+    protected $fillable = [
+        'name',
+        'details',
+        'status',
+        'priority',
+        'start_time',
+        'finish_time',
+        'time_spent',
+    ];
 
     /**
      * Rate the article.
@@ -43,6 +51,11 @@ class Task extends Model
     public function ratings()
     {
         return $this->hasMany('App\Rating');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 
 }

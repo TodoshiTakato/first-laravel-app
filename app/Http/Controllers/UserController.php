@@ -70,7 +70,7 @@ class UserController extends Controller
             return view('auth.home')->with('User_Dropdown', Auth::user());
         }
         else {
-            return view('auth.login');
+            return redirect()->route('login');
         }
     }
 

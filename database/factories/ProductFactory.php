@@ -2,10 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Model;
+use App\Product;
 use Faker\Generator as Faker;
 
-$factory->define(Model::class, function (Faker $faker) {
+$factory->define(Product::class, function (Faker $faker) {
+    $faker->setDefaultTimezone('Asia/Tashkent');
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),

@@ -6,6 +6,7 @@ use App\OrderItem;
 use Faker\Generator as Faker;
 
 $factory->define(OrderItem::class, function (Faker $faker) {
+    $faker->setDefaultTimezone('Asia/Tashkent');
     return [
         'quantity' => $faker->randomNumber($nbDigits = 2, $strict = false),
         'item_price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 2000),
