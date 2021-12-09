@@ -54,7 +54,8 @@
                             <input id="username" type="text" name="username" value="{{ old('username') }}" required
                                    autocomplete="username" placeholder="Username" class="form-control text-center1"
                                    autofocus>
-                            @error('username') <div class="form-group alert alert-danger"> Неверное имя пользователя </div> @enderror
+{{--                            @error('username') <div class="form-group alert alert-danger"> Неверное имя пользователя </div> @enderror--}}
+                            @error('username') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
                         </div>
                     </div>
 
@@ -62,7 +63,8 @@
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
                         <div class="col-md-6">
                             <input id="password" type="password" name="password" placeholder="Password" class="form-control text-center1">
-                            @error('password') <div class="form-group alert alert-danger"> Неверный пароль </div> @enderror
+{{--                            @error('password') <div class="form-group alert alert-danger"> Введите пароль </div> @enderror--}}
+                            @error('password') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
                         </div>
                     </div>
 
@@ -87,7 +89,7 @@
                         </div>
 
                         <div class="col text-right">
-                            <a href="#">Register</a>
+                            <a href="{{ route('register') }}">Register</a>
                         </div>
                     </div>
 

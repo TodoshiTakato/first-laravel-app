@@ -22,18 +22,20 @@ class CreateOrderItemsTable extends Migration
             });
         }
         Schema::table('order_items', function (Blueprint $table) {
-            $table->foreignId('order_id')
-                ->after('id')
-                ->nullable()
-                ->constrained()
-                ->cascadeOnUpdate()
-                ->cascadeOnDelete();
             $table->foreignId('product_id')
                 ->after('id')
                 ->nullable()
                 ->constrained()
                 ->cascadeOnUpdate()
                 ->onDelete('RESTRICT');
+        });
+        Schema::table('order_items', function (Blueprint $table) {
+            $table->foreignId('order_id')
+                ->after('id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
         });
     }
 

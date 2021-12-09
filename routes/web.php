@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/register',      'UserController@register')->name('register');  // User Register Page.
+Route::post('/register',      'UserController@register_verify')->name('register_verify');  // User Register Page.
 Route::get('/login',      'UserController@login')->name('login');  // User Login Page.
 Route::post('/login',      'UserController@login_verify')->name('login_verify');  // Verify the user data.
 Route::get('/home',      'UserController@home')->name('home');  // Verify the user data.

@@ -14,25 +14,26 @@ class ProductsController0001 extends Controller
     public function Products () {
 
 //        $products = DB::table('Products')->get();
-        $products = Product::all();
-        $subcategory_counter = 0;
-        $category_names = [];
-        $category_ids = [];
 //        $categories = DB::table('Categories')->get();
-        $categories = Category::all();;
-        for($i = 0; $i < count($categories); $i++) {
+        $products = Product::all();  // All products
+        $categories = Category::all();  // All categories
+        $subcategory_counter = 0;  // Counter
+        $subcategory_names = [];   // Names of Categories
+        $subcategory_ids = [];   // IDs of Sub Categories
+        for($i = 0; $i < count($categories); $i++) {      // Loop for Sub Categories
             if ($categories[$i]->parent_id != null) {
-                $category_ids[$subcategory_counter] = $categories[$i]->id;
-                $category_names[$subcategory_counter] = $categories[$i]->name;
+                $subcategory_ids[$subcategory_counter] = $categories[$i]->id;
+                $subcategory_names[$subcategory_counter] = $categories[$i]->name;
                 $subcategory_counter++;
             }
         }
 
         return view('products.products', [
             'products'=>$products,
+            'categories'=>$categories,
             'subcategory_counter'=>$subcategory_counter,
-            'category_ids'=>$category_ids,
-            'category_names'=>$category_names,
+            'subcategory_ids'=>$subcategory_ids,
+            'subcategory_names'=>$subcategory_names,
             ]
         );
 

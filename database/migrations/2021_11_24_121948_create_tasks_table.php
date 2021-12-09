@@ -20,7 +20,7 @@ class CreateTasksTable extends Migration
                 $table->unsignedtinyInteger('priority')->nullable();
                 $table->timestamp('start_time')->nullable();
                 $table->timestamp('finish_time')->nullable();
-                $table->timestamp('time_spent')->nullable();
+                $table->unsignedInteger('time_spent')->nullable();
                 $table->timestamps();
             });
         }

@@ -12,17 +12,13 @@ class Order extends Model
         'paid_at',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-
     public function order_items()
     {
         return $this->hasMany('App\OrderItem');
     }
 
-//    public function setTotalPriceAttribute ($item_price) {
-//        $this->attributes['total_price'] += $item_price;
-//    }
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }
