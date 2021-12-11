@@ -24,17 +24,23 @@ class TaskPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'task' => 'required | max:255',
-            'rating' => 'nullable | integer | between:1,5'
+            'name' => 'required | max:255',
+            'details' => 'required | string | min:10 | max:65535',
+            'status' => 'required | integer | between:0,1',
+            'priority' => 'required | integer | between:0,5',
+            'start_time' => 'required | date',
+            'finish_time' => 'required | date',
+            'time_spent' => 'required | integer | between:1,5',
+//            'rating' => 'nullable | integer | between:1,5',
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'task.required' => 'Вы должны ввести таску!',
-        ];
-    }
+//    public function messages()
+//    {
+//        return [
+//            'name.required' => 'Вы должны ввести название таски!',
+//        ];
+//    }
 
 //    public function withValidator($validator)
 //    {

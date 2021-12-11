@@ -6,6 +6,7 @@
     </head>
 
     <body>
+
         <div id="wrapper">
             <div id="navbar">
                 <div id="inner-navbar">
@@ -41,6 +42,7 @@
                 </div>
             </div>
         </div>
+
     </body>
 
 </html>

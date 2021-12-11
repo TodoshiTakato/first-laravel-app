@@ -70,7 +70,7 @@
             </form>
         </div>
 
-        @if(count($tasks)>0)
+        @isset($tasks)
             <div class="card">
                 <div class="card-header">
                     All tasks:
@@ -89,7 +89,7 @@
                         @foreach($tasks as $task)
                             <tr>
                                 <td class="col-md-6 text-break">
-                                    {{$task->name}}
+                                    <a href="{{route('task_info_page', $task->id)}}">{{$task->name}}</a>
                                 </td>
                                 <td class="col-md-2">
                                     <div class="rate">
@@ -131,7 +131,6 @@
                     {{$tasks->links()}}
                 </div>
             </div>
-        @endif
-
+        @endisset
     </div>
 @endsection

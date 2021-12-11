@@ -4,8 +4,10 @@
 <div class="flex-center position-ref full-height">
 
     <div class="text-center1">   <!-- Wrapper -->
+
+
         @if (Route::has('login'))   <!-- Authentication -->
-            <div class="top-right links">
+            <div class="links d-flex justify-content-end">
                 @auth
                     <a href="{{ url('/home') }}">Home</a>
                 @else
@@ -17,6 +19,7 @@
                 @endauth
             </div>
         @endif   <!-- Authentication -->
+
 
         <div class="cards">   <!-- Main Card in the center -->
             <div class="title m-b-md"> First Laravel App </div>   <!-- Logo Title -->
@@ -49,7 +52,7 @@
                         @method('GET')
                         <label for="variable">8. </label>
                         <input type="text" name="variable" id="variable" placeholder="Variable"
-                               size="4">
+                               size="10">
 
                         <a id="myAnchor" style="color: deeppink;"><output name="link" for="variable" form="var_form"></output></a>
                     </form>

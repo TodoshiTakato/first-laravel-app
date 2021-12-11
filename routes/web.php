@@ -59,6 +59,7 @@ Route::middleware([
 
     //                            Tasks PAGE
     Route::get('/tasks',      'TaskController@index')->name('tasks_main_page');
+    Route::get('/task/{task_id}/info',      'TaskController@task_info')->name('task_info_page');
     Route::post('/task',      'TaskController@post')->name('post_a_task');
     Route::get('/task/{task_id}',      'TaskController@update_page')->name('update_task_page');
     Route::put('/task/{task_id}',      'TaskController@update')->name('update_a_task');

@@ -18,10 +18,10 @@ $factory->define(Task::class, function (Faker $faker) {
     $time_spent = $starts_at->diffInHours($ends_at);
     return [
         'user_id' => factory(\App\User::class),
-        'name' => $faker->text(200),
+        'name' => $faker->sentence($nbWords = 3, $variableNbWords = true),
         'details' => $faker->realTextBetween($minNbChars = 60, $maxNbChars = 80, $indexSize = 2),
         'status' => $faker->randomElement(array(0, 1)),
-        'priority' => $faker->randomElement(array(0, 1)),
+        'priority' => $faker->randomElement(array(0, 1, 2, 3, 4, 5)),
         'start_time' => $starts_at,
         'finish_time' => $ends_at,
         'time_spent' => $time_spent,

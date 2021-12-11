@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use InvalidArgumentException;
 use Faker\Generator as Faker;
-//use Illuminate\Support\Str;
+use Illuminate\Support\Str;
 //use mysql_xdevapi\Exception;
 //use Illuminate\Support\Facades\Validator;
 use \Debugbar;
@@ -18,9 +18,10 @@ class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('id', 'asc')->paginate(9);
+        $tasks = Task::where('user_id', Auth::id())->paginate(5);
         $faker = new Faker;
-        $string_with_256_symbols = $faker->text(110);
+//        $string_with_256_symbols = $faker->text(110);
+        $string_with_256_symbols = Str::random(256);
 
         Debugbar::info($string_with_256_symbols);    // Debugbar usage example
         Debugbar::error('Error!');
@@ -30,12 +31,26 @@ class TaskController extends Controller
         return view('tasks.tasks', compact('tasks', 'string_with_256_symbols'));
     }
 
+    public function task_info($task_ID)
+    {
+        $task = Task::find($task_ID);
+        return view('tasks.task_info', ['task' => $task]);
+    }
+
     public function post(TaskPostRequest $request)
     {
         $validated = $request->validated();
-        $task = Task::create($validated);
-        if ($request->rating) {
-            $task->rate($request->rating, Auth::user());
+        $task = Task::create([
+            'name' => $validated->name,
+            'details' => $validated->details,
+            'status' => $validated->status,
+            'priority' => $validated->priority,
+            'start_time' => $validated->start_time,
+            'finish_time' => $validated->finish_time,
+            'time_spent' => $validated->time_spent,
+        ]);
+        if ($validated->rating) {
+            $task->rate($validated->rating, Auth::user());
         }
         return redirect()->route('tasks_main_page');
     }

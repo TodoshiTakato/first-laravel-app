@@ -38,7 +38,7 @@ class UserController extends Controller
 
         if (Auth::attempt($userData, $user_remember)) {
             // Authentication passed...
-            return redirect()->route('home')->with('User_Dropdown', Auth::user());
+            return redirect()->route('home');
         }
         else {
             return redirect()
