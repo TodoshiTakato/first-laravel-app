@@ -12,68 +12,24 @@
         </div>
 
         <div class="row">
-            <form action="{{route('post_a_task')}}" method="post" class="col">
-                @csrf
-                @method('POST')
-                <div class="form-group">
 
-                    <div class="row">
-                        <div class="col-1">256 symbols:</div>
-                        <div class="col-11 text-break pb-3">{{$string_with_256_symbols}}</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="task">Task:</label>
-                        </div>
-                    </div>
+            <div class="col-2">
+                <a href="{{route('update_task_page')}}">
+                    <button type="button" class="btn btn-success">
+                        <i class="fas fa-plus-square"></i>
+                        Add task
+                    </button>
+                </a>
+            </div>
 
-                    <div class="row align-items-center">
-                        <div class="col-5">
-                            <input type="text" class="form-control" id="task" name="task"
-                                   placeholder="Enter a task name">
-                        </div>
-
-                        <div id="rate" class="">
-                            <span>
-                                <input type="radio" class="" id="rating-1" name="rating" value="1">
-                                <input type="radio" class="" id="rating-2" name="rating" value="2">
-                                <input type="radio" class="" id="rating-3" name="rating" value="3">
-                                <input type="radio" class="" id="rating-4" name="rating" value="4">
-                                <input type="radio" class="" id="rating-5" name="rating" value="5">
-                            </span>
-                            <span>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                                <i class="bi bi-star text-warning"></i>
-                            </span>
-                        </div>
-
-
-
-                        <div class="col-3">
-                            <button type="submit" class="btn btn-success">
-                                <i class="fas fa-plus-square"></i>
-                                Add task
-                            </button>
-                        </div>
-                        <div class="col-4 text-danger d-flex align-items-center">
-                            @error('task')
-                            {{$message}}
-                            @enderror
-                        </div>
-                    </div>
-
-
-                </div>
-            </form>
         </div>
 
         @isset($tasks)
             <div class="card">
                 <div class="card-header">
                     All tasks:
+                    @dump($minmax_array)
+{{--                    {{$maxprice}}/{{$minprice}}--}}
                 </div>
                 <div class="card-body">
                     <table class="table table-hover task-table table-bordered">

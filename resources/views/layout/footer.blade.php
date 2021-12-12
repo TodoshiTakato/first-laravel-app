@@ -1,6 +1,6 @@
 <ul class="nav-bar">
-    <li class="nav-item1"><a href="http://127.0.0.1:8000/">Home</a></li>
-    <li class="nav-item1"><a href="http://127.0.0.1:8000/">Main page</a></li>
+    <li class="nav-item1"><a href="{{route('home')}}">Home</a></li>
+    <li class="nav-item1"><a href="{{url()->previous()}}">Back</a></li>
     <li class="nav-item1">
         <div class="dropup1">
             <a href="#dropup" class="dropbtn">Dropup</a>

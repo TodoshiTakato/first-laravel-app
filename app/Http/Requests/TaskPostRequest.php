@@ -24,14 +24,14 @@ class TaskPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required | max:255',
-            'details' => 'required | string | min:10 | max:65535',
-            'status' => 'required | integer | between:0,1',
-            'priority' => 'required | integer | between:0,5',
-            'start_time' => 'required | date',
-            'finish_time' => 'required | date',
-            'time_spent' => 'required | integer | between:1,5',
-//            'rating' => 'nullable | integer | between:1,5',
+            'name' => 'nullable | max:255',
+            'details' => 'nullable | string | min:10 | max:65535',
+            'status' => 'nullable | integer | between:0,1',
+            'priority' => 'nullable | integer | between:0,5',
+            'start_time' => 'nullable | date_format:Y-m-d\TH:i:s',
+            'finish_time' => 'nullable | date_format:Y-m-d\TH:i:s',
+            'time_spent' => 'nullable | integer',
+            'rating' => 'nullable | integer | between:1,5',
         ];
     }
 
