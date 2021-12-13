@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        factory(User::class, 10)
+        factory(User::class, 5)
         ->create()
         ->each(
         function ($user) {
@@ -42,7 +42,7 @@ class UserSeeder extends Seeder
             ->create(['user_id'=>$user->id])
             ->each(
             function ($task) use ($user) {
-                factory(App\Rating::class, 5)
+                factory(App\Rating::class)
                 ->create([
                     'user_id'=>$user->id,
                     'task_id'=>$task->id,

@@ -46,4 +46,8 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Task');
     }
+    public function ratings()
+    {
+        return $this->hasMany('App\Rating');
+    }
 }

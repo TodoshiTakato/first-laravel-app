@@ -41,28 +41,41 @@ Route::get('/shop/contact',      'ShopController@contact')->name('shop.contact')
 Route::get('/shop/about',      'ShopController@about')->name('shop.about');  // Verify the user data.
 
 
-Route::middleware([
-    'auth',
-])->group(function () {
+Route::middleware(['auth'])->group(function () {
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => 'is_admin',
+        'as' => 'admin.',
+    ], function () {
+        Route::get('admin',
+            '\Auth\AdminController@index')
+            ->name('index');
+    });
 
-    //                            Categories & Products PAGE
-    Route::get('/categories', 'CategoriesController0001@Categories');
-    Route::get('/categories/{id}', 'CategoriesController0001@Category');
-    Route::get('/products',     'ProductsController0001@Products');
-    Route::get('/products/{id}', 'ProductsController0001@Product');
+    Route::group([
+        'prefix' => 'user',
+        'as' => 'user.',
+    ], function () {
+
+        //                            Categories & Products PAGE
+        Route::get('/categories', 'CategoriesController0001@Categories')->name('get_categories');
+        Route::get('/categories/{id}', 'CategoriesController0001@Category')->name('get_category');
+        Route::get('/products',     'ProductsController0001@Products')->name('get_products');
+        Route::get('/products/{id}', 'ProductsController0001@Product')->name('get_product');
 
 
-    //                            Orders & OrderItems PAGE
-    Route::resource('orders', 'OrderController');
-    Route::resource('order-items', 'OrderItemController');
+        //                            Orders & OrderItems PAGE
+        Route::resource('orders', 'OrderController');
+        Route::resource('order-items', 'OrderItemController');
 
 
-    //                            Tasks PAGE
-    Route::get('/tasks',      'TaskController@index')->name('tasks_main_page');
-    Route::get('/task/{task_id}/info',      'TaskController@task_info')->name('task_info_page');
-    Route::post('/task',      'TaskController@post')->name('post_a_task');
-    Route::get('/task/{task_id?}',      'TaskController@update_page')->name('update_task_page');
-    Route::put('/task/{task_id}',      'TaskController@update')->name('update_a_task');
-    Route::delete('/task/delete/{task_id}',      'TaskController@delete')->name('delete_a_task');
+        //                            Tasks PAGE
+        Route::get('/tasks',      'TaskController@index')->name('tasks_main_page');
+        Route::get('/task/{task_id}/info',      'TaskController@task_info')->name('task_info_page');
+        Route::post('/task',      'TaskController@post')->name('post_a_task');
+        Route::get('/task/{task_id?}',      'TaskController@update_page')->name('update_task_page');
+        Route::put('/task/{task_id}',      'TaskController@update')->name('update_a_task');
+        Route::delete('/task/delete/{task_id}',      'TaskController@delete')->name('delete_a_task');
+    });
 });
 

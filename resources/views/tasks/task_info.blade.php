@@ -107,12 +107,10 @@
                                     <i id="star3" class="bi bi-star text-warning"></i>
                                     <i id="star4" class="bi bi-star text-warning"></i>
                                     <i id="star5" class="bi bi-star text-warning"></i>
-                                </div>
+
                                 @if($task->rating())
                                     {{$task->rating()}}
                                     <script>
-                                        console.log({{$task->rating()}});
-                                        console.log(Math.round({{$task->rating()}}));
                                         switch(Math.round({{$task->rating()}})) {
                                             case 1:
                                                 star1.setAttribute('class', 'bi-star-fill text-warning');
@@ -154,6 +152,7 @@
                                         }
                                     </script>
                                 @endif
+                                </div>
                             </td>
                         </tr>
                         <tr>
