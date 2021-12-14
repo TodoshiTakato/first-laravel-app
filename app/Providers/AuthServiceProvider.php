@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('create_task', function($user, Task $task) {
-            return $user->is_admin || (auth()->check() && $task->user_id == auth()->id());
+        Gate::define('create_task', function($user) {
+            return $user->is_admin || auth()->check();
         });
         Gate::define('update_task', function($user, Task $task) {
             return $user->is_admin || (auth()->check() && $task->user_id == auth()->id());

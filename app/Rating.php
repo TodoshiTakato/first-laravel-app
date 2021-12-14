@@ -9,6 +9,8 @@ class Rating extends Model
     protected $fillable = [
         'rating',
         'comment',
+        'user_id',
+        'task_id',
     ];
 
     public function task()

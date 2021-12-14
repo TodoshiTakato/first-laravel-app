@@ -23,12 +23,12 @@
 
         <div class="row">
             @isset($found_task)
-            <form action="{{route('update_a_task', $found_task->id)}}" method="POST"
+            <form action="{{route('user.update_a_task', $found_task->id)}}" method="POST"
                   id="task_info" class="col">
                 @method('PUT') {{--  {{method_field('put')}}  --}}
             @endisset
             @if(!isset($found_task))
-            <form action="{{route('post_a_task')}}" method="POST"
+            <form action="{{route('user.post_a_task')}}" method="POST"
                   id="task_info" class="col">
                 @method('POST') {{--  {{method_field('put')}}  --}}
             @endif
@@ -51,15 +51,14 @@
                             <label class="input-group-text" for="status">Status:</label>
                         </div>
                         <div class="d-flex">
-                            <input type="checkbox" id="status" name="status" value="1"
+                            <input type="checkbox" id="status" name="status" value=1
                                    class="form-control @error('status') is-invalid @enderror">
                             @isset($found_task->status)
                                 <script>
-                                    if ( typeof {{$found_task->status}} !== "undefined" && {{$found_task->status}} !== null || {{$found_task->status}} === 0) {
-                                        document.getElementById("status").checked = false;
-                                    }
-                                    else if({{$found_task->status}}===1){
+                                    if( {{$found_task->status}} === 1) {
                                         document.getElementById("status").checked = true;
+                                    } else if ( typeof {{$found_task->status}} !== "undefined" && {{$found_task->status}} !== null || {{$found_task->status}} === 0) {
+                                        document.getElementById("status").checked = false;
                                     }
                                 </script>
                             @endisset
@@ -80,7 +79,7 @@
                         </div>
                         <div class="px-2">
                             <input type="range" id="priority" name="priority"
-                                   min="0" max="5" step="1" oninput="priority_output.value = this.value"
+                                   min=0 max=5 step=1 oninput="priority_output.value = this.value"
                                    class="form-control @error('priority') is-invalid @enderror">
                             @isset($found_task)
                                 <script>
@@ -227,8 +226,9 @@
                             </div>
                         </div>   {{-- Time_spent (End) --}}
                     </div>
-                    <div class="col-8">
-
+                    <div class="col-8 p-1">
+                        <textarea id="comment" name="comment" rows="6" cols="90"
+                                  placeholder="Write Some Nice Comment">@isset($found_task) @isset($found_task->ratings->first()->comment){{$found_task->ratings->first()->comment}} @endisset @endisset</textarea>
                     </div>
                 </div>
 

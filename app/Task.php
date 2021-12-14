@@ -16,6 +16,7 @@ class Task extends Model
         'start_time',
         'finish_time',
         'time_spent',
+        'user_id',
     ];
 
     /**
@@ -26,23 +27,15 @@ class Task extends Model
      * @param int|null $task_user
      * @return Model
      */
-    public function rate($rating, $task_user = null, $comment = null)
+    public function rate($rating = null, $task_user = null, $comment = null)
     {
         if ($rating > 5 || $rating < 1) {
             throw new InvalidArgumentException('Ratings must be between 1-5.');
         }
-//        $userId = $user ? $user->id : auth()->id();
-        $rating_user = $task_user ? $task_user : auth();
+        $rating_user = $task_user ? $task_user : auth()->user();
 
-//        return $this->ratings()->where([
-//            ['task_id', $this->id],
-//            ['user_id', $rating_user->id],
-//        ])->updateOrCreate(
-//            ['comment' => $comment],
-//            ['rating' => $rating]
-//        )->user()->associate($rating_user);
         return $this->ratings()->updateOrCreate(
-            ['task_id' => $this->id, 'user_id' => $rating_user->id],
+            ['user_id' => $rating_user->id, 'task_id' => $this->id],
             ['rating' => $rating, 'comment' => $comment]
         );
     }
@@ -54,7 +47,8 @@ class Task extends Model
      */
     public function rating()
     {
-        return $this->ratings->avg('rating');
+//        return $this->ratings->avg('rating');
+        return round($this->ratings->avg('rating'), 2);
     }
 
     /**

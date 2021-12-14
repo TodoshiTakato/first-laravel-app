@@ -1,6 +1,23 @@
 @extends('shop.layout.base')
 
-@section('navbar contact', 'active')
+@section('navbar contact')
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('shop.index')}}">Home
+            <span class="sr-only sr">(current)</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('shop.products')}}">Our Products</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('shop.about')}}">About Us</a>
+    </li>
+    <li class="nav-item active">
+        <div class="nav-link">Contact Us
+            <span class="sr-only sr">(current)</span>
+        </div>
+    </li>
+@endsection
 
 @section('content')
     <div class="page-heading contact-heading header-text">
@@ -33,7 +50,7 @@
 	4. Copy only URL and paste it within the src="" field below
 -->
             <div id="map">
-              <iframe src="https://maps.google.com/maps?q=Av.+L%C3%BAcio+Costa,+Rio+de+Janeiro+-+RJ,+Brazil&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="330px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5991.978326516441!2d69.28325663508787!3d41.33084900575154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xee4251e93e4c6c8a!2zNDHCsDE5JzUxLjEiTiA2OcKwMTcnMTUuNSJF!5e0!3m2!1sru!2s!4v1639479085544!5m2!1sru!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
           </div>
           <div class="col-md-4">

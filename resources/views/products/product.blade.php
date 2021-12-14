@@ -30,9 +30,9 @@
                     updated_at: {{ $product->updated_at }}
                 </li>
             </ul>
-            <h1><a href="http://127.0.0.1:8000/products">Назад</a></h1>
+            <h1><a href="{{route('user.get_products')}}">Назад</a></h1>
             <div class="big text-center1">
-                <a href='/'>Return to the main page</a>
+                <a href='{{route('main_page')}}'>Return to the main page</a>
             </div>
         </div>
     </div>

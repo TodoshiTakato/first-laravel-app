@@ -18,20 +18,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link @yield('navbar home')" href="{{route('shop.index')}}">Home
-                            <span class="sr-only sr">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item @yield('navbar products')">
-                        <a class="nav-link" href="{{route('shop.products')}}">Our Products</a>
-                    </li>
-                    <li class="nav-item @yield('navbar about')">
-                        <a class="nav-link" href="{{route('shop.about')}}">About Us</a>
-                    </li>
-                    <li class="nav-item @yield('navbar contact')">
-                        <a class="nav-link" href="{{route('shop.contact')}}">Contact Us</a>
-                    </li>
+                    @yield('navbar home')
+                    @yield('navbar products')
+                    @yield('navbar about')
+                    @yield('navbar contact')
+                    <a class="nav-link" href="{{route('main_page')}}">Back</a>
                 </ul>
             </div>
         </div>

@@ -22,9 +22,10 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->unsignedTinyInteger('is_admin')->default(0);
-            $table->unsignedTinyInteger('is_user')->default(1);
             $table->unsignedTinyInteger('is_active')->default(1);
+            $table->unsignedTinyInteger('is_user')->default(1);
+            $table->unsignedTinyInteger('is_admin')->default(0);
+            $table->unsignedTinyInteger('role_id')->default(0);
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

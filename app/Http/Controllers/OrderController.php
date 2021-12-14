@@ -12,7 +12,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()                                       //  '/orders' GET route_name = 'photos.index'
+    public function index()                                       //  '/orders' GET route_name = 'user.orders.index'
     {
         //
     }
@@ -22,7 +22,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()                                      //  '/orders/create' GET route_name = 'photos.create'
+    public function create()                                      //  '/orders/create' GET route_name = 'user.orders.create'
     {
         //
     }
@@ -33,7 +33,7 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)                      //  '/orders' POST route_name = 'photos.store'
+    public function store(Request $request)                      //  '/orders' POST route_name = 'user.orders.store'
     {
         //
     }
@@ -44,7 +44,7 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)                          //  '/orders/{order}' GET route_name = 'photos.show'
+    public function show(Order $order)                          //  '/orders/{order}' GET route_name = 'user.orders.show'
     {
         //
     }
@@ -55,7 +55,7 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(Order $order)                             //  '/orders/{order}/edit' GET route_name = 'photos.edit'
+    public function edit(Order $order)                             //  '/orders/{order}/edit' GET route_name = 'user.orders.edit'
     {
         //
     }
@@ -67,7 +67,7 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Order $order)         //  '/orders/{order}' PUT/PATCH route_name = 'photos.update'
+    public function update(Request $request, Order $order)         //  '/orders/{order}' PUT/PATCH route_name = 'user.orders.update'
     {
         //
     }
@@ -78,7 +78,7 @@ class OrderController extends Controller
      * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)                         //  '/orders/{order}' DELETE route_name = 'photos.destroy'
+    public function destroy(Order $order)                         //  '/orders/{order}' DELETE route_name = 'user.orders.destroy'
     {
         //
     }

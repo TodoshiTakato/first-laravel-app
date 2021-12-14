@@ -60,7 +60,7 @@
                 <div><a href="{{route('layout')}}">layout page</a></div>
                 <div><a href="{{route('get_parsed_http')}}">HTTP Parser</a></div>
                 <div><a href="{{route('login')}}">Login Page</a></div>
-                <div><a href="{{route('tasks_main_page')}}">/tasks</a></div>
+                <div><a href="{{route('user.tasks_main_page')}}">/tasks</a></div>
                 <div><a href="{{route('shop.index')}}">/shop</a></div>
             </div>  <!-- Hello world Links -->
 
@@ -72,12 +72,12 @@
                     <tr>
                         <td>
                             <div class="h-100">
-                            <a class="big no-decoration d-block1" href="http://127.0.0.1:8000/categories">
+                            <a class="big no-decoration d-block1" href="{{route('user.get_categories')}}">
                                 Categories:
                             </a></div>
                         </td>
                         <td rowspan="2">
-                            <a class="big no-decoration d-block1" href="http://127.0.0.1:8000/products">
+                            <a class="big no-decoration d-block1" href="{{route('user.get_products')}}">
                                 Products
                             </a>
                         </td>

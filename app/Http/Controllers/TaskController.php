@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 //use mysql_xdevapi\Exception;
 //use Illuminate\Support\Facades\Validator;
 use \Debugbar;
+use function PHPUnit\Framework\isNull;
 
 
 class TaskController extends Controller
@@ -28,6 +29,7 @@ class TaskController extends Controller
 //        Debugbar::warning('Watch out…');
 //        Debugbar::addMessage('Another message', 'mylabel');
 
+//        $tasks = Task::with('ratings', 'user')->get();
         $tasks = Task::with('ratings', 'user')->paginate(10);
 //        $tasks = Task::with('ratings')->where('user_id', Auth::id())->paginate(5);
 //        $tasks = Task::where('user_id', Auth::id())->paginate(5);
@@ -36,7 +38,6 @@ class TaskController extends Controller
 
     public function task_info($task_ID)
     {
-
         $task = Task::find($task_ID);
         return view('tasks.task_info', ['task' => $task]);
     }
@@ -50,73 +51,85 @@ class TaskController extends Controller
         $task = Task::create([
             'name' => $validated['name'],
             'details' => $validated['details'],
-//            'status' => $validated['status'],
             'status' => $status = isset($validated['status']) ? $validated['status'] : null,
             'priority' => $validated['priority'],
             'start_time' => $validated['start_time'],
             'finish_time' => $validated['finish_time'],
             'time_spent' => $validated['time_spent'],
+            'user_id' => $user->id,
         ]);
-        $task->user()->associate($user);
         if (isset($validated['rating'])) {
             $task->rate($validated['rating'], $user);
         }
-        $task->save();
-        return redirect()->route('tasks_main_page');
+        return redirect()->route('user.tasks_main_page');
     }
-
-    public function update_page($task_ID=null)
+    public function rate_a_task(Request $request, $task_ID)
     {
-        $this->authorize('update_task');
-
-        if (isset($task_ID)) {
-            $found_task = Task::find($task_ID);
+        if (isset($request->rating)) {
+            $validatedData = $request->validate([
+                'rating' => 'nullable | integer | between:1,5',
+            ]);
+            $task = Task::find($task_ID);
+            $task->rate($validatedData['rating'], Auth::user());
         }
         else {
-            $found_task = null;
+            $request->session()->flash('error_rate_a_task', 'Выберите оценку!');
         }
-        return view('tasks.update_a_task', ['found_task' => $found_task]);
+        return redirect()->back();
     }
 
-    public function update(TaskPostRequest $request, $found_task)
+    public function task_form(Task $task=null)
     {
-        $this->authorize('update_task');
+        if (isset($task)) {
+            $this->authorize('update_task', $task);
+            $found_task = $task;
+            return view('tasks.task_form_page', ['found_task' => $found_task]);
+        }
+        else {
+            $this->authorize('create_task');
+            $found_task = null;
+            return view('tasks.task_form_page', ['found_task' => $found_task]);
+        }
 
+    }
+
+    public function update(TaskPostRequest $request, Task $task)
+    {
+        $this->authorize('update_task', $task);
         $user = Auth::user();
         $validated = $request->validated();
+        $task->update([
+            'name' => $validated['name'],
+            'details' => $validated['details'],
+            'status' => $status = isset($validated['status']) ? 1 : 0,
+            'priority' => $validated['priority'],
+            'start_time' => $validated['start_time'],
+            'finish_time' => $validated['finish_time'],
+            'time_spent' => $validated['time_spent'],
+        ]);
+
         if (isset($validated['rating'])) {
-            Task::find($found_task)->rate($validated['rating'], $user)->update([
-                'name' => $validated['name'],
-                'details' => $validated['details'],
-                'status' => $status = isset($validated['status']) ? $validated['status'] : null,
-                'priority' => $validated['priority'],
-                'start_time' => $validated['start_time'],
-                'finish_time' => $validated['finish_time'],
-                'time_spent' => $validated['time_spent'],
-            ]);
+            if (isset($validated['comment'])) {
+                if (isNull($task->ratings->first()->comment)) {
+                    $task->rate($validated['rating'], $user, $validated['comment']);
+                }
+                else {
+                    $task->rate($validated['rating'], $user);
+                }
+            }
+            else {
+                $task->rate($validated['rating'], $user);
+            }
         }
-        else {
-            Task::find($found_task)->update([
-                'name' => $validated['name'],
-                'details' => $validated['details'],
-                'status' => $status = isset($validated['status']) ? $validated['status'] : null,
-                'priority' => $validated['priority'],
-                'start_time' => $validated['start_time'],
-                'finish_time' => $validated['finish_time'],
-                'time_spent' => $validated['time_spent'],
-            ]);
-        }
-        return redirect()->route('tasks_main_page');
+
+        return redirect()->route('user.tasks_main_page');
     }
 
-    public function delete($task_ID)
+    public function delete(Task $task)
     {
-        $this->authorize('delete_task');
-
-        $found_task = Task::find($task_ID);
-
-        $found_task->delete();
-        return redirect()->route('tasks_main_page');
+        $this->authorize('delete_task', $task);
+        $task->delete();
+        return redirect()->back();
     }
 
 }
