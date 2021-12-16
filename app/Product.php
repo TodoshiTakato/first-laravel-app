@@ -11,6 +11,7 @@ class Product extends Model
         'description',
         'price',
         'status',
+        'category_id',
     ];
 
     public function category()
@@ -21,6 +22,11 @@ class Product extends Model
     public function order_item()
     {
         return $this->belongsTo('App\OrderItem');
+    }
+
+    public function getPriceAttribute($price)
+    {
+        return number_format($price, 2, ",", " ").' UZS';
     }
 
 }
