@@ -10,6 +10,7 @@ class Order extends Model
         'item_price',
         'paid',
         'paid_at',
+        'user_id',
     ];
 
     public function order_items()

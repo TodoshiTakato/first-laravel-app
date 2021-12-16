@@ -37,6 +37,9 @@ Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verif
 
 Route::get('/shop',      'ShopController@index')->name('shop.index');  // Verify the user data.
 Route::get('/shop/products',      'ShopController@products')->name('shop.products');  // Verify the user data.
+Route::match(['post', 'put'], '/shop/products/{product}',      'ShopController@add_to_cart')->name('shop.add_to_cart');  // .
+Route::delete('/shop/products/{product}',      'ShopController@remove_from_cart')->name('shop.remove_from_cart');  // .
+Route::get('/shop/cart',      'ShopController@cart')->name('shop.cart');  // .
 Route::get('/shop/contact',      'ShopController@contact')->name('shop.contact');  // Verify the user data.
 Route::get('/shop/about',      'ShopController@about')->name('shop.about');  // Verify the user data.
 

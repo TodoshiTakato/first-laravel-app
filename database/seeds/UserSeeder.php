@@ -21,11 +21,11 @@ class UserSeeder extends Seeder
         ->create()
         ->each(
         function ($user) {
-            factory(App\Order::class, 2)
+            factory(App\Order::class, 0)
             ->create(['user_id'=>$user->id])
             ->each(
             function ($order) use ($user) {
-                factory(App\OrderItem::class, 3)
+                factory(App\OrderItem::class, 0)
                 ->create(['order_id'=>$order->id])
                 ->each(
                 function ($order_item) use ($user, $order) {

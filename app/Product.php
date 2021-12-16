@@ -23,4 +23,9 @@ class Product extends Model
         return $this->belongsTo('App\OrderItem');
     }
 
+    public function getPriceAttribute($price)
+    {
+        return number_format($price, 2, ",", " ").' UZS';
+    }
+
 }

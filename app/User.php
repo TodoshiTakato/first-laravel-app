@@ -46,8 +46,22 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Task');
     }
+
     public function ratings()
     {
         return $this->hasMany('App\Rating');
     }
+
+    public function roles()
+    {
+        return $this
+            ->belongsToMany(
+                Role::class,
+                'role_user',
+                'user_id',
+                'role_id'
+            )
+            ->withTimestamps();
+    }
+
 }

@@ -12,7 +12,6 @@
     @yield('content')
 
     @include('shop.layout.footer')
-
   </body>
 
 </html>

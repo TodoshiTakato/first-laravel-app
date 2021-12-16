@@ -154,27 +154,27 @@
           <div class="col-md-12">
             <div class="owl-clients owl-carousel">
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="1">
+                <img src="../assets/images/client01.png" alt="1">
               </div>
 
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="2">
+                <img src="../assets/images/client01.png" alt="2">
               </div>
 
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="3">
+                <img src="../assets/images/client01.png" alt="3">
               </div>
 
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="4">
+                <img src="../assets/images/client01.png" alt="4">
               </div>
 
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="5">
+                <img src="../assets/images/client01.png" alt="5">
               </div>
 
               <div class="client-item">
-                <img src="assets/images/client-01.png" alt="6">
+                <img src="../assets/images/client01.png" alt="6">
               </div>
             </div>
           </div>
