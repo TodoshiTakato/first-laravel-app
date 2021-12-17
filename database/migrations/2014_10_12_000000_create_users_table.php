@@ -24,8 +24,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('device', 36)->nullable();
             $table->unsignedTinyInteger('is_active')->default(1);
-            $table->unsignedTinyInteger('is_user')->default(1);
-            $table->unsignedTinyInteger('is_admin')->default(0);
+//            $table->unsignedTinyInteger('is_user')->default(1);
+//            $table->unsignedTinyInteger('is_admin')->default(0);
             $table->unsignedTinyInteger('role_id')->default(0);
             $table->string('password')->nullable();
             $table->rememberToken()->nullable();

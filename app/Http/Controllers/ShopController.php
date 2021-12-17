@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
+
 class ShopController extends Controller
 {
     public function get_order(Request $request) {
@@ -38,7 +39,6 @@ class ShopController extends Controller
 
     public function get_order_item(Request $request, Product $product) {
         $order = $this->get_order($request);
-
         $orderitem = OrderItem::firstOrCreate(
             ['order_id' => $order->id,'product_id' => $product->id]
         );
@@ -46,7 +46,6 @@ class ShopController extends Controller
     }
 
     public function index() {
-
         return view('shop.index');
     }
 
@@ -77,6 +76,7 @@ class ShopController extends Controller
             "../assets/images/products/product_15.jpg",
             "../assets/images/products/product_16.jpg",
         );
+
         return view('shop.products', compact(
             'products',
             'images_array',

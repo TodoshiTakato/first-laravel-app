@@ -34,7 +34,7 @@ class AuthServiceProvider extends ServiceProvider
             return $user->is_admin || (auth()->check() && $task->user_id == auth()->id());
         });
         Gate::define('delete_task', function($user, Task $task) {
-            return $user->is_admin || (auth()->check() && $task->user_id == auth()->id());
+            return $user->roles->is_admin || (auth()->check() && $task->user_id == auth()->id());
         });
 
     }

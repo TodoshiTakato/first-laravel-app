@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-//use Illuminate\Http\Request;
 
 
 Route::get('/register',      'UserController@register')->name('register');  // User Register Page.
