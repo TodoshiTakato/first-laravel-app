@@ -73,31 +73,198 @@
 {{--    // Cookie.set('name', value);--}}
 {{--</script>--}}
 
-{{--<script type="text/javascript">--}}
-{{--    $(document).ready(function () {--}}
-{{--        $('#add-to-cart-btn').click(function (e) {--}}
-{{--            e.preventDefault();--}}
+<script type="text/javascript">
 
-{{--            $.ajaxSetup({--}}
-{{--                headers: {--}}
-{{--                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
-{{--                }--}}
-{{--            });--}}
+    $(document).ready(function () {
+        cartload();
 
-{{--            var product_id = $(this).closest('#product_data').find('#product_id').val();--}}
-{{--            // var quantity = $(this).closest('#product_data').find('#qty-input').val();--}}
+        $('#add_to_cart_btn').click(
+            function (e) {
+                e.preventDefault();
+                $.ajaxSetup(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
+                );
 
-{{--            $.ajax({--}}
-{{--                url: "{{route('shop.add_to_cart')}}/"+product_id,--}}
-{{--                method: "POST",--}}
-{{--                // data: {--}}
-{{--                //     'quantity': quantity,--}}
-{{--                //     'product_id': product_id,--}}
-{{--                // },--}}
-{{--                // success: function (response) {--}}
-{{--                //     alertify.set('notifier', 'position', 'top-right');--}}
-{{--                //     alertify.success(response.status);--}}
-{{--                // },--}}
-{{--            });--}}
-{{--        });--}}
-{{--    });</script>--}}
+                let add_to_cart_btn = $(this);
+                let product_id = add_to_cart_btn.closest('#product_data').find('#product_id').val();
+                // var quantity = $(this).closest('#product_data').find('#qty-input').val();
+                $.ajax(
+                    {
+                        url: "/shop/products/"+product_id,
+                        method: "POST",
+                        data: {
+                            'product_id': product_id,
+                        },
+                        success: function (response) {
+                            cartload();
+                            let value = response; //Single Data Viewing
+
+                            let buttons = add_to_cart_btn.closest('.buttons');
+                            console.log(buttons);
+                            // let buttons_content = buttons.val();
+                            buttons.html('');
+                            buttons.append(
+                                $(
+                                    '<div class="d-flex justify-content-between item">' +
+                                    '<button class="btn btn-primary btn-vsm disabled"> ' +
+                                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                    'Уже в корзине(<span id="qty">' + value['item_quantity'] + ' штук</span>)' +
+                                    '</button>' +
+                                    '<div id="product_data">' +
+                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                    '<button id="add_to_cart_btn" class="btn btn-success btn-vsm">' +
+                                    '<i class="fas fa-plus-square"></i>' +
+                                    '</button>' +
+                                    '</div>' +
+                                    '<div id="product_data">' +
+                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                    '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                    '<i class="fas fa-minus-square"></i>' +
+                                    '</button>' +
+                                    '</div>' +
+                                    '<div id="product_data">' +
+                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                    '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                    '</button>' +
+                                    '</div>' +
+                                    '</div>'
+                                )
+                            );
+                        },
+                    }
+                );
+
+            }
+        );
+        $('#remove_from_cart_btn').click(
+            function (e) {
+                e.preventDefault();
+                $.ajaxSetup(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
+                );
+                let remove_from_cart_btn = $(this);
+                let product_id = $(this).closest('#product_data').find('#product_id').val();
+                $.ajax(
+                    {
+                        url: "/shop/products/"+product_id,
+                        method: "DELETE",
+                        data: {
+                            'product_id': product_id,
+                        },
+                        success: function (response) {
+                            cartload();
+                            let buttons = remove_from_cart_btn.closest('.buttons');
+                            buttons.html('');
+                            buttons.append(
+                                $('<div id="product_data">' +
+                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                    '<button id="add_to_cart_btn" class="btn btn-success">' +
+                                        '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
+                                    '</button>' +
+                                '</div>'
+                                )
+                            );
+                        },
+                    }
+                );
+                cartload();
+            }
+        );
+        $('#add_another_one_btn').click(
+            function (e) {
+                e.preventDefault();
+                $.ajaxSetup(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
+                );
+                let add_another_one_btn = $(this);
+                let product_id = $(this).closest('#product_data').find('#product_id').val();
+                $.ajax(
+                    {
+                        url: "/shop/products/"+product_id,
+                        method: "POST",
+                        data: {
+                            'product_id': product_id,
+                        },
+                        success: function (response) {
+                            cartload();
+                            // let value = jQuery.parseJSON(response); //Single Data Viewing
+                            let value = response; //Single Data Viewing
+                            let item_qty = add_another_one_btn.closest('#item').find('#qty');
+                            item_qty.html('');
+                            item_qty.append($(value['item_quantity']));
+                        },
+                    }
+                );
+                cartload();
+            }
+        );
+        $('#subtract_one_from_cart_btn').click(
+            function (e) {
+                e.preventDefault();
+                $.ajaxSetup(
+                    {
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    }
+                );
+                let subtract_one_from_cart_btn = $(this);
+                let product_id = $(this).closest('#product_data').find('#product_id').val();
+                $.ajax(
+                    {
+                        url: "/shop/products/"+product_id,
+                        method: "PUT",
+                        data: {
+                            'product_id': product_id,
+                        },
+                        success: function (response) {
+                            cartload();
+                            let value = response; //Single Data Viewing
+                            let item_qty = subtract_one_from_cart_btn.closest('#item').find('#qty');
+                            item_qty.html('');
+                            item_qty.append($(value['item_quantity']));
+                        },
+                    }
+                );
+                cartload();
+            }
+        );
+
+        function cartload()
+        {
+            $.ajaxSetup(
+                {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                }
+            );
+
+            $.ajax(
+                {
+                    url: "{{route('shop.load_cart_data')}}",
+                    method: "GET",
+                    success: function (response) {
+                        let counter = $('.basket-item-count');
+                        counter.html('');
+                        var value = jQuery.parseJSON(response); //Single Data Viewing
+                        counter.append($('<span class="badge badge-pill red">('+ value['totalcart'] +')</span>'));
+                    }
+                }
+            );
+        }
+    });
+</script>

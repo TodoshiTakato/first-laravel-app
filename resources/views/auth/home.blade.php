@@ -4,9 +4,13 @@
     <?php error_reporting(E_ALL); ?>
     <div class="grid-container">
         <div></div> {{-- 1 --}}
-        <div>
+        <div></div> {{-- 2 --}}
+        <div></div> {{-- 3 --}}
+        <div></div> {{-- 4 --}}
+        <div> {{-- 5 - center --}}
+
             <div class="h-100-1 w-100-1">
-                <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+                <nav class="navbar navbar-light bg-white shadow-sm">
                     <div class="container">
                         <a class="navbar-brand" href="{{ url('/') }}">
                             {{ config('app.name', 'Laravel') }}
@@ -25,6 +29,7 @@
                                     <div class="dropdown1">
                                         <a href="#" class="dropbtn">
                                             {{ Auth::user()->name }}
+
                                         </a>
                                         <div class="dropdown1-content">
                                             <a href="{{ route('logout') }}"
@@ -43,14 +48,6 @@
                     </div>
                 </nav>
             </div>
-        </div> {{-- 2 --}}
-        <div></div> {{-- 3 --}}
-        <div></div> {{-- 4 --}}
-        <div> {{-- 5 - center --}}
-
-
-            <h1>Home page</h1>
-            <br>
 
             @isset(Auth::user()->id)
 

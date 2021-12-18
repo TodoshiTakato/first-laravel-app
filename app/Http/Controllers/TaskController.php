@@ -30,7 +30,7 @@ class TaskController extends Controller
 //        Debugbar::addMessage('Another message', 'mylabel');
 
 //        $tasks = Task::with('ratings', 'user')->get();
-        $tasks = Task::with('ratings', 'user')->paginate(10);
+        $tasks = Task::with('ratings', 'user')->orderBy("created_at", "asc")->paginate(10);
 //        $tasks = Task::with('ratings')->where('user_id', Auth::id())->paginate(5);
 //        $tasks = Task::where('user_id', Auth::id())->paginate(5);
         return view('tasks.tasks', compact('tasks', 'string_with_256_symbols'));

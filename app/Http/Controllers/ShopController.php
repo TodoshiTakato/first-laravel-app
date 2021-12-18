@@ -16,7 +16,6 @@ class ShopController extends Controller
 {
     public function get_order(Request $request) {
         if (Auth::check()) {
-            echo "<br>User is checked!<br>";
             $user = Auth::user();
         }
         else {
@@ -24,8 +23,8 @@ class ShopController extends Controller
                 'device',
                 Str::orderedUuid(),
                 525960,
-                route('shop.index'),
-                route('shop.index'),
+                '/shop/',
+                '127.0.0.1:8000',
                 true,
                 true,
                 'strict'
@@ -86,11 +85,60 @@ class ShopController extends Controller
     }
 
     public function add_to_cart(Request $request, Product $product) {
-        $order_item = $this->get_order_item($request, $product);
-        $order_item->quantity += 1;
-        $order_item->save();
-        return redirect()->back();
+//        $order_item = $this->get_order_item($request, $product);
+//        $order_item->quantity += 1;
+//        $order_item->save();
+//        return redirect()->back();
+        $prod_id = $request->input('product_id');
+        if(Cookie::get('shopping_cart')) {
+            $cookie_data = stripslashes(Cookie::get('shopping_cart'));
+            $cart_data = json_decode($cookie_data, true);
+        } else {
+            $cart_data = array();
+        }
+
+        $item_id_list = array_column($cart_data, 'item_id');
+        if(in_array($prod_id, $item_id_list)) {
+            foreach($cart_data as $keys => $values) {
+                if($cart_data[$keys]["item_id"] == $prod_id) {
+                    $cart_data[$keys]["item_quantity"] += 1;
+                    $item_data = json_encode($cart_data);
+                    $minutes = 525960;
+                    Cookie::queue(Cookie::make('shopping_cart', $item_data, $minutes));
+                    return response()->json([
+                        'status' => '"' . $cart_data[$keys]['item_name'] . '" Already Added to Cart',
+                        'status2' => '2',
+                        'item_quantity' => $cart_data[$keys]["item_quantity"],
+                    ]);
+                }
+            }
+        } else {
+            $product = Product::find($prod_id);
+            $prod_name = $product->name;
+//            $prod_image = $product->image;
+            $priceval = $product->price;
+
+            if($product) {
+                $item_array = array(
+                    'item_id' => intval($prod_id),
+                    'item_name' => $prod_name,
+                    'item_quantity' => 1,
+                    'item_price' => $priceval,
+//                    'item_image' => $prod_image
+                );
+                $cart_data[] = $item_array;
+
+                $item_data = json_encode($cart_data);
+                $minutes = 525960;
+                Cookie::queue(Cookie::make('shopping_cart', $item_data, $minutes));
+                return response()->json([
+                    'status'=> '"' . $prod_name. '" Added to Cart',
+                    'item_quantity' => 1,
+                ]);
+            }
+        }
     }
+
     public function subtract_one_from_cart(Request $request, Product $product) {
         $order_item = $this->get_order_item($request, $product);
         $qty = $order_item->quantity;
@@ -109,9 +157,27 @@ class ShopController extends Controller
         return redirect()->back();
     }
 
-    public function cart(Request $request) {
-        $order = $this->get_order($request);
-        return view('shop.cart', compact('order'));
+    public function cart() {
+//        $order = $this->get_order($request);
+//        return view('shop.cart', compact('order'));
+
+        $cookie_data = stripslashes(Cookie::get('shopping_cart'));
+        $cart_data = json_decode($cookie_data, true);
+        return view('frontend.cart')->with('cart_data',$cart_data);
+    }
+
+    public function load_cart_data() {
+        if(Cookie::get('shopping_cart')) {
+            $cookie_data = stripslashes(Cookie::get('shopping_cart'));
+            $cart_data = json_decode($cookie_data, true);
+            $totalcart = count($cart_data);
+
+            echo json_encode(array('totalcart' => $totalcart)); die;
+        }
+        else {
+            $totalcart = "0";
+            echo json_encode(array('totalcart' => $totalcart)); die;
+        }
     }
 
     public function about() {

@@ -25,7 +25,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'start_time' => $starts_at,
         'finish_time' => $ends_at,
         'time_spent' => $time_spent,
-        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
-        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
+//        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
+//        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
     ];
 });

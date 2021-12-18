@@ -12,7 +12,7 @@ $factory->define(Rating::class, function (Faker $faker) {
         'comment' => $faker->realTextBetween($minNbChars = 60, $maxNbChars = 80, $indexSize = 2),
         'user_id' => factory(App\User::class),
         'task_id' => factory(App\Task::class),
-        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
-        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
+//        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
+//        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
     ];
 });

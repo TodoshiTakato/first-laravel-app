@@ -43,6 +43,14 @@
                             <li data-filter=".dev">Flash Deals</li>
                             <li data-filter=".gra">Last Minute</li>
                             <li>Cart({{$order->order_items->count()}})</li>
+                            <li>
+                                <span class="clearfix">
+                                    Cart
+                                    <span class="basket-item-count">
+                                        <span class="badge badge-pill red"> (0) </span>
+                                    </span>
+                                </span>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -60,69 +68,77 @@
                                         <div class="down-content">
                                             <a href="#"><h4>{{$product->name}}</h4></a>
                                             <h6>{{$product->price}}</h6>
-                                            <p style="display: -webkit-box;
-                                                      max-width: 100%;
-                                                      height: 120px;
-                                                      -webkit-line-clamp: 5;
-                                                      -webkit-box-orient: vertical;
-                                                      overflow: hidden;">{{$product->description}}</p>
+                                            <p style="display: -webkit-box; max-width: 100%; height: 120px;
+                                                      overflow: hidden; -webkit-line-clamp: 5; -webkit-box-orient: vertical; ">
+                                                {{$product->description}}
+                                            </p>
+                                            <div class="buttons">
                                             @if ($order->order_items->where('product_id', $product->id)->count())
-                                                <div class="d-flex justify-content-between">
+                                                <div class="d-flex justify-content-between item">
                                                     <button class="btn btn-primary btn-vsm disabled">
-                                                        <i class="fas fa-shopping-cart fa-1x"></i> Уже в корзине({{$order->order_items->where('product_id', $product->id)->first()->quantity}})
+                                                        <i class="fas fa-shopping-cart fa-1x"></i>
+                                                        Уже в корзине(<span id="qty">{{$order->order_items->where('product_id', $product->id)->first()->quantity}}</span>)
                                                     </button>
-                                                    <form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">
-                                                        @csrf()
-                                                        @method('POST')
-                                                        <button class="btn btn-success btn-vsm">
+                                                    {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
+                                                    {{--    @csrf()--}}
+                                                    {{--    @method('POST')--}}
+                                                    {{--    <button class="btn btn-success btn-vsm">--}}
+                                                    {{--        <i class="fas fa-plus-square"></i>--}}
+                                                    {{--    </button>--}}
+                                                    {{--</form>--}}
+                                                    <div id="product_data">
+                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                        {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                        <button id="add_another_one_btn" class="btn btn-success btn-vsm">
                                                             <i class="fas fa-plus-square"></i>
                                                         </button>
-                                                    </form>
-                                                    <form action="{{route('shop.subtract_one_from_cart', $product->id)}}" method="POST">
-                                                        @csrf()
-                                                        @method('PUT')
-                                                        <button class="btn btn-danger btn-vsm">
+                                                    </div>
+                                                    {{--<form action="{{route('shop.subtract_one_from_cart', $product->id)}}" method="POST">--}}
+                                                    {{--    @csrf()--}}
+                                                    {{--    @method('PUT')--}}
+                                                    {{--    <button class="btn btn-danger btn-vsm">--}}
+                                                    {{--        <i class="fas fa-minus-square"></i>--}}
+                                                    {{--    </button>--}}
+                                                    {{--</form>--}}
+                                                    <div id="product_data">
+                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                        {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                        <button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">
                                                             <i class="fas fa-minus-square"></i>
                                                         </button>
-                                                    </form>
-{{--                                                    <div id="product_data">--}}
-{{--                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->--}}
-{{--                                                        <input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-{{--                                                        <button id="add-another-one-btn" class="btn btn-success btn-vsm">--}}
-{{--                                                            <i class="fas fa-plus"></i>--}}
-{{--                                                        </button>--}}
-{{--                                                    </div>--}}
-                                                    <form action="{{route('shop.remove_from_cart', $product->id)}}" method="POST">
-                                                        @csrf()
-                                                        @method('DELETE')
-                                                        <button class="btn btn-danger btn-vsm">
-                                                            <i class="fas fa-shopping-cart fa-1x"></i> Удалить
+                                                    </div>
+                                                    {{--<form action="{{route('shop.remove_from_cart', $product->id)}}" method="POST">--}}
+                                                    {{--    @csrf()--}}
+                                                    {{--    @method('DELETE')--}}
+                                                    {{--    <button class="btn btn-danger btn-vsm">--}}
+                                                    {{--        <i class="fas fa-shopping-cart fa-1x"></i> Удалить--}}
+                                                    {{--    </button>--}}
+                                                    {{--</form>--}}
+                                                    <div id="product_data">
+                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                        {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                        <button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">
+                                                            <i class="fas fa-shopping-cart fa-1x"></i>
                                                         </button>
-                                                    </form>
-{{--                                                    <div id="product_data">--}}
-{{--                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->--}}
-{{--                                                        <input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-{{--                                                        <button id="remove-from-cart-btn" class="btn btn-danger btn-vsm">--}}
-{{--                                                            <i class="fas fa-shopping-cart fa-1x"></i> Удалить--}}
-{{--                                                        </button>--}}
-{{--                                                    </div>--}}
+                                                    </div>
                                                 </div>
                                             @else
-                                                <form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">
-                                                    @csrf()
-                                                    @method('POST')
-                                                    <button class="btn btn-success">
+                                                {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
+                                                {{--    @csrf()--}}
+                                                {{--    @method('POST')--}}
+                                                {{--    <button class="btn btn-success">--}}
+                                                {{--        <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину--}}
+                                                {{--    </button>--}}
+                                                {{--</form>--}}
+                                                <div id="product_data">
+                                                    <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                    {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                    <button id="add_to_cart_btn" class="btn btn-success">
                                                         <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину
                                                     </button>
-                                                </form>
-{{--                                                <div id="product_data">--}}
-{{--                                                    <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->--}}
-{{--                                                    <input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-{{--                                                    <button id="add-to-cart-btn" class="btn btn-success">--}}
-{{--                                                        <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину--}}
-{{--                                                    </button>--}}
-{{--                                                </div>--}}
-                                                @endif
+                                                </div>
+                                            @endif
+                                            </div>
                                                 <ul class="stars">
                                                     <li><i class="fa fa-star"></i></li>
                                                     <li><i class="fa fa-star"></i></li>
