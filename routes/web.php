@@ -40,6 +40,7 @@ Route::post('/shop/products/{product}',      'ShopController@add_to_cart')->name
 Route::put('/shop/products/{product}',      'ShopController@subtract_one_from_cart')->name('shop.subtract_one_from_cart');  // .
 Route::delete('/shop/products/{product}',      'ShopController@remove_from_cart')->name('shop.remove_from_cart');  // .
 Route::get('/shop/cart',      'ShopController@cart')->name('shop.cart');  // .
+Route::get('/shop/clear-cart',      'ShopController@clear_cart')->name('shop.clear_cart');  // .
 Route::get('/shop/load-cart-data',      'ShopController@load_cart_data')->name('shop.load_cart_data');  // .
 Route::get('/shop/contact',      'ShopController@contact')->name('shop.contact');  // Verify the user data.
 Route::get('/shop/about',      'ShopController@about')->name('shop.about');  // Verify the user data.

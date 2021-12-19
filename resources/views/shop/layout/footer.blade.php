@@ -78,9 +78,10 @@
     $(document).ready(function () {
         cartload();
 
-        $('#add_to_cart_btn').click(
-            function (e) {
-                e.preventDefault();
+        // $('#add_to_cart_btn').click(
+        //     function (e) {
+        $(document).on('click', '#add_to_cart_btn', function(event) {
+                event.preventDefault();
                 $.ajaxSetup(
                     {
                         headers: {
@@ -96,42 +97,39 @@
                     {
                         url: "/shop/products/"+product_id,
                         method: "POST",
-                        data: {
-                            'product_id': product_id,
-                        },
+
                         success: function (response) {
                             cartload();
                             let value = response; //Single Data Viewing
 
                             let buttons = add_to_cart_btn.closest('.buttons');
-                            console.log(buttons);
                             // let buttons_content = buttons.val();
                             buttons.html('');
                             buttons.append(
                                 $(
                                     '<div class="d-flex justify-content-between item">' +
-                                    '<button class="btn btn-primary btn-vsm disabled"> ' +
-                                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                                    'Уже в корзине(<span id="qty">' + value['item_quantity'] + ' штук</span>)' +
-                                    '</button>' +
-                                    '<div id="product_data">' +
-                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                    '<button id="add_to_cart_btn" class="btn btn-success btn-vsm">' +
-                                    '<i class="fas fa-plus-square"></i>' +
-                                    '</button>' +
-                                    '</div>' +
-                                    '<div id="product_data">' +
-                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                    '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                                    '<i class="fas fa-minus-square"></i>' +
-                                    '</button>' +
-                                    '</div>' +
-                                    '<div id="product_data">' +
-                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                    '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                                    '</button>' +
-                                    '</div>' +
+                                        '<button class="btn btn-primary btn-vsm disabled"> ' +
+                                            '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                            'Уже в корзине(<div id="qty" class="d-inline">' + value['item_quantity'] + ' штук</div>)' +
+                                        '</button>' +
+                                        '<div id="product_data">' +
+                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                            '<button id="add_another_one_btn" class="btn btn-success btn-vsm">' +
+                                                '<i class="fas fa-plus-square"></i>' +
+                                            '</button>' +
+                                        '</div>' +
+                                        '<div id="product_data">' +
+                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                            '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                                '<i class="fas fa-minus-square"></i>' +
+                                            '</button>' +
+                                        '</div>' +
+                                        '<div id="product_data">' +
+                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                            '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                                '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                            '</button>' +
+                                        '</div>' +
                                     '</div>'
                                 )
                             );
@@ -141,9 +139,10 @@
 
             }
         );
-        $('#remove_from_cart_btn').click(
-            function (e) {
-                e.preventDefault();
+        // $('#remove_from_cart_btn').click(
+        //     function (event) {
+        $(document).on('click', '#remove_from_cart_btn', function(event) {
+                event.preventDefault();
                 $.ajaxSetup(
                     {
                         headers: {
@@ -157,31 +156,30 @@
                     {
                         url: "/shop/products/"+product_id,
                         method: "DELETE",
-                        data: {
-                            'product_id': product_id,
-                        },
+
                         success: function (response) {
                             cartload();
+
                             let buttons = remove_from_cart_btn.closest('.buttons');
                             buttons.html('');
                             buttons.append(
                                 $('<div id="product_data">' +
-                                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                    '<button id="add_to_cart_btn" class="btn btn-success">' +
-                                        '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
-                                    '</button>' +
-                                '</div>'
+                                      '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                      '<button id="add_to_cart_btn" class="btn btn-success">' +
+                                          '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
+                                      '</button>' +
+                                  '</div>'
                                 )
                             );
                         },
                     }
                 );
-                cartload();
             }
         );
-        $('#add_another_one_btn').click(
-            function (e) {
-                e.preventDefault();
+        // $('#add_another_one_btn').click(
+        //     function (event) {
+        $(document).on('click', '#add_another_one_btn', function(event) {
+                event.preventDefault();
                 $.ajaxSetup(
                     {
                         headers: {
@@ -195,25 +193,24 @@
                     {
                         url: "/shop/products/"+product_id,
                         method: "POST",
-                        data: {
-                            'product_id': product_id,
-                        },
+
                         success: function (response) {
                             cartload();
                             // let value = jQuery.parseJSON(response); //Single Data Viewing
                             let value = response; //Single Data Viewing
-                            let item_qty = add_another_one_btn.closest('#item').find('#qty');
-                            item_qty.html('');
-                            item_qty.append($(value['item_quantity']));
+
+                            let item_qty = add_another_one_btn.closest('.item').find('#qty');
+                            item_qty.html(value['item_quantity']+' штук');
                         },
                     }
                 );
-                cartload();
             }
         );
-        $('#subtract_one_from_cart_btn').click(
-            function (e) {
-                e.preventDefault();
+
+        // $('#subtract_one_from_cart_btn').click(
+        //     function (event) {
+        $(document).on('click', '#subtract_one_from_cart_btn', function(event) {
+                event.preventDefault();
                 $.ajaxSetup(
                     {
                         headers: {
@@ -227,21 +224,48 @@
                     {
                         url: "/shop/products/"+product_id,
                         method: "PUT",
-                        data: {
-                            'product_id': product_id,
-                        },
+
                         success: function (response) {
                             cartload();
+                            // let value = jQuery.parseJSON(response); //Single Data Viewing
                             let value = response; //Single Data Viewing
-                            let item_qty = subtract_one_from_cart_btn.closest('#item').find('#qty');
-                            item_qty.html('');
-                            item_qty.append($(value['item_quantity']));
+
+                            let buttons = subtract_one_from_cart_btn.closest('.buttons');
+                            let item_qty = subtract_one_from_cart_btn.closest('.item').find('#qty');
+                            if(value['delete']) {
+                                buttons.html('');
+                                buttons.append(
+                                    $(
+                                        '<div id="product_data">' +
+                                        '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                        '<button id="add_to_cart_btn" class="btn btn-success">' +
+                                        '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
+                                        '</button>' +
+                                        '</div>'
+                                    )
+                                );
+                            }
+                            else {
+                                item_qty.html(value['item_quantity']+' штук');
+                            }
                         },
                     }
                 );
-                cartload();
             }
         );
+
+        // $('.clear_cart').click(function (e) {
+        //     e.preventDefault();
+        $(document).on('click', '.clear_cart', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: '{{route("shop.clear_cart")}}',
+                type: 'GET',
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        });
 
         function cartload()
         {
@@ -261,7 +285,7 @@
                         let counter = $('.basket-item-count');
                         counter.html('');
                         var value = jQuery.parseJSON(response); //Single Data Viewing
-                        counter.append($('<span class="badge badge-pill red">('+ value['totalcart'] +')</span>'));
+                        counter.append($('<span class="badge badge-pill badge-danger">('+ value['totalcart'] +')</span>'));
                     }
                 }
             );

@@ -42,14 +42,13 @@
                             <li data-filter=".des">Featured</li>
                             <li data-filter=".dev">Flash Deals</li>
                             <li data-filter=".gra">Last Minute</li>
-                            <li>Cart({{$order->order_items->count()}})</li>
+{{--                            <li>Cart({{$order->order_items->count()}})</li>--}}
                             <li>
-                                <span class="clearfix">
-                                    Cart
-                                    <span class="basket-item-count">
-                                        <span class="badge badge-pill red"> (0) </span>
-                                    </span>
+                                <a href="{{route('shop.cart')}}">Cart</a>
+                                <span class="basket-item-count">
+                                    <span class="badge badge-pill badge-danger"> (0) </span>
                                 </span>
+
                             </li>
                         </ul>
                     </div>
@@ -67,7 +66,7 @@
                                         </a>
                                         <div class="down-content">
                                             <a href="#"><h4>{{$product->name}}</h4></a>
-                                            <h6>{{$product->price}}</h6>
+                                            <h6>{{number_format($product->price, 2, ",", " ").' UZS'}}</h6>
                                             <p style="display: -webkit-box; max-width: 100%; height: 120px;
                                                       overflow: hidden; -webkit-line-clamp: 5; -webkit-box-orient: vertical; ">
                                                 {{$product->description}}
@@ -77,7 +76,7 @@
                                                 <div class="d-flex justify-content-between item">
                                                     <button class="btn btn-primary btn-vsm disabled">
                                                         <i class="fas fa-shopping-cart fa-1x"></i>
-                                                        Уже в корзине(<span id="qty">{{$order->order_items->where('product_id', $product->id)->first()->quantity}}</span>)
+                                                        Уже в корзине(<div id="qty" class="d-inline">{{$order->order_items->where('product_id', $product->id)->first()->quantity}}</div>)
                                                     </button>
                                                     {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
                                                     {{--    @csrf()--}}
