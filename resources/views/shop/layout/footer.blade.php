@@ -26,6 +26,8 @@
 <script src="{{ asset('assets/js/isotope.js')}}"></script>
 <script src="{{ asset('assets/js/accordions.js')}}"></script>
 
+<script src="{{ asset('assets/js/alertify.min.js')}}"></script>
+
 
 <script language = "text/javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
@@ -36,50 +38,10 @@
             t.style.color='#fff';
         }
     }
-</script>
-
-{{--<script type="text/javascript">--}}
-{{--    function getCookie(name) {--}}
-{{--        var cookieValue = null;--}}
-{{--        if (document.cookie && document.cookie !== '') {--}}
-{{--            var cookies = document.cookie.split(';');--}}
-{{--            for (var i = 0; i < cookies.length; i++) {--}}
-{{--                var cookie = cookies[i].trim();--}}
-{{--                // Does this cookie string begin with the name we want?--}}
-{{--                if (cookie.substring(0, name.length + 1) === (name + '=')) {--}}
-{{--                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));--}}
-{{--                    break;--}}
-{{--                }--}}
-{{--            }--}}
-{{--        }--}}
-{{--        return cookieValue;--}}
-{{--    }--}}
-
-{{--    function uuidv4() {--}}
-{{--        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {--}}
-{{--            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);--}}
-{{--            return v.toString(16);--}}
-{{--        });--}}
-{{--    }--}}
-
-{{--    let device = getCookie('device');--}}
-{{--    if (device == null || device == undefined){--}}
-{{--        device = uuidv4();--}}
-{{--    }--}}
-
-{{--    let today = new Date();--}}
-{{--    today.setFullYear(today.getFullYear()+1);--}}
-{{--    document.cookie ='device=' + device + ";domain=;path=/;max-age=31536000;expires=today.toUTCString();samesite=strict"--}}
-{{--    // Cookie.set('name', value);--}}
-{{--</script>--}}
-
-<script type="text/javascript">
 
     $(document).ready(function () {
         cartload();
 
-        // $('#add_to_cart_btn').click(
-        //     function (e) {
         $(document).on('click', '#add_to_cart_btn', function(event) {
                 event.preventDefault();
                 $.ajaxSetup(
@@ -92,7 +54,7 @@
 
                 let add_to_cart_btn = $(this);
                 let product_id = add_to_cart_btn.closest('#product_data').find('#product_id').val();
-                // var quantity = $(this).closest('#product_data').find('#qty-input').val();
+
                 $.ajax(
                     {
                         url: "/shop/products/"+product_id,
@@ -101,6 +63,9 @@
                         success: function (response) {
                             cartload();
                             let value = response; //Single Data Viewing
+
+                            alertify.set('notifier','position','top-right');
+                            alertify.success(response.status);
 
                             let buttons = add_to_cart_btn.closest('.buttons');
                             // let buttons_content = buttons.val();
@@ -139,8 +104,7 @@
 
             }
         );
-        // $('#remove_from_cart_btn').click(
-        //     function (event) {
+
         $(document).on('click', '#remove_from_cart_btn', function(event) {
                 event.preventDefault();
                 $.ajaxSetup(
@@ -160,6 +124,9 @@
                         success: function (response) {
                             cartload();
 
+                            alertify.set('notifier','position','top-right');
+                            alertify.success(response.status);
+
                             let buttons = remove_from_cart_btn.closest('.buttons');
                             buttons.html('');
                             buttons.append(
@@ -176,8 +143,7 @@
                 );
             }
         );
-        // $('#add_another_one_btn').click(
-        //     function (event) {
+
         $(document).on('click', '#add_another_one_btn', function(event) {
                 event.preventDefault();
                 $.ajaxSetup(
@@ -196,6 +162,10 @@
 
                         success: function (response) {
                             cartload();
+
+                            alertify.set('notifier','position','top-right');
+                            alertify.success(response.status);
+
                             // let value = jQuery.parseJSON(response); //Single Data Viewing
                             let value = response; //Single Data Viewing
 
@@ -207,8 +177,6 @@
             }
         );
 
-        // $('#subtract_one_from_cart_btn').click(
-        //     function (event) {
         $(document).on('click', '#subtract_one_from_cart_btn', function(event) {
                 event.preventDefault();
                 $.ajaxSetup(
@@ -227,6 +195,10 @@
 
                         success: function (response) {
                             cartload();
+
+                            alertify.set('notifier','position','top-right');
+                            alertify.success(response.status);
+
                             // let value = jQuery.parseJSON(response); //Single Data Viewing
                             let value = response; //Single Data Viewing
 
@@ -254,8 +226,6 @@
             }
         );
 
-        // $('.clear_cart').click(function (e) {
-        //     e.preventDefault();
         $(document).on('click', '.clear_cart', function(event) {
             event.preventDefault();
             $.ajax({

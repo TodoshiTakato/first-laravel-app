@@ -48,7 +48,6 @@
                                 <span class="basket-item-count">
                                     <span class="badge badge-pill badge-danger"> (0) </span>
                                 </span>
-
                             </li>
                         </ul>
                     </div>
@@ -72,12 +71,25 @@
                                                 {{$product->description}}
                                             </p>
                                             <div class="buttons">
-                                            @if ($order->order_items->where('product_id', $product->id)->count())
+                                            {{--  @if ($order->order_items->where('product_id', $product->id)->count())--}}
+                                            @if (isset($prod_id_list) && in_array($product->id, $prod_id_list))
                                                 <div class="d-flex justify-content-between item">
                                                     <button class="btn btn-primary btn-vsm disabled">
                                                         <i class="fas fa-shopping-cart fa-1x"></i>
-                                                        Уже в корзине(<div id="qty" class="d-inline">{{$order->order_items->where('product_id', $product->id)->first()->quantity}}</div>)
-                                                    </button>
+                                                        Уже в корзине(
+                                                            <div id="qty" class="d-inline">
+                                                                {{$cart_data[$product->id]["item_quantity"]}} штук
+                                                            </div>
+                                                        }
+                                                        </button>
+{{--                                                    <button class="btn btn-primary btn-vsm disabled">--}}
+{{--                                                        <i class="fas fa-shopping-cart fa-1x"></i>--}}
+{{--                                                        Уже в корзине(--}}
+{{--                                                        <div id="qty" class="d-inline">--}}
+{{--                                                            {{$order->order_items->where('product_id', $product->id)->first()->quantity}}--}}
+{{--                                                        </div>--}}
+{{--                                                        )--}}
+{{--                                                    </button>--}}
                                                     {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
                                                     {{--    @csrf()--}}
                                                     {{--    @method('POST')--}}

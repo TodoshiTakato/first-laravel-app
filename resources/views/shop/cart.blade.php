@@ -5,9 +5,7 @@
         <a class="nav-link" href="{{route('shop.index')}}">Home</a>
     </li>
     <li class="nav-item active">
-        <div class="nav-link" href="{{route('shop.products')}}">Our Products
-            <span class="sr-only sr">(current)</span>
-        </div>
+        <a class="nav-link" href="{{route('shop.products')}}">Our Products</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{{route('shop.about')}}">About Us</a>
@@ -35,7 +33,6 @@
                 <div class="col-md-12">
                     @if(isset($cart_data))
                         @if(Cookie::get('shopping_cart'))
-                            @php $total="0" @endphp
                             <div class="shopping-cart">
                                 <div class="shopping-cart-table">
                                     <div class="table-responsive">
@@ -78,7 +75,6 @@
                                                     <td style="font-size: 20px;">
                                                         <button type="button" class="delete_cart_data"><li class="fa fa-trash-o"></li> Delete</button>
                                                     </td>
-                                                    @php $total = $total + ($data["item_quantity"] * $data["item_price"]) @endphp
                                                 </tr>
                                             @endforeach
                                             </tbody>
@@ -101,7 +97,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <h6 class="cart-subtotal-price">
-                                                        <span class="cart-grand-price-viewajax">{{ number_format($total, 2, ",", " ").' UZS' }}</span>
+                                                        <span class="cart-grand-price-viewajax">{{ number_format($data['item_price'], 2, ",", " ").' UZS' }}</span>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -112,7 +108,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <h6 class="cart-grand-price">
-                                                        <span class="cart-grand-price-viewajax">{{ number_format($total, 2, ",", " ").' UZS' }}</span>
+                                                        <span class="cart-grand-price-viewajax">{{ number_format($data['item_price'], 2, ",", " ").' UZS' }}</span>
                                                     </h6>
                                                 </div>
                                             </div>
@@ -123,7 +119,7 @@
                                                         @if (Auth::user())
                                                             <a href="#" class="btn btn-success btn-block checkout-btn">PROCCED TO CHECKOUT</a>
                                                         @else
-                                                            <a href="{{ route('login')->session()->put('url.intended', url('/intended-url')) }}" class="btn btn-success btn-block checkout-btn">PROCCED TO CHECKOUT</a>
+                                                            <a href="{{ route('login') }}" class="btn btn-success btn-block checkout-btn">PROCCED TO CHECKOUT</a>
                                                             {{-- you add a pop modal for making a login --}}
                                                         @endif
                                                         <h6 class="mt-3">Checkout with Fabcart</h6>

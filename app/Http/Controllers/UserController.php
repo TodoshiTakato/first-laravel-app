@@ -38,6 +38,9 @@ class UserController extends Controller
 
         if (Auth::attempt($userData, $user_remember)) {
             // Authentication passed...
+            if (session('url.intended')) {
+                return redirect(session('url.intended'));
+            }
             return redirect()->route('home');
         }
         else {
