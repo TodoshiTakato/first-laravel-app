@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use phpDocumentor\Reflection\Types\Integer;
 
 
 class ShopController extends Controller
@@ -121,16 +120,16 @@ class ShopController extends Controller
         $prod_id_list = array_keys($cart_data);
         if(in_array($prod_id, $prod_id_list)) {
             foreach($cart_data as $key => $value) {
-                    $cart_data[$prod_id]["item_quantity"] += 1;
-                    $old_priceval = floatval($cart_data[$prod_id]["item_price"]);
-                    $cart_data[$prod_id]["item_price"] = floatval($old_priceval + $priceval);
-                    $item_data = json_encode($cart_data);
-                    $minutes = 525960;
-                    Cookie::queue(Cookie::make('shopping_cart', $item_data, $minutes));
-                    return response()->json([
-                        'status' => '"' . $cart_data[$prod_id]['item_name'] . '" Already Added to Cart + Quantity was Updated',
-                        'item_quantity' => $cart_data[$prod_id]["item_quantity"],
-                    ]);
+                $cart_data[$prod_id]["item_quantity"] += 1;
+                $old_priceval = floatval($cart_data[$prod_id]["item_price"]);
+                $cart_data[$prod_id]["item_price"] = floatval($old_priceval + $priceval);
+                $item_data = json_encode($cart_data);
+                $minutes = 525960;
+                Cookie::queue(Cookie::make('shopping_cart', $item_data, $minutes));
+                return response()->json([
+                    'status' => '"' . $cart_data[$prod_id]['item_name'] . '" Already Added to Cart + Quantity was Updated',
+                    'item_quantity' => $cart_data[$prod_id]["item_quantity"],
+                ]);
             }
         }
         else {
@@ -257,12 +256,11 @@ class ShopController extends Controller
             $cookie_data = stripslashes(Cookie::get('shopping_cart'));
             $cart_data = json_decode($cookie_data, true);
             $totalcart = count($cart_data);
-
-            echo json_encode(array('totalcart' => $totalcart)); die;
+            return response()->json(array('totalcart' => $totalcart));
         }
         else {
             $totalcart = "0";
-            echo json_encode(array('totalcart' => $totalcart)); die;
+            return response()->json(array('totalcart' => $totalcart));
         }
     }
 

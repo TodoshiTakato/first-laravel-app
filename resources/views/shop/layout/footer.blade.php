@@ -29,7 +29,7 @@
 <script src="{{ asset('assets/js/alertify.min.js')}}"></script>
 
 
-<script language = "text/javascript">
+<script language="text/javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
     function clearField(t){                   //declaring the array outside of the
         if(! cleared[t.id]){                      // function makes it static and global
@@ -38,6 +38,9 @@
             t.style.color='#fff';
         }
     }
+</script>
+
+<script type="text/javascript">
 
     $(document).ready(function () {
         $(document).on('click', '#add_to_cart_btn', function(event) {
