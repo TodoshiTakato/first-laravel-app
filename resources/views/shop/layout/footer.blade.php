@@ -40,194 +40,135 @@
     }
 
     $(document).ready(function () {
-        cartload();
-
         $(document).on('click', '#add_to_cart_btn', function(event) {
-                event.preventDefault();
-                $.ajaxSetup(
-                    {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    }
-                );
+            event.preventDefault();
+            let add_to_cart_btn = $(this);
+            let product_id = add_to_cart_btn.closest('#product_data').find('#product_id').val();
+            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajax({
+                url: "/shop/products/"+product_id,
+                method: "POST",
+                success: function (response) {
+                    let value = response; //Single Data Viewing
+                    let buttons = add_to_cart_btn.closest('.buttons');
+                    buttons.html('');
+                    buttons.append($(
+                        '<div class="d-flex justify-content-between item">' +
+                            '<button class="btn btn-primary btn-vsm disabled"> ' +
+                                '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                'Уже в корзине(<div id="qty" class="d-inline">' + value['item_quantity'] + ' штук</div>)' +
+                            '</button>' +
+                            '<div id="product_data">' +
+                                '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                '<button id="add_another_one_btn" class="btn btn-success btn-vsm">' +
+                                    '<i class="fas fa-plus-square"></i>' +
+                                '</button>' +
+                            '</div>' +
+                            '<div id="product_data">' +
+                                '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                    '<i class="fas fa-minus-square"></i>' +
+                                '</button>' +
+                            '</div>' +
+                            '<div id="product_data">' +
+                                '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                                '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                                '</button>' +
+                            '</div>' +
+                        '</div>'
+                    ));
 
-                let add_to_cart_btn = $(this);
-                let product_id = add_to_cart_btn.closest('#product_data').find('#product_id').val();
-
-                $.ajax(
-                    {
-                        url: "/shop/products/"+product_id,
-                        method: "POST",
-
-                        success: function (response) {
-                            cartload();
-                            let value = response; //Single Data Viewing
-
-                            alertify.set('notifier','position','top-right');
-                            alertify.success(response.status);
-
-                            let buttons = add_to_cart_btn.closest('.buttons');
-                            // let buttons_content = buttons.val();
-                            buttons.html('');
-                            buttons.append(
-                                $(
-                                    '<div class="d-flex justify-content-between item">' +
-                                        '<button class="btn btn-primary btn-vsm disabled"> ' +
-                                            '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                                            'Уже в корзине(<div id="qty" class="d-inline">' + value['item_quantity'] + ' штук</div>)' +
-                                        '</button>' +
-                                        '<div id="product_data">' +
-                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                            '<button id="add_another_one_btn" class="btn btn-success btn-vsm">' +
-                                                '<i class="fas fa-plus-square"></i>' +
-                                            '</button>' +
-                                        '</div>' +
-                                        '<div id="product_data">' +
-                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                            '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                                                '<i class="fas fa-minus-square"></i>' +
-                                            '</button>' +
-                                        '</div>' +
-                                        '<div id="product_data">' +
-                                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                            '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                                                '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                                            '</button>' +
-                                        '</div>' +
-                                    '</div>'
-                                )
-                            );
-                        },
-                    }
-                );
-
-            }
-        );
+                    cartload();
+                    alertify.set('notifier','position','top-right');
+                    alertify.success(response.status);
+                },
+            });
+        });
 
         $(document).on('click', '#remove_from_cart_btn', function(event) {
-                event.preventDefault();
-                $.ajaxSetup(
-                    {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    }
-                );
-                let remove_from_cart_btn = $(this);
-                let product_id = $(this).closest('#product_data').find('#product_id').val();
-                $.ajax(
-                    {
-                        url: "/shop/products/"+product_id,
-                        method: "DELETE",
+            event.preventDefault();
+            let remove_from_cart_btn = $(this);
+            let product_id = $(this).closest('#product_data').find('#product_id').val();
+            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajax({
+                url: "/shop/products/"+product_id,
+                method: "DELETE",
+                success: function (response) {
+                    let buttons = remove_from_cart_btn.closest('.buttons');
+                    buttons.html('');
+                    buttons.append($(
+                        '<div id="product_data">' +
+                        '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                        '<button id="add_to_cart_btn" class="btn btn-success">' +
+                        '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
+                        '</button>' +
+                        '</div>'
+                    ));
 
-                        success: function (response) {
-                            cartload();
-
-                            alertify.set('notifier','position','top-right');
-                            alertify.success(response.status);
-
-                            let buttons = remove_from_cart_btn.closest('.buttons');
-                            buttons.html('');
-                            buttons.append(
-                                $('<div id="product_data">' +
-                                      '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                      '<button id="add_to_cart_btn" class="btn btn-success">' +
-                                          '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
-                                      '</button>' +
-                                  '</div>'
-                                )
-                            );
-                        },
-                    }
-                );
-            }
-        );
+                    cartload();
+                    alertify.set('notifier','position','top-right');
+                    alertify.success(response.status);
+                },
+            });
+        });
 
         $(document).on('click', '#add_another_one_btn', function(event) {
-                event.preventDefault();
-                $.ajaxSetup(
-                    {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    }
-                );
-                let add_another_one_btn = $(this);
-                let product_id = $(this).closest('#product_data').find('#product_id').val();
-                $.ajax(
-                    {
-                        url: "/shop/products/"+product_id,
-                        method: "POST",
+            event.preventDefault();
+            let add_another_one_btn = $(this);
+            let product_id = $(this).closest('#product_data').find('#product_id').val();
+            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajax({
+                url: "/shop/products/"+product_id,
+                method: "POST",
+                success: function (response) {
+                    let value = response; //Single Data Viewing
+                    let item_qty = add_another_one_btn.closest('.item').find('#qty');
+                    item_qty.html(value['item_quantity']+' штук');
 
-                        success: function (response) {
-                            cartload();
-
-                            alertify.set('notifier','position','top-right');
-                            alertify.success(response.status);
-
-                            // let value = jQuery.parseJSON(response); //Single Data Viewing
-                            let value = response; //Single Data Viewing
-
-                            let item_qty = add_another_one_btn.closest('.item').find('#qty');
-                            item_qty.html(value['item_quantity']+' штук');
-                        },
-                    }
-                );
-            }
-        );
+                    cartload();
+                    alertify.set('notifier','position','top-right');
+                    alertify.success(response.status);
+                }
+            });
+        });
 
         $(document).on('click', '#subtract_one_from_cart_btn', function(event) {
-                event.preventDefault();
-                $.ajaxSetup(
-                    {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
+            event.preventDefault();
+            let subtract_one_from_cart_btn = $(this);
+            let product_id = $(this).closest('#product_data').find('#product_id').val();
+            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajax({
+                url: "/shop/products/"+product_id,
+                method: "PUT",
+                success: function (response) {
+                    let buttons = subtract_one_from_cart_btn.closest('.buttons');
+                    let item_qty = subtract_one_from_cart_btn.closest('.item').find('#qty');
+                    if(response['delete']) {
+                        buttons.html('');
+                        buttons.append($(
+                            '<div id="product_data">' +
+                            '<input type="hidden" id="product_id" value="' + product_id +'">' +
+                            '<button id="add_to_cart_btn" class="btn btn-success">' +
+                            '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
+                            '</button>' +
+                            '</div>'
+                        ));
                     }
-                );
-                let subtract_one_from_cart_btn = $(this);
-                let product_id = $(this).closest('#product_data').find('#product_id').val();
-                $.ajax(
-                    {
-                        url: "/shop/products/"+product_id,
-                        method: "PUT",
-
-                        success: function (response) {
-                            cartload();
-
-                            alertify.set('notifier','position','top-right');
-                            alertify.success(response.status);
-
-                            // let value = jQuery.parseJSON(response); //Single Data Viewing
-                            let value = response; //Single Data Viewing
-
-                            let buttons = subtract_one_from_cart_btn.closest('.buttons');
-                            let item_qty = subtract_one_from_cart_btn.closest('.item').find('#qty');
-                            if(value['delete']) {
-                                buttons.html('');
-                                buttons.append(
-                                    $(
-                                        '<div id="product_data">' +
-                                        '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                                        '<button id="add_to_cart_btn" class="btn btn-success">' +
-                                        '<i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину' +
-                                        '</button>' +
-                                        '</div>'
-                                    )
-                                );
-                            }
-                            else {
-                                item_qty.html(value['item_quantity']+' штук');
-                            }
-                        },
+                    else {
+                        item_qty.html(response['item_quantity']+' штук');
                     }
-                );
-            }
-        );
+
+                    cartload();
+                    alertify.set('notifier','position','top-right');
+                    alertify.success(response.status);
+                }
+            });
+        });
 
         $(document).on('click', '.clear_cart', function(event) {
             event.preventDefault();
+            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
             $.ajax({
                 url: '{{route("shop.clear_cart")}}',
                 type: 'GET',
@@ -237,28 +178,18 @@
             });
         });
 
-        function cartload()
-        {
-            $.ajaxSetup(
-                {
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
+        function cartload() {
+            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajax({
+                url: "{{route('shop.load_cart_data')}}",
+                method: "GET",
+                success: function (response) {
+                    let counter = $('.basket-item-count');
+                    counter.html('');
+                    counter.append($('<span class="badge badge-pill badge-danger">('+ response['totalcart'] +')</span>'));
                 }
-            );
-
-            $.ajax(
-                {
-                    url: "{{route('shop.load_cart_data')}}",
-                    method: "GET",
-                    success: function (response) {
-                        let counter = $('.basket-item-count');
-                        counter.html('');
-                        var value = jQuery.parseJSON(response); //Single Data Viewing
-                        counter.append($('<span class="badge badge-pill badge-danger">('+ value['totalcart'] +')</span>'));
-                    }
-                }
-            );
+            });
         }
+        cartload();
     });
 </script>
