@@ -34,16 +34,34 @@ Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http'
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
 Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verify the user data.
 
-Route::get('/shop',      'ShopController@index')->name('shop.index');  // Verify the user data.
-Route::get('/shop/products',      'ShopController@products')->name('shop.products');  // Verify the user data.
-Route::post('/shop/products/{product}',      'ShopController@add_to_cart')->name('shop.add_to_cart');  // .
-Route::put('/shop/products/{product}',      'ShopController@subtract_one_from_cart')->name('shop.subtract_one_from_cart');  // .
-Route::delete('/shop/products/{product}',      'ShopController@remove_from_cart')->name('shop.remove_from_cart');  // .
-Route::get('/shop/cart',      'ShopController@cart')->name('shop.cart');  // .
-Route::get('/shop/clear-cart',      'ShopController@clear_cart')->name('shop.clear_cart');  // .
-Route::get('/shop/load-cart-data',      'ShopController@load_cart_data')->name('shop.load_cart_data');  // .
-Route::get('/shop/contact',      'ShopController@contact')->name('shop.contact');  // Verify the user data.
-Route::get('/shop/about',      'ShopController@about')->name('shop.about');  // Verify the user data.
+Route::group([              // Route Group Shop.
+    'prefix' => 'shop',
+    'as' => 'shop.',
+], function () {
+    Route::get('',      'ShopController@index')->name('index');  // Shop Home Index Page.
+    Route::get('/contact',      'ShopController@contact')->name('contact');  // Shop Contact Page.
+    Route::get('/about',      'ShopController@about')->name('about');  // Shop About Page.
+
+    Route::group([              // Route Group Shop Products.
+        'prefix' => 'products',
+        'as' => 'products',
+    ], function () {
+        Route::get('/',      'ShopController@products');  // Shop Products Page.
+        Route::post('/{product}',      'ShopController@addToCart')->name('.add_to_cart');  // Shop Product add_to_cart Action.
+        Route::put('/{product}',      'ShopController@subtractOneFromCart')->name('.subtract_one_from_cart');  // Shop Product subtract_one_from_cart Action.
+        Route::delete('/{product}',      'ShopController@removeFromCart')->name('.remove_from_cart');  // Shop Product remove_from_cart Action.
+    });
+
+    Route::group([              // Route Group Shop Cart.
+        'prefix' => 'cart',
+        'as' => 'cart',
+    ], function () {
+        Route::get('/', 'ShopController@cart');  // Shop Cart Page.
+        Route::put('/update/{product}', 'ShopController@cartUpdateQuantity')->name('.update_quantity');  // Shop Cart change_quantity Action.
+        Route::get('/load', 'ShopController@cartLoadData')->name('.load_cart_data');  // Shop Cart load_cart_data Action.
+        Route::get('/clear', 'ShopController@cartClear')->name('.clear_cart');  // Shop Cart clear_cart Action.
+    });
+});
 
 
 Route::middleware(['auth'])->group(function () {

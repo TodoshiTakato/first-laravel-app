@@ -15,18 +15,18 @@
 
 
 <!-- Bootstrap core JavaScript -->'
-<script src="{{ asset('vendor/jquery/jquery.min.js')}}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{ asset("vendor/jquery/jquery.min.js")}}"></script>
+<script src="{{ asset("vendor/bootstrap/js/bootstrap.bundle.min.js")}}"></script>
 
 
 <!-- Additional Scripts -->
-<script src="{{ asset('assets/js/custom.js')}}"></script>
-<script src="{{ asset('assets/js/owl.js')}}"></script>
-<script src="{{ asset('assets/js/slick.js')}}"></script>
-<script src="{{ asset('assets/js/isotope.js')}}"></script>
-<script src="{{ asset('assets/js/accordions.js')}}"></script>
+<script src="{{ asset("assets/js/custom.js")}}"></script>
+<script src="{{ asset("assets/js/owl.js")}}"></script>
+<script src="{{ asset("assets/js/slick.js")}}"></script>
+<script src="{{ asset("assets/js/isotope.js")}}"></script>
+<script src="{{ asset("assets/js/accordions.js")}}"></script>
 
-<script src="{{ asset('assets/js/alertify.min.js')}}"></script>
+<script src="{{ asset("assets/js/alertify.min.js")}}"></script>
 
 
 <script language="text/javascript">
@@ -34,8 +34,8 @@
     function clearField(t){                   //declaring the array outside of the
         if(! cleared[t.id]){                      // function makes it static and global
             cleared[t.id] = 1;  // you could use true and false, but that's more typing
-            t.value='';         // with more chance of typos
-            t.style.color='#fff';
+            t.value="";         // with more chance of typos
+            t.style.color="#fff";
         }
     }
 </script>
@@ -43,18 +43,18 @@
 <script type="text/javascript">
 
     $(document).ready(function () {
-        $(document).on('click', '#add_to_cart_btn', function(event) {
+        $(document).on("click", "#add_to_cart_btn", function(event) {
             event.preventDefault();
             let add_to_cart_btn = $(this);
-            let product_id = add_to_cart_btn.closest('#product_data').find('#product_id').val();
-            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            let product_id = add_to_cart_btn.closest("#product_data").find("#product_id").val();
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: "/shop/products/"+product_id,
+                url: "{{route('shop.products')}}/"+product_id,
                 method: "POST",
                 success: function (response) {
                     let value = response; //Single Data Viewing
-                    let buttons = add_to_cart_btn.closest('.buttons');
-                    buttons.html('');
+                    let buttons = add_to_cart_btn.closest(".buttons");
+                    buttons.html("");
                     buttons.append($(
                         '<div class="d-flex justify-content-between item">' +
                             '<button class="btn btn-primary btn-vsm disabled"> ' +
@@ -83,23 +83,23 @@
                     ));
 
                     cartload();
-                    alertify.set('notifier','position','top-right');
+                    alertify.set("notifier","position","top-right");
                     alertify.success(response.status);
                 },
             });
         });
 
-        $(document).on('click', '#remove_from_cart_btn', function(event) {
+        $(document).on("click", "#remove_from_cart_btn", function(event) {
             event.preventDefault();
             let remove_from_cart_btn = $(this);
-            let product_id = $(this).closest('#product_data').find('#product_id').val();
-            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            let product_id = $(this).closest('#product_data').find("#product_id").val();
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: "/shop/products/"+product_id,
+                url: "{{route('shop.products')}}/"+product_id,
                 method: "DELETE",
                 success: function (response) {
-                    let buttons = remove_from_cart_btn.closest('.buttons');
-                    buttons.html('');
+                    let buttons = remove_from_cart_btn.closest(".buttons");
+                    buttons.html("");
                     buttons.append($(
                         '<div id="product_data">' +
                         '<input type="hidden" id="product_id" value="' + product_id +'">' +
@@ -110,44 +110,44 @@
                     ));
 
                     cartload();
-                    alertify.set('notifier','position','top-right');
+                    alertify.set("notifier","position","top-right");
                     alertify.success(response.status);
                 },
             });
         });
 
-        $(document).on('click', '#add_another_one_btn', function(event) {
+        $(document).on("click", "#add_another_one_btn", function(event) {
             event.preventDefault();
             let add_another_one_btn = $(this);
-            let product_id = $(this).closest('#product_data').find('#product_id').val();
-            $.ajaxSetup( { headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            let product_id = $(this).closest("#product_data").find('#product_id').val();
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: "/shop/products/"+product_id,
+                url: "{{route('shop.products')}}/"+product_id,
                 method: "POST",
                 success: function (response) {
                     let value = response; //Single Data Viewing
                     let item_qty = add_another_one_btn.closest('.item').find('#qty');
-                    item_qty.html(value['item_quantity']+' штук');
+                    item_qty.html(value["item_quantity"]+" штук");
 
                     cartload();
-                    alertify.set('notifier','position','top-right');
+                    alertify.set("notifier","position","top-right");
                     alertify.success(response.status);
                 }
             });
         });
 
-        $(document).on('click', '#subtract_one_from_cart_btn', function(event) {
+        $(document).on("click", "#subtract_one_from_cart_btn", function(event) {
             event.preventDefault();
             let subtract_one_from_cart_btn = $(this);
-            let product_id = $(this).closest('#product_data').find('#product_id').val();
-            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            let product_id = $(this).closest("#product_data").find("#product_id").val();
+            $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: "/shop/products/"+product_id,
+                url: "{{route('shop.products')}}/"+product_id,
                 method: "PUT",
                 success: function (response) {
-                    let buttons = subtract_one_from_cart_btn.closest('.buttons');
-                    let item_qty = subtract_one_from_cart_btn.closest('.item').find('#qty');
-                    if(response['delete']) {
+                    let buttons = subtract_one_from_cart_btn.closest(".buttons");
+                    let item_qty = subtract_one_from_cart_btn.closest(".item").find("#qty");
+                    if(response["delete"]) {
                         buttons.html('');
                         buttons.append($(
                             '<div id="product_data">' +
@@ -159,37 +159,79 @@
                         ));
                     }
                     else {
-                        item_qty.html(response['item_quantity']+' штук');
+                        item_qty.html(response["item_quantity"]+" штук");
                     }
 
                     cartload();
-                    alertify.set('notifier','position','top-right');
+                    alertify.set("notifier","position","top-right");
                     alertify.success(response.status);
                 }
             });
         });
 
-        $(document).on('click', '.clear_cart', function(event) {
+        $(document).on("click", "#clear_cart", function(event) {
             event.preventDefault();
-            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+            $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: '{{route("shop.clear_cart")}}',
-                type: 'GET',
+                url: "{{route('shop.cart.clear_cart')}}",
+                type: "GET",
                 success: function (response) {
                     window.location.reload();
                 }
             });
         });
 
-        function cartload() {
-            $.ajaxSetup( { headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') } });
+        $(document).on("change", "#quantity", function(event) {
+            event.preventDefault();
+            let quantity = $(this).val();
+            let product_id = $(this).closest("#cart_item_row").find("#product_id").val();
+            let item_price = $(this).closest("#cart_item_row").find("#item_price");
+            let subtotal_price = $("#subtotal_price");
+            let grand_price = $("#grand_price");
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
-                url: "{{route('shop.load_cart_data')}}",
+                url: "{{route('shop.cart')}}/update/"+product_id,
+                type: "PUT",
+                data: { "quantity": quantity },
+                success: function (response) {
+                    item_price.html(response["item_price"]);
+                    subtotal_price.html(response["total"]);
+                    grand_price.html(response["total"]);
+                    alertify.set("notifier","position","top-right");
+                    alertify.success(response.status);
+                }
+            });
+        });
+
+        $(document).on("click", "#delete_from_cart_btn", function(event) {
+            event.preventDefault();
+            let cart_item_row = $(this).closest("#cart_item_row");
+            let product_id = cart_item_row.find("#product_id").val();
+            let subtotal_price = $("#subtotal_price");
+            let grand_price = $("#grand_price");
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
+            $.ajax({
+                url: "{{route('shop.products')}}/"+product_id,
+                type: "DELETE",
+                success: function (response) {
+                    cart_item_row.remove();
+                    subtotal_price.html(response["total"]);
+                    grand_price.html(response["total"]);
+                    alertify.set("notifier","position","top-right");
+                    alertify.success(response.status);
+                }
+            });
+        });
+
+        function cartload() {
+            $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
+            $.ajax({
+                url: "{{route('shop.cart.load_cart_data')}}",
                 method: "GET",
                 success: function (response) {
-                    let counter = $('.basket-item-count');
-                    counter.html('');
-                    counter.append($('<span class="badge badge-pill badge-danger">('+ response['totalcart'] +')</span>'));
+                    let counter = $(".basket-item-count");
+                    counter.html("");
+                    counter.append($('<span class="badge badge-pill badge-danger">('+ response["totalcart"] + ")</span>"));
                 }
             });
         }

@@ -43,7 +43,7 @@
                             <li data-filter=".dev">Flash Deals</li>
                             <li data-filter=".gra">Last Minute</li>
 {{--                            <li>Cart({{$order->order_items->count()}})</li>--}}
-                            <li>
+                            <li data-filter="*">
                                 <a href="{{route('shop.cart')}}">Cart</a>
                                 <span class="basket-item-count">
                                     <span class="badge badge-pill badge-danger"> (0) </span>
