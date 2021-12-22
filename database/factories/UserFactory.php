@@ -21,10 +21,11 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function (Faker $faker) {
     $faker->setDefaultTimezone('Asia/Tashkent');
     return [
-        'name' => $faker->name,
+        'first_name' => $faker->firstName,
+        'last_name' => $faker->lastName,
         'username' => $faker->unique()->userName,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
+//        'email_verified_at' => now(),
 //        'device' => null,
 //        'is_active' => default,
 //        'is_user' => default,

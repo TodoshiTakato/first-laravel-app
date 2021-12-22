@@ -1,20 +1,5 @@
 @extends('shop.layout.base')
 
-@section('navbar products')
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.index')}}">Home</a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{{route('shop.products')}}">Our Products</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.about')}}">About Us</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.contact')}}">Contact Us</a>
-    </li>
-@endsection
-
 @section('content')
 <div class="w-100-1 h-100-1">
     <section class="bg-success py-2">
@@ -118,7 +103,7 @@
                                                 PROCCED TO CHECKOUT
                                             </a>
                                         @else
-                                            <a href="{{ route("login") }}" class="btn btn-success btn-block checkout-btn">
+                                            <a href="{{ route("getLogin") }}" class="btn btn-success btn-block checkout-btn">
                                                 PROCCED TO CHECKOUT
                                             </a>
                                             {{-- you add a pop modal for making a login --}}

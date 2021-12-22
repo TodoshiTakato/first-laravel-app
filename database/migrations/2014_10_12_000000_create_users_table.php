@@ -18,11 +18,12 @@ class CreateUsersTable extends Migration
             $table->charset = 'utf8mb4';
             $table->collation = 'utf8mb4_unicode_ci';
             $table->id();
-            $table->string('name')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->string('username')->unique()->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('email_verification_code')->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('device', 36)->nullable();
             $table->unsignedTinyInteger('is_active')->default(1);
             $table->unsignedTinyInteger('is_user')->default(1);
             $table->unsignedTinyInteger('is_admin')->default(0);

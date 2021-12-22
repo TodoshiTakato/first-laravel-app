@@ -18,19 +18,19 @@
         <div></div> {{-- 4 --}}
         <div>
             <div class="d-block w-100-1 h-25">
-                @if (Route::has('login'))   <!-- Authentication -->
-                    <div class="d-flex justify-content-between">
-                        @auth
-                            <div><a href="{{ url('/home') }}">Home</a></div>
-                        @else
-                            <div><a href="{{ route('login') }}">Login</a></div>
+            @if (Route::has('getLogin'))   <!-- Authentication -->
+                <div class="d-flex justify-content-between">
+                    @auth
+                        <div><a href="{{ route('home') }}">Home</a></div>
+                    @else
+                        <div><a href="{{ route('getLogin') }}">Login</a></div>
 
-                            @if (Route::has('register'))
-                                <div><a href="{{ route('register') }}">Register</a></div>
-                            @endif
-                        @endauth
-                    </div>
-                @endif   <!-- Authentication -->
+                        @if (Route::has('getRegister'))
+                            <div><a href="{{ route('getRegister') }}">Register</a></div>
+                        @endif
+                    @endauth
+                </div>
+            @endif   <!-- Authentication -->
             </div>
             <div class="w-15"></div>
             <div class="w-85 flex-grow-1 align-items-center">
@@ -39,7 +39,7 @@
 
                 @include('auth.auth_errors')
 
-                <form action="{{route('register_verify')}}" method="POST" class="w-100-1">
+                <form action="{{route('postRegister')}}" method="POST" class="w-100-1">
                     @csrf
                     @method('POST')
                     <div class="form-group row align-items-stretch w-100-1">
@@ -48,7 +48,7 @@
                         </label>
                         <div class="col-5">
                             <input type="text" id="username" name="username" value="{{ old('username') }}" required
-                                   autofocus class="form-control @error('username') is-invalid @enderror">
+                                   autofocus class="form-control @error('username') is-invalid @enderror" placeholder="Username">
                             @error('username')
                                 <span class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -59,12 +59,27 @@
 
                     <div class="form-group row align-items-stretch w-100-1">
                         <label for="name" class="col-5 col-form-label text-md-right">
-                            {{ __('Name') }}
+                            {{ __('First name') }}
                         </label>
                         <div class="col-5">
-                            <input type="text" id="name" name="name" value="{{ old('name') }}" required
-                                   class="form-control @error('name') is-invalid @enderror">
-                            @error('name')
+                            <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" required
+                                   class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name">
+                            @error('first_name')
+                                <span class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row align-items-stretch w-100-1">
+                        <label for="name" class="col-5 col-form-label text-md-right">
+                            {{ __('Last name') }}
+                        </label>
+                        <div class="col-5">
+                            <input type="text" id="last_name" name="last_name" value="{{ old('last_name') }}" required
+                                   class="form-control @error('last_name') is-invalid @enderror" placeholder="Last Name">
+                            @error('last_name')
                                 <span class="invalid-feedback">
                                     <strong>{{$message}}</strong>
                                 </span>
@@ -78,7 +93,7 @@
                         </label>
                         <div class="col-5">
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                                   class="form-control @error('email') is-invalid @enderror">
+                                   class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail">
                             @error('email')
                                 <span class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -93,7 +108,7 @@
                         </label>
                         <div class="col-5">
                             <input type="password" id="password" name="password" value="{{ old('password') }}"
-                                   required autocomplete="new-password"
+                                   required autocomplete="new-password" placeholder="Password"
                                    class="form-control @error('password') is-invalid @enderror">
                             @error('password')
                                 <div class="invalid-feedback">
@@ -101,7 +116,6 @@
                                 </div>
                             @enderror
                         </div>
-
                     </div>
 
                     <div class="form-group row align-items-stretch w-100-1">
@@ -110,7 +124,7 @@
                         </label>
                         <div class="col-5">
                             <input type="password" id="password_confirmation" name="password_confirmation" required
-                                   value="{{ old('password_confirmation') }}" autocomplete="new-password"
+                                   value="{{ old('password_confirmation') }}" autocomplete="new-password"  placeholder="Confirm Password"
                                    class="form-control @error('password_confirmation') is-invalid @enderror">
                             @error('password_confirmation')
                                 <div class="invalid-feedback">
@@ -119,6 +133,30 @@
                             @enderror
                         </div>
                     </div>
+
+                    <div class="form-group row align-items-stretch w-100-1">
+                        <div class="col-5 text-right">
+                            <input type="checkbox" name="terms" id="terms"
+                                   {{ (old('terms')) ? 'checked' : '' }} class="form-check-input">
+                            @error('terms')
+                            <div class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                            @enderror
+                        </div>
+                        <div class="col-5">
+                            <label class="form-check-label" for="terms">
+                                Check our <a href="#">terms</a> and <a href="#">conditions</a>
+                            </label>
+                        </div>
+                    </div>
+
+                    <form action="?" method="POST">
+                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+                        <br/>
+                        <input type="submit" value="Submit">
+                    </form>
+
 
                     <div class="row align-items-center">
                         <div class="col text-center1">

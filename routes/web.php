@@ -3,12 +3,26 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/register',      'UserController@register')->name('register');  // User Register Page.
-Route::post('/register',      'UserController@register_verify')->name('register_verify');  // User Register Page.
-Route::get('/login',      'UserController@login')->name('login');  // User Login Page.
-Route::post('/login',      'UserController@login_verify')->name('login_verify');  // Verify the user data.
+Route::get('/registration',      'UserController@getRegister')->name('getRegister');  // User Get Register Page.
+Route::post('/register',      'UserController@postRegister')->name('postRegister');  // User Post Register. Create a user.
+Route::post('/ajax-register','UserController@ajaxRegister')->name('ajaxRegister');  // User Ajax Register. Create a user.
+
+Route::get('/login',      'UserController@getLogin')->name('getLogin');      // User Get Login Page.
+Route::post('/login',      'UserController@postLogin')->name('postLogin');  // User Post Login. Authenticate the user.
+Route::post('/ajax-login','UserController@ajaxLogin')->name('ajaxLogin');  // User Ajax Login. Authenticate the user.
+
+Route::get('/forget-password','UserController@getForgetPassword')->name('getForgetPassword');                 // User Get ForgetPassword Page.
+Route::post('/forget-password','UserController@postForgetPassword')->name('postForgetPassword');             // User Post ForgetPassword.
+Route::get('/reset-password/{reset_code}','UserController@getResetPassword')->name('getResetPassword');     // User Get ResetPassword Page.
+Route::post('/reset-password/{reset_code}','UserController@postResetPassword')->name('postResetPassword'); // User Post ResetPassword.
+
 Route::get('/home',      'UserController@home')->name('home');  // Verify the user data.
+
 Route::post('/logout',      'UserController@logout')->name('logout');  // Verify the user data.
+
+Route::post('/check_email_unique','UserController@check_email_unique')->name('check_email_unique');
+Route::get('/verify-email/{verification_code}','UserController@verify_email')->name('verify_email');
+
 
 
 //                            MAIN PAGE
@@ -33,6 +47,11 @@ Route::get('/hello0006/{variable?}', 'MyController0001@outputting_variable'); //
 Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http');              // Using HTTP request.
 Route::get('/http_raw',      'MyController0001@raw_http')->name('get_raw_http');  // Using HTTP request.
 Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verify the user data.
+
+
+
+
+
 
 Route::group([              // Route Group Shop.
     'prefix' => 'shop',
@@ -62,6 +81,10 @@ Route::group([              // Route Group Shop.
         Route::get('/clear', 'ShopController@cartClear')->name('.clear_cart');  // Shop Cart clear_cart Action.
     });
 });
+
+
+
+
 
 
 Route::middleware(['auth'])->group(function () {

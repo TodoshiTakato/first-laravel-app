@@ -6,15 +6,15 @@
     <div class="text-center1">   <!-- Wrapper -->
 
 
-        @if (Route::has('login'))   <!-- Authentication -->
+        @if (Route::has('getLogin'))   <!-- Authentication -->
             <div class="links d-flex justify-content-end">
                 @auth
-                    <a href="{{ url('/home') }}">Home</a>
+                    <a href="{{ route('home') }}">Home</a>
                 @else
-                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('getLogin') }}">Login</a>
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}">Register</a>
+                    @if (Route::has('getRegister'))
+                        <a href="{{ route('getRegister') }}">Register</a>
                     @endif
                 @endauth
             </div>
@@ -59,7 +59,7 @@
                 </div>
                 <div><a href="{{route('layout')}}">layout page</a></div>
                 <div><a href="{{route('get_parsed_http')}}">HTTP Parser</a></div>
-                <div><a href="{{route('login')}}">Login Page</a></div>
+                <div><a href="{{route('getLogin')}}">Login Page</a></div>
                 <div><a href="{{route('user.tasks_main_page')}}">/tasks</a></div>
                 <div><a href="{{route('shop.index')}}">/shop</a></div>
             </div>  <!-- Hello world Links -->

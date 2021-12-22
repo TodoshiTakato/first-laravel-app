@@ -24,11 +24,14 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'              => ['required', 'string', 'max:255'],
-            'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password'              => ['required', 'string', 'min:8', 'confirmed'],
-            'password_confirmation' => ['required', 'string', 'min:8'],
+            'first_name'            => ['required', 'string', 'min:2', 'max:255'],
+            'last_name'             => ['required', 'string', 'min:2', 'max:255'],
+            'username'              => ['required', 'string', 'max:255', 'unique:users'],
+            'email'                 => ['required', 'email', 'max:255', 'unique:users'],
+            'password'              => ['required', 'string', 'min:8', 'max:255', 'confirmed'],
+            'password_confirmation' => ['required', 'string', 'min:8', 'max:255', 'same:password'],
+            'grecaptcha'            => ['required'],
+            'terms'                 => ['required'],
         ];
     }
 
@@ -43,15 +46,18 @@ class RegisterRequest extends FormRequest
 //        ];
 //    }
 
-//    public function messages()
-//    {
-//        return [
-//            'username.required' => 'A username or e-mail is required',
-//            'name.required' => 'A password is required',
-//            'email.required' => 'A password is required',
-//            'password.required' => 'A password is required',
-//            'password_confirmation.required' => 'A password is required',
-//        ];
-//    }
+    public function messages()
+    {
+        return [
+            'first_name.required'            => 'First name is required',
+            'last_name.required'             => 'Last name is required',
+            'username.required'              => 'A username is required',
+            'email.required'                 => 'An e-mail is required',
+            'password.required'              => 'A password is required',
+            'password_confirmation.required' => 'Confirm the password',
+            'grecaptcha.required'            => 'Check reCaptcha',
+            'terms.required'                 => 'Accept our terms of privacy and confidentiality',
+        ];
+    }
 
 }

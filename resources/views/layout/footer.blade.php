@@ -13,3 +13,13 @@
     </li>
 </ul>
 
+{{-- Core JavaScript --}}
+<script src="{{ asset("vendor/jquery/jquery-3.6.0.js")}}"></script>
+<script src="{{ asset("vendor/jquery/dist/jquery.validate.js")}}"></script>
+
+{{-- Auth System JavaScript --}}
+<script src="{{ asset("js/auth/auth.js")}}"></script>
+<script src="{{ asset("js/auth/profile.js")}}"></script>
+
+
+

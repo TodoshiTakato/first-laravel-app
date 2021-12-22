@@ -25,15 +25,15 @@
         <div></div> {{-- 4 --}}
         <div>
             <div class="d-block w-100-1 h-25">
-                @if (Route::has('login'))   <!-- Authentication -->
+                @if (Route::has('getLogin'))   <!-- Authentication -->
                     <div class="d-flex justify-content-between">
                         @auth
-                            <div><a href="{{ url('/home') }}">Home</a></div>
+                            <div><a href="{{ route('home') }}">Home</a></div>
                         @else
-                            <div><a href="{{ route('login') }}">Login</a></div>
+                            <div><a href="{{ route('getLogin') }}">Login</a></div>
 
-                            @if (Route::has('register'))
-                                <div><a href="{{ route('register') }}">Register</a></div>
+                            @if (Route::has('getRegister'))
+                                <div><a href="{{ route('getRegister') }}">Register</a></div>
                             @endif
                         @endauth
                     </div>
@@ -45,7 +45,7 @@
 
                 @include('auth.auth_errors')
 
-                <form action="{{route('login_verify')}}" method="POST">
+                <form action="{{route('postLogin')}}" method="POST">
                     @csrf
                     @method('POST')
                     <div class="form-group row align-items-center">
@@ -89,7 +89,7 @@
                         </div>
 
                         <div class="col text-right">
-                            <a href="{{ route('register') }}">Register</a>
+                            <a href="{{ route('getRegister') }}">Register</a>
                         </div>
                     </div>
 

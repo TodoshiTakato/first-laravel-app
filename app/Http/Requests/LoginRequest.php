@@ -24,9 +24,10 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required | string | max:255',
-            'password' => 'required | string | min:3',
-            'remember' => 'nullable',
+            'username'   => 'required | string | min:3 | max:255',
+            'password'   => 'required | string | min:3 | max:255',
+            'remember'   => 'nullable',
+            'grecaptcha' => 'required'
         ];
     }
 

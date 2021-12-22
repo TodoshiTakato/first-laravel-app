@@ -1,24 +1,5 @@
 @extends('shop.layout.base')
 
-@section('navbar about')
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.index')}}">Home
-            <span class="sr-only sr">(current)</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.products')}}">Our Products</a>
-    </li>
-    <li class="nav-item active">
-        <div class="nav-link">About Us
-            <span class="sr-only sr">(current)</span>
-        </div>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('shop.contact')}}">Contact Us</a>
-    </li>
-@endsection
-
 @section('content')
     <div class="page-heading about-heading header-text">
         <div class="container">

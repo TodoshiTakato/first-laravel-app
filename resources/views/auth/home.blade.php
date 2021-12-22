@@ -117,7 +117,7 @@
 
             @else
                 <script>
-                    {{--window.location = "{{route('login')}}";--}}
+                    {{--window.location = "{{route('getLogin')}}";--}}
                 </script>
             @endisset
 
