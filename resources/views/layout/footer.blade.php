@@ -13,13 +13,29 @@
     </li>
 </ul>
 
+{{-- Alertify Notifications --}}
+<script src="{{ asset("assets/js/alertify.min.js")}}"></script>
+
+<script type="text/javascript">
+    alertify.set("notifier","position","top-right");
+
+    @if (session('success'))
+        alertify.success({{session('success')}});
+    @endif
+    @if (session('error'))
+        alertify.error({{session('error')}});
+    @endif
+</script>
+
 {{-- Core JavaScript --}}
 <script src="{{ asset("vendor/jquery/jquery-3.6.0.js")}}"></script>
 <script src="{{ asset("vendor/jquery/dist/jquery.validate.js")}}"></script>
 
 {{-- Auth System JavaScript --}}
-<script src="{{ asset("js/auth/auth.js")}}"></script>
 <script src="{{ asset("js/auth/profile.js")}}"></script>
+
+@stack('footer')
+
 
 
 

@@ -282,7 +282,8 @@ $.extend( $.validator, {
 		messages: {},
 		groups: {},
 		rules: {},
-		errorClass: "error",
+		errorInputClass: "error",
+		errorLabelClass: "error",
 		pendingClass: "pending",
 		validClass: "valid",
 		errorElement: "label",
@@ -299,7 +300,7 @@ $.extend( $.validator, {
 			// Hide error label and remove error class on focus if enabled
 			if ( this.settings.focusCleanup ) {
 				if ( this.settings.unhighlight ) {
-					this.settings.unhighlight.call( this, element, this.settings.errorClass, this.settings.validClass );
+					this.settings.unhighlight.call( this, element, this.settings.errorInputClass, this.settings.validClass );
 				}
 				this.hideThese( this.errorsFor( element ) );
 			}
@@ -347,18 +348,18 @@ $.extend( $.validator, {
 				this.element( element.parentNode );
 			}
 		},
-		highlight: function( element, errorClass, validClass ) {
+		highlight: function( element, errorInputClass, validClass ) {
 			if ( element.type === "radio" ) {
-				this.findByName( element.name ).addClass( errorClass ).removeClass( validClass );
+				this.findByName( element.name ).addClass( errorInputClass ).removeClass( validClass );
 			} else {
-				$( element ).addClass( errorClass ).removeClass( validClass );
+				$( element ).addClass( errorInputClass ).removeClass( validClass );
 			}
 		},
-		unhighlight: function( element, errorClass, validClass ) {
+		unhighlight: function( element, errorInputClass, validClass ) {
 			if ( element.type === "radio" ) {
-				this.findByName( element.name ).removeClass( errorClass ).addClass( validClass );
+				this.findByName( element.name ).removeClass( errorInputClass ).addClass( validClass );
 			} else {
-				$( element ).removeClass( errorClass ).addClass( validClass );
+				$( element ).removeClass( errorInputClass ).addClass( validClass );
 			}
 		}
 	},
@@ -576,13 +577,13 @@ $.extend( $.validator, {
 			if ( this.settings.unhighlight ) {
 				for ( i = 0; elements[ i ]; i++ ) {
 					this.settings.unhighlight.call( this, elements[ i ],
-						this.settings.errorClass, "" );
+						this.settings.errorInputClass, "" );
 					this.findByName( elements[ i ].name ).removeClass( this.settings.validClass );
 				}
 			} else {
 				elements
-					.removeClass( this.settings.errorClass )
-					.removeClass( this.settings.validClass );
+					.removeClass( this.settings.errorInputClass )
+					.removeClass( this.settings.errorInputClass );
 			}
 		},
 
@@ -688,8 +689,8 @@ $.extend( $.validator, {
 		},
 
 		errors: function() {
-			var errorClass = this.settings.errorClass.split( " " ).join( "." );
-			return $( this.settings.errorElement + "." + errorClass, this.errorContext );
+			var errorLabelClass = this.settings.errorLabelClass.split( " " ).join( "." );
+			return $( this.settings.errorElement + "." + errorLabelClass, this.errorContext );
 		},
 
 		resetInternals: function() {
@@ -916,7 +917,7 @@ $.extend( $.validator, {
 			for ( i = 0; this.errorList[ i ]; i++ ) {
 				error = this.errorList[ i ];
 				if ( this.settings.highlight ) {
-					this.settings.highlight.call( this, error.element, this.settings.errorClass, this.settings.validClass );
+					this.settings.highlight.call( this, error.element, this.settings.errorInputClass, this.settings.validClass );
 				}
 				this.showLabel( error.element, error.message );
 			}
@@ -930,7 +931,7 @@ $.extend( $.validator, {
 			}
 			if ( this.settings.unhighlight ) {
 				for ( i = 0, elements = this.validElements(); elements[ i ]; i++ ) {
-					this.settings.unhighlight.call( this, elements[ i ], this.settings.errorClass, this.settings.validClass );
+					this.settings.unhighlight.call( this, elements[ i ], this.settings.errorInputClass, this.settings.validClass );
 				}
 			}
 			this.toHide = this.toHide.not( this.toShow );
@@ -957,7 +958,7 @@ $.extend( $.validator, {
 			if ( error.length ) {
 
 				// Refresh error/success class
-				error.removeClass( this.settings.validClass ).addClass( this.settings.errorClass );
+				error.removeClass( this.settings.validClass ).addClass( this.settings.errorLabelClass );
 
 				// Replace message on existing label
 				error.html( message );
@@ -966,7 +967,7 @@ $.extend( $.validator, {
 				// Create error element
 				error = $( "<" + this.settings.errorElement + ">" )
 					.attr( "id", elementID + "-error" )
-					.addClass( this.settings.errorClass )
+					.addClass( this.settings.errorLabelClass )
 					.html( message || "" );
 
 				// Maintain reference to the element to be placed into the DOM
@@ -1582,6 +1583,7 @@ $.extend( $.validator, {
 			this.startRequest( element );
 			data = {};
 			data[ element.name ] = value;
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
 			$.ajax( $.extend( true, {
 				mode: "abort",
 				port: "validate" + element.name,

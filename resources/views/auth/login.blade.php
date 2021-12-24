@@ -11,19 +11,10 @@
 
     <div class="grid-container">
         <div></div> {{-- 1 --}}
-        <div> {{-- 2 --}}
-            <div class="col">
-                <div class="row">
-                    <div class="col">
-                        <div class="card-body">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div></div> {{-- 2 --}}
         <div></div> {{-- 3 --}}
         <div></div> {{-- 4 --}}
-        <div>
+        <div> {{-- 5 - center-start --}}
             <div class="d-block w-100-1 h-25">
                 @if (Route::has('getLogin'))   <!-- Authentication -->
                     <div class="d-flex justify-content-between">
@@ -78,7 +69,7 @@
                         </div>
                     </div>
 
-                    <div class="row align-items-center text-nowrap">
+                    <div class="row align-items-center text-nowrap w-100 h-100">
 
                         <div class="col">
                             <a href="#">Forgot password?</a>
@@ -97,7 +88,7 @@
             </div>
             <div class="h-25">
             </div>
-        </div> {{-- 5 - center --}}
+        </div> {{-- 5 - center-end --}}
         <div></div> {{-- 6 --}}
         <div></div> {{-- 7 --}}
         <div></div> {{-- 8 --}}

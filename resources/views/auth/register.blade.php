@@ -1,22 +1,19 @@
 @extends('layout.base')
-
+@push('header')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>    {{-- reCaptcha --}}
+@endpush
+@push('footer')
+    {{-- Auth System JavaScript --}}
+    <script src="{{ asset("js/auth/auth.js")}}"></script>
+@endpush
 @section('content1')
     <?php error_reporting(E_ALL); ?>
     <div class="grid-container">
         <div></div> {{-- 1 --}}
-        <div> {{-- 2 --}}
-            <div class="col">
-                <div class="row">
-                    <div class="col">
-                        <div class="card-body">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div></div> {{-- 2 --}}
         <div></div> {{-- 3 --}}
         <div></div> {{-- 4 --}}
-        <div>
+        <div> {{-- 5 - center-start --}}
             <div class="d-block w-100-1 h-25">
             @if (Route::has('getLogin'))   <!-- Authentication -->
                 <div class="d-flex justify-content-between">
@@ -39,24 +36,10 @@
 
                 @include('auth.auth_errors')
 
-                <form action="{{route('postRegister')}}" method="POST" class="w-100-1">
+                <form action="{{route('postRegister')}}" method="POST" class="w-100-1"
+                      id="registration_form" data-login-href="{{route("getLogin")}}">
                     @csrf
                     @method('POST')
-                    <div class="form-group row align-items-stretch w-100-1">
-                        <label for="username" class="col-5 col-form-label text-md-right">
-                            {{ __('Username') }}
-                        </label>
-                        <div class="col-5">
-                            <input type="text" id="username" name="username" value="{{ old('username') }}" required
-                                   autofocus class="form-control @error('username') is-invalid @enderror" placeholder="Username">
-                            @error('username')
-                                <span class="invalid-feedback">
-                                    <strong>{{$message}}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
                     <div class="form-group row align-items-stretch w-100-1">
                         <label for="name" class="col-5 col-form-label text-md-right">
                             {{ __('First name') }}
@@ -88,12 +71,29 @@
                     </div>
 
                     <div class="form-group row align-items-stretch w-100-1">
+                        <label for="username" class="col-5 col-form-label text-md-right">
+                            {{ __('Username') }}
+                        </label>
+                        <div class="col-5">
+                            <input type="text" id="username" name="username" value="{{ old('username') }}" required
+                                   data-href="{{route('check_username_unique')}}" placeholder="Username" autofocus
+                                   class="form-control @error('username') is-invalid @enderror">
+                            @error('username')
+                            <span class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="form-group row align-items-stretch w-100-1">
                         <label for="email" class="col-5 col-form-label text-md-right">
                             {{ __('E-Mail Address') }}
                         </label>
                         <div class="col-5">
                             <input type="email" id="email" name="email" value="{{ old('email') }}" required
-                                   class="form-control @error('email') is-invalid @enderror" placeholder="E-Mail">
+                                   data-href="{{route('check_email_unique')}}" placeholder="E-Mail"
+                                   class="form-control @error('email') is-invalid @enderror">
                             @error('email')
                                 <span class="invalid-feedback">
                                     <strong>{{$message}}</strong>
@@ -138,25 +138,36 @@
                         <div class="col-5 text-right">
                             <input type="checkbox" name="terms" id="terms"
                                    {{ (old('terms')) ? 'checked' : '' }} class="form-check-input">
+
                             @error('terms')
-                            <div class="invalid-feedback">
-                                <strong>{{$message}}</strong>
-                            </div>
+                                <div class="invalid-feedback">
+                                    <strong>{{$message}}</strong>
+                                </div>
                             @enderror
                         </div>
                         <div class="col-5">
                             <label class="form-check-label" for="terms">
                                 Check our <a href="#">terms</a> and <a href="#">conditions</a>
                             </label>
+                            <strong id="terms_error"></strong>
                         </div>
                     </div>
-
-                    <form action="?" method="POST">
-                        <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
-                        <br/>
-                        <input type="submit" value="Submit">
-                    </form>
-
+                    <div class="form-group row align-items-stretch w-100-1 justify-content-center">
+                        <div class="w-35"></div>
+                        <div class="w-40">
+                            <div class="g-recaptcha" data-sitekey="{{env("GOOGLE_CAPTCHA_KEY")}}"
+                                 data-callback="recaptchaDataCallbackRegister"
+                                 data-expired-callback="recaptchaExpireCallbackRegister"></div>
+                            <input type="hidden" name="grecaptcha" id="hiddenInputRecaptchaRegister">
+                            @error('grecaptcha')
+                            <div class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                            @enderror
+                            <strong id="RegisterRecaptchaErrorDiv"></strong>
+                        </div>
+                        <div class="w-25"></div>
+                    </div>
 
                     <div class="row align-items-center">
                         <div class="col text-center1">
@@ -166,9 +177,8 @@
 
                 </form>
             </div>
-{{--            <div class="w-5"></div>--}}
             <div class="h-25"></div>
-        </div> {{-- 5 - center --}}
+        </div> {{-- 5 - center-end --}}
         <div></div> {{-- 6 --}}
         <div></div> {{-- 7 --}}
         <div></div> {{-- 8 --}}

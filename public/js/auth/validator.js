@@ -1,8 +1,3 @@
-function recaptchaDataCallbackRegister(response){  $("#hiddenInputRecaptchaRegister").val(response); }
-function recaptchaExpireCallbackRegister(){  $("#hiddenInputRecaptchaRegister").val(""); }
-function recaptchaDataCallbackLogin(response){  $("#hiddenRecaptchaLogin").val(response); }
-function recaptchaExpireCallbackLogin(){  $("#hiddenRecaptchaLogin").val(""); }
-
 $(document).ready(function () {
     alertify.set("notifier","position","top-right");
 
@@ -15,6 +10,11 @@ $(document).ready(function () {
         $("#loginModal").modal("hide");
         $("#registerModal").modal("show");
     });
+
+    function recaptchaDataCallbackRegister(response){  $("#hiddenInputRecaptchaRegister").val(response); }
+    function recaptchaExpireCallbackRegister(){  $("#hiddenInputRecaptchaRegister").val(""); }
+    function recaptchaDataCallbackLogin(response){  $("#hiddenRecaptchaLogin").val(response); }
+    function recaptchaExpireCallbackLogin(){  $("#hiddenRecaptchaLogin").val(""); }
 
     jQuery.validator.addMethod("noSpace", function(value, element) {
         return this.optional(element) || value.trim().length != 0;
@@ -68,6 +68,7 @@ $(document).ready(function () {
                 required:true,
                 maxlength:100,
                 remote: {
+                    headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
                     url: $("#username").data("href"),
                     type: "POST",
                 }
@@ -77,6 +78,7 @@ $(document).ready(function () {
                 email:true,
                 maxlength:255,
                 remote: {
+                    headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
                     url: $("#email").data("href"),
                     type: "POST",
                 }
@@ -108,23 +110,19 @@ $(document).ready(function () {
             },
             username:{
                 required: "We need your username to register you",
-                remote: "Username is already in use. Try with different username or <a href='"+
-                    $("#registration_form").data("login-href") +
-                    "'> Sign in </a>"
+                remote:"Username already in use. Try with different username"
             },
             email: {
                 required: "We need your email address to contact you",
                 email: "Your email address must be in the format of name@domain.com",
-                remote: "Email is already in use. Try with different email or <a href='"+
-                    $("#registration_form").data("login-href") +
-                    "'> Sign in </a>"
+                remote: "Email already in use. Try with different email"
             },
             password:{
                 required:"Enter your password"
             },
             password_confirmation:{
                 required: "Confirm your password",
-                equalTo: "The given passwords don't match"
+                equalTo: "The given passwords doesn't match"
             },
             terms: "Please accept our terms and conditions",
             grecaptcha: "Captcha field is required"
@@ -163,6 +161,7 @@ $(document).ready(function () {
                 required:true,
                 email:true,
                 remote: {
+                    headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") },
                     url: "{{route('check_email_unique')}}",
                     type: "POST",
                     data: {
@@ -221,6 +220,7 @@ $(document).ready(function () {
             $.LoadingOverlay("show");
             //form.submit();
             var formData = new FormData(form);
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
                 url: "{{route('check_email_unique')}}",
                 type: "POST",
@@ -338,6 +338,7 @@ $(document).ready(function () {
             $.LoadingOverlay("show");
             //form.submit();
             var formData = new FormData(form);
+            $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
             $.ajax({
                 url: "{{route('ajaxLogin')}}",
                 type: "POST",

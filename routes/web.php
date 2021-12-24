@@ -20,6 +20,7 @@ Route::get('/home',      'UserController@home')->name('home');  // Verify the us
 
 Route::post('/logout',      'UserController@logout')->name('logout');  // Verify the user data.
 
+Route::post('/check_username_unique','UserController@check_username_unique')->name('check_username_unique');
 Route::post('/check_email_unique','UserController@check_email_unique')->name('check_email_unique');
 Route::get('/verify-email/{verification_code}','UserController@verify_email')->name('verify_email');
 
@@ -28,6 +29,7 @@ Route::get('/verify-email/{verification_code}','UserController@verify_email')->n
 //                            MAIN PAGE
 //Route::get('/', function () { return view('welcome'); });           // Old version
 Route::get('/', 'CategoriesController0001@index_page')->name('main_page');
+Route::get('/test', 'UserController@test')->name('test');
 
 //                            Hello World Pages
                                                                  // Hello World. Returning HTML as a string. No variable passing.

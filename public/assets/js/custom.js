@@ -217,7 +217,6 @@ $(document).ready(function () {
                 ));
 
                 cartload();
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             },
         });
@@ -244,7 +243,6 @@ $(document).ready(function () {
                 ));
 
                 cartload();
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             },
         });
@@ -263,7 +261,6 @@ $(document).ready(function () {
                 item_qty.html(response["item_quantity"]+" штук");
 
                 cartload();
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             }
         });
@@ -296,7 +293,6 @@ $(document).ready(function () {
                 }
 
                 cartload();
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             }
         });
@@ -330,7 +326,6 @@ $(document).ready(function () {
                 item_price.html(number_format(response["item_price"], 2, ',', ' ')+" UZS");
                 subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
                 grand_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             }
         });
@@ -350,7 +345,6 @@ $(document).ready(function () {
                 cart_item_row.remove();
                 subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
                 grand_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
-                alertify.set("notifier","position","top-right");
                 alertify.success(response.status);
             }
         });
@@ -403,6 +397,6 @@ $(document).ready(function () {
         return s.join(dec)
     }
 
-    
+
 
 });
