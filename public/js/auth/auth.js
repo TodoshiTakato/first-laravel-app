@@ -22,19 +22,19 @@ $(document).ready(function () {
     var timer = 0;
     $("#registration_form").validate({
         ignore:".ignore", // for not ignoring hidden input fields of recaptcha
-        errorInputClass: "text-danger",
+        errorInputClass: "is-invalid",
         errorLabelClass: "invalid-feedback",
-        validClass:"bg-success",
+        validClass:"is-valid",
         onkeyup: function(element, event, force) {
             // Avoid revalidate the field when pressing one of the following keys
-            // Shift       => 16    End         => 35    Right arrow => 39    AltGr key   => 225
-            // Ctrl        => 17    Home        => 36    Down arrow  => 40
-            // Alt         => 18    Left arrow  => 37    Insert      => 45
+            // Shift       => 16(x)    End         => 35    Right arrow => 39    AltGr key   => 225
+            // Ctrl        => 17(x)    Home        => 36    Down arrow  => 40
+            // Alt         => 18    Left arrow  => 37    Insert      => 45(x)
             // Caps lock   => 20    Up arrow    => 38    Num lock    => 144
 
             let excludedKeys = [
-                17, 18, 20, 35, 36, 37,
-                38, 39, 40, 45, 144, 225
+                18, 20, 35, 36, 37,
+                38, 39, 40,144, 225
             ], rules = $(element).rules();
 
             clearTimeout(timer);
@@ -96,7 +96,7 @@ $(document).ready(function () {
                 required: true,
             },
             grecaptcha:{
-                required:true,
+                required: true,
             },
         },
         messages: {
@@ -224,7 +224,7 @@ $(document).ready(function () {
             $.ajax({
                 url: "{{route('check_email_unique')}}",
                 type: "POST",
-                data:formData,
+                data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,

@@ -45,7 +45,7 @@
                             {{ __('First name') }}
                         </label>
                         <div class="col-5">
-                            <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" required
+                            <input type="text" id="first_name" name="first_name" value="{{ old('first_name') }}" required autofocus
                                    class="form-control @error('first_name') is-invalid @enderror" placeholder="First Name">
                             @error('first_name')
                                 <span class="invalid-feedback">
@@ -76,7 +76,7 @@
                         </label>
                         <div class="col-5">
                             <input type="text" id="username" name="username" value="{{ old('username') }}" required
-                                   data-href="{{route('check_username_unique')}}" placeholder="Username" autofocus
+                                   data-href="{{route('check_username_unique')}}" placeholder="Username"
                                    class="form-control @error('username') is-invalid @enderror">
                             @error('username')
                             <span class="invalid-feedback">
@@ -136,20 +136,18 @@
 
                     <div class="form-group row align-items-stretch w-100-1">
                         <div class="col-5 text-right">
-                            <input type="checkbox" name="terms" id="terms"
-                                   {{ (old('terms')) ? 'checked' : '' }} class="form-check-input">
-
-                            @error('terms')
-                                <div class="invalid-feedback">
-                                    <strong>{{$message}}</strong>
-                                </div>
-                            @enderror
+                            <input type="checkbox" name="terms" id="terms" class="form-check-input" {{ (old('terms')) ? 'checked' : '' }} value=1>
                         </div>
                         <div class="col-5">
                             <label class="form-check-label" for="terms">
                                 Check our <a href="#">terms</a> and <a href="#">conditions</a>
                             </label>
                             <strong id="terms_error"></strong>
+                            @error('terms')
+                            <div class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row align-items-stretch w-100-1 justify-content-center">

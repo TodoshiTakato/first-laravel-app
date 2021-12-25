@@ -1,14 +1,13 @@
 @extends('layout.base')
-
+@push('header')
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>    {{-- reCaptcha --}}
+@endpush
+@push('footer')
+    {{-- Auth System JavaScript --}}
+    <script src="{{ asset("js/auth/auth.js")}}"></script>
+@endpush
 @section('content1')
     <?php error_reporting(E_ALL); ?>
-
-    @if(Auth::user())
-        <script>
-            window.location = "{{route('main_page')}}";
-        </script>
-    @endif
-
     <div class="grid-container">
         <div></div> {{-- 1 --}}
         <div></div> {{-- 2 --}}
@@ -42,20 +41,19 @@
                     <div class="form-group row align-items-center">
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
                         <div class="col-md-6">
-                            <input id="username" type="text" name="username" value="{{ old('username') }}" required
-                                   autocomplete="username" placeholder="Username" class="form-control text-center1"
-                                   autofocus>
-{{--                            @error('username') <div class="form-group alert alert-danger"> Неверное имя пользователя </div> @enderror--}}
-                            @error('username') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
+                            <input type="text" id="username" name="username" value="{{ old('username') }}" required
+                                   data-href="{{route('check_username_unique')}}" placeholder="Username" autofocus
+                                   autocomplete="username" class="form-control text-center1 @error('username') is-invalid @enderror">
+                            @error('username') <div class="invalid-feedback"> {{$message}} </div> @enderror
                         </div>
                     </div>
 
                     <div class="form-group row align-items-center">
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
                         <div class="col-md-6">
-                            <input id="password" type="password" name="password" placeholder="Password" class="form-control text-center1">
-{{--                            @error('password') <div class="form-group alert alert-danger"> Введите пароль </div> @enderror--}}
-                            @error('password') <div class="form-group alert alert-danger"> {{$message}} </div> @enderror
+                            <input type="password" id="password" name="password" value="{{ old('password') }}" required
+                                   placeholder="Password" class="form-control text-center1">
+                            @error('password') <div class="invalid-feedback"> {{$message}} </div> @enderror
                         </div>
                     </div>
 

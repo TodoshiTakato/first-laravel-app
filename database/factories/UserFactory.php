@@ -32,6 +32,6 @@ $factory->define(User::class, function (Faker $faker) {
 //        'is_admin' => default,
 //        'role_id' => default,
         'password' => Hash::make('123'), // password
-        'remember_token' => Str::random(10),
+//        'remember_token' => Str::random(10),
     ];
 });

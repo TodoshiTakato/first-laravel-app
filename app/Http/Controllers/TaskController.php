@@ -13,7 +13,7 @@ use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 //use mysql_xdevapi\Exception;
 //use Illuminate\Support\Facades\Validator;
-use \Debugbar;
+//use \Debugbar;
 use function PHPUnit\Framework\isNull;
 
 

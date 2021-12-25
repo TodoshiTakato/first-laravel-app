@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-        Barryvdh\Debugbar\ServiceProvider::class,         /* Barryvdh Debugbar Nurlan... */
+//        Barryvdh\Debugbar\ServiceProvider::class,         /* Barryvdh Debugbar Nurlan... */
 
         /*
          * Application Service Providers...

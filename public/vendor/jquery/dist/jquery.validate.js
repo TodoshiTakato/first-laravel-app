@@ -1073,6 +1073,10 @@ $.extend( $.validator, {
 			return ( /radio|checkbox/i ).test( element.type );
 		},
 
+		is_hidden: function( element ) {
+			return ( /hidden/i ).test( element.type );
+		},
+
 		findByName: function( name ) {
 			return $( this.currentForm ).find( "[name='" + this.escapeCssMeta( name ) + "']" );
 		},
@@ -1410,6 +1414,9 @@ $.extend( $.validator, {
 			}
 			if ( this.checkable( element ) ) {
 				return this.getLength( value, element ) > 0;
+			}
+			if ( this.is_hidden( element ) ) {
+                return this.getLength( value, element ) > 0;
 			}
 			return value !== undefined && value !== null && value.length > 0;
 		},
