@@ -6,6 +6,7 @@ use App\Task;
 use App\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\EloquentUserProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

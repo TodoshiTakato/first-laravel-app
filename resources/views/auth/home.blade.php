@@ -10,43 +10,29 @@
         <div> {{-- 5 - center --}}
 
             <div class="h-100-1 w-100-1">
-                <nav class="navbar navbar-light bg-white shadow-sm">
-                    <div class="container">
+                <ul class="nav-bar justify-content-between" style="background-color: #4691d5;">
+                    <li class="nav-item1">
                         <a class="navbar-brand" href="{{ url('/') }}">
                             {{ config('app.name', 'Laravel') }}
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <!-- Left Side Of Navbar -->
-                            <ul class="navbar-nav mr-auto">
-
-                            </ul>
-                            <!-- Right Side Of Navbar -->
-                            <ul class="nav-bar ml-auto">
-                                <li class="nav-item1">
-                                    <div class="dropdown1">
-                                        <a href="#" class="dropbtn">
-                                            {{ Auth::user()->first_name }}
-
-                                        </a>
-                                        <div class="dropdown1-content">
-                                            <a href="{{ route('logout') }}"
-                                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                                {{ __('Logout') }}
-                                            </a>
-                                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                                @csrf
-                                                @method('POST')
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                        </a></li>
+                    <li class="nav-item1">
+                        <div class="dropdown1">
+                            <a href="#" class="dropbtn">{{Auth::user()->username}}</a>
+                            <div class="dropdown1-content">
+                                <div>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                        @method('POST')
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </nav>
+                    </li>
+                </ul>
             </div>
 
             @isset(Auth::user()->id)

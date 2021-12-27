@@ -35,7 +35,3 @@
 <script src="{{ asset("js/auth/profile.js")}}"></script>
 
 @stack('footer')
-
-
-
-

@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Session;
 use Mail;
 use App\Mail\EmailVerificationMail;
 use App\Mail\ForgetPasswordMail;
@@ -103,54 +105,27 @@ class UserController extends Controller
     public function postLogin(LoginRequest $request){  // Checked
         $fieldType  = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? "email" : "username";
         $userData   = array($fieldType => $request->username, "password" => $request->password);
-
         $response_getBody = $this->verifyRecaptcha($request);
         if($response_getBody->success==true){
-            $user=User::where("username", $request->username)->first();
-            if(!$user){
-                $error_message = "Username or Email is not registered";
-                return redirect()
-                    ->back()
-                    ->withErrors($error_message)
-                    ->with("error", $error_message);
-            } else {
-                if(!$user->email_verified_at){
-                    $error_message = "Email is not verified";
-                    return redirect()
-                        ->back()
-                        ->withErrors($error_message)
-                        ->with("error", $error_message)
-                        ->withInput();
+            $remember = ( $request->remember ) ? true : false;
+            if (
+                Auth::attempt($userData)
+            ) {
+                Auth::login(Auth::user(), $remember);
+                if (session("url.intended")) {
+                    return redirect(session()->pull("url.intended"));
                 } else {
-                    if(!$user->is_active){
-                        $error_message = "User is not active. Contact admin";
-                        return redirect()
-                            ->back()
-                            ->withErrors($error_message)
-                            ->with("error", $error_message)
-                            ->withInput();
-                    } else {
-                        $remember_me = ( $request->remember_me ) ? true : false;
-                        if (
-                            auth()->attempt($userData, $remember_me)
-                        ) {
-                            if (session("url.intended")) {
-                                return redirect(session()->pull("url.intended"));
-                            } else {
-                                return redirect()
-                                    ->route("home")
-                                    ->with("success", "Login successfull");
-                            }
-                        } else {
-                            $error_message = "Неверные аутентификационные данные";
-                            return redirect()
-                                ->route("getLogin")
-                                ->withErrors($error_message)
-                                ->with("error", $error_message)
-                                ->withInput();
-                        }
-                    }
+                    return redirect()
+                        ->route("home")
+                        ->with("success", "Login successfull");
                 }
+            } else {
+                $error_message = "Неверные аутентификационные данные";
+                return redirect()
+                    ->route("getLogin")
+                    ->withErrors($error_message)
+                    ->with("error", $error_message)
+                    ->withInput();
             }
         } else {
             $error_message = "Invalid recaptcha";
@@ -179,8 +154,8 @@ class UserController extends Controller
                             "message" => "User is not active. Contact admin"
                         ], 400);
                     } else {
-                        $remember_me = ( $request->remember_me ) ? true : false;
-                        if(auth()->attempt($request->only('email','password'),$remember_me)){
+                        $remember = ( $request->remember ) ? true : false;
+                        if(auth()->attempt($request->only('email','password'),$remember)){
                             return response()->json([
                                 "message"=>"Login successful",
                                 "redirect_url"=>route("dashboard")
@@ -302,6 +277,7 @@ class UserController extends Controller
     }
 
     public function logout(){  // Checked
+        Session::flush();
         Auth::logout();
         return redirect()->route("getLogin")->with("success","Logout successfull");
     }
