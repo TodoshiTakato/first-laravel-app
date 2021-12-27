@@ -8,7 +8,7 @@
 @endpush
 @section('content1')
     <?php error_reporting(E_ALL); ?>
-    <div class="grid-container">
+    <div class="grid-container h-100">
         <div></div> {{-- 1 --}}
         <div></div> {{-- 2 --}}
         <div></div> {{-- 3 --}}
@@ -35,14 +35,14 @@
 
                 @include('auth.auth_errors')
 
-                <form action="{{route('postLogin')}}" method="POST">
+                <form action="{{route('postLogin')}}" method="POST" id="login_form">
                     @csrf
                     @method('POST')
                     <div class="form-group row align-items-center">
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Username') }}</label>
                         <div class="col-md-6">
                             <input type="text" id="username" name="username" value="{{ old('username') }}" required
-                                   data-href="{{route('check_username_unique')}}" placeholder="Username" autofocus
+                                   data-href="{{route('check_username_unique')}}" placeholder="Username or E-mail" autofocus
                                    autocomplete="username" class="form-control text-center1 @error('username') is-invalid @enderror">
                             @error('username') <div class="invalid-feedback"> {{$message}} </div> @enderror
                         </div>
@@ -59,12 +59,30 @@
 
                     <div class="form-group d-flex justify-content-center">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <input class="form-check-input" type="checkbox" name="remember"
+                                   id="remember" {{ old('remember') ? 'checked' : '' }}>
 
                             <label class="form-check-label" for="remember">
                                 {{ __('Remember Me') }}
                             </label>
                         </div>
+                    </div>
+
+                    <div class="form-group row align-items-center">
+                        <div class="col-3"></div>
+                        <div class="col-7">
+                            <div class="g-recaptcha" data-sitekey="{{env("GOOGLE_CAPTCHA_KEY")}}"
+                             data-callback="recaptchaDataCallbackLogin"
+                             data-expired-callback="recaptchaExpireCallbackLogin"></div>
+                        <input type="hidden" name="grecaptcha" id="hiddenInputRecaptchaLogin">
+                        @error('grecaptcha')
+                            <div class="invalid-feedback">
+                                <strong>{{$message}}</strong>
+                            </div>
+                        @enderror
+                        <strong id="LoginRecaptchaErrorDiv"></strong>
+                        </div>
+                        <div class="col-2"></div>
                     </div>
 
                     <div class="row align-items-center text-nowrap w-100 h-100">

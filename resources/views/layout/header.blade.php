@@ -6,6 +6,9 @@
 {{-- CSS Styles --}}
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">   {{-- Bootstrap (Customized) --}}
 <link href="{{ asset('css/all.css') }}" rel="stylesheet">   {{-- FontAwesome Icons --}}
+<link rel="stylesheet" href="{{ asset('assets/css/alertify.min.css') }}">   {{-- alertify Icons --}}
+<link rel="stylesheet" href="{{ asset('assets/css/themes/default.min.css') }}">   {{-- alertify themes --}}
+
 
 {{-- Fonts --}}
 

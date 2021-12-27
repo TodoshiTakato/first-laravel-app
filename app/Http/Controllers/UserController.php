@@ -92,7 +92,7 @@ class UserController extends Controller
     }
 
     public function getLogin() {  // Checked
-        if (Auth::user()) {
+        if (Auth::check()) {
             return redirect()->route("home");
         }
         else {
@@ -106,15 +106,29 @@ class UserController extends Controller
 
         $response_getBody = $this->verifyRecaptcha($request);
         if($response_getBody->success==true){
-            $user=User::where("email",$request->email)->first();
+            $user=User::where("username", $request->username)->first();
             if(!$user){
-                return redirect()->back()->with("error","Email is not registered");
+                $error_message = "Username or Email is not registered";
+                return redirect()
+                    ->back()
+                    ->withErrors($error_message)
+                    ->with("error", $error_message);
             } else {
                 if(!$user->email_verified_at){
-                    return redirect()->back()->with("error","Email is not verified");
+                    $error_message = "Email is not verified";
+                    return redirect()
+                        ->back()
+                        ->withErrors($error_message)
+                        ->with("error", $error_message)
+                        ->withInput();
                 } else {
                     if(!$user->is_active){
-                        return redirect()->back()->with("error","User is not active. Contact admin");
+                        $error_message = "User is not active. Contact admin";
+                        return redirect()
+                            ->back()
+                            ->withErrors($error_message)
+                            ->with("error", $error_message)
+                            ->withInput();
                     } else {
                         $remember_me = ( $request->remember_me ) ? true : false;
                         if (
@@ -122,19 +136,27 @@ class UserController extends Controller
                         ) {
                             if (session("url.intended")) {
                                 return redirect(session()->pull("url.intended"));
+                            } else {
+                                return redirect()
+                                    ->route("home")
+                                    ->with("success", "Login successfull");
                             }
-                            return redirect()->route("home")->with("success", "Login successfull");
                         } else {
+                            $error_message = "Неверные аутентификационные данные";
                             return redirect()
                                 ->route("getLogin")
-                                ->withErrors(["error_message"=>"Неверные аутентификационные данные"])
-                                ->with("error", "Invalid credentials");
+                                ->withErrors($error_message)
+                                ->with("error", $error_message)
+                                ->withInput();
                         }
                     }
                 }
             }
         } else {
-            return redirect()->back()->with("error","Invalid recaptcha");
+            $error_message = "Invalid recaptcha";
+            return redirect()
+                ->back()
+                ->with("error", $error_message);
         }
     }
 
@@ -237,10 +259,10 @@ class UserController extends Controller
     }
 
     public function check_username_unique(Request $request){
-        $user=User::where("username",$request->username)->first();
-        if($user){
+        $user=User::where("username", $request->username)->first();
+        if ($user) {
             return "false";
-        }else{
+        } else {
             return "true";
         }
     }

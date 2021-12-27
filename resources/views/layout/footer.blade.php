@@ -19,11 +19,11 @@
 <script type="text/javascript">
     alertify.set("notifier","position","top-right");
 
-    @if (session('success'))
-        alertify.success({{session('success')}});
+    @if (session("success"))
+    alertify.success("{{session("success")}}");
     @endif
-    @if (session('error'))
-        alertify.error({{session('error')}});
+    @if (session("error"))
+    alertify.error("{{session("error")}}");
     @endif
 </script>
 

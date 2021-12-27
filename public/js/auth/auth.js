@@ -1,11 +1,9 @@
 function recaptchaDataCallbackRegister(response){  $("#hiddenInputRecaptchaRegister").val(response); }
 function recaptchaExpireCallbackRegister(){  $("#hiddenInputRecaptchaRegister").val(""); }
-function recaptchaDataCallbackLogin(response){  $("#hiddenRecaptchaLogin").val(response); }
-function recaptchaExpireCallbackLogin(){  $("#hiddenRecaptchaLogin").val(""); }
+function recaptchaDataCallbackLogin(response){  $("#hiddenInputRecaptchaLogin").val(response); }
+function recaptchaExpireCallbackLogin(){  $("#hiddenInputRecaptchaLogin").val(""); }
 
 $(document).ready(function () {
-    alertify.set("notifier","position","top-right");
-
     $(".login_button").on("click",function(){
         $("#registerModal").modal("hide");
         $("#loginModal").modal("show");
@@ -120,14 +118,14 @@ $(document).ready(function () {
                     "'> Sign in </a>"
             },
             password:{
-                required:"Enter your password"
+                required: "Enter your password"
             },
             password_confirmation:{
                 required: "Confirm your password",
                 equalTo: "The given passwords don't match"
             },
             terms: "Please accept our terms and conditions",
-            grecaptcha: "Captcha field is required"
+            grecaptcha: "Check reCaptcha"
         },
         errorPlacement:function(error,element){
             if (element.attr("name")==="terms") {
@@ -146,44 +144,82 @@ $(document).ready(function () {
 
     var register_validator=$('#modal_registration_form').validate({
         ignore:".ignore",
-        errorClass:"invalid",
-        validClass:'success',
+        errorInputClass: "is-invalid",
+        errorLabelClass: "invalid-feedback",
+        validClass:"is-valid",
+        onkeyup: function(element, event, force) {
+            // Avoid revalidate the field when pressing one of the following keys
+            // Shift       => 16(x)    End         => 35    Right arrow => 39    AltGr key   => 225
+            // Ctrl        => 17(x)    Home        => 36    Down arrow  => 40
+            // Alt         => 18    Left arrow  => 37    Insert      => 45(x)
+            // Caps lock   => 20    Up arrow    => 38    Num lock    => 144
+
+            let excludedKeys = [
+                18, 20, 35, 36, 37,
+                38, 39, 40,144, 225
+            ], rules = $(element).rules();
+
+            clearTimeout(timer);
+
+            if (rules.remote && typeof(force) === "undefined") {
+                timer = setTimeout(function() {
+                    $.validator.defaults.onkeyup.apply(this, [element, event, true]);  // reapply self
+                }.bind(this), 2000);
+                return;
+            }
+
+            if (event.which === 9 && this.elementValue(element) === "" || $.inArray(event.keyCode, excludedKeys) !== -1) {
+                return; // 9 - TAB
+            } else if (element.name in this.submitted || element.name in this.invalid) {
+                this.element(element);
+            }
+        },
         rules:{
             first_name:{
                 required:true,
                 minlength:2,
-                maxlength:100
+                maxlength:100,
+                noSpace: true
             },
             last_name:{
                 required:true,
                 minlength:2,
                 maxlength:100
             },
+            username:{
+                required:true,
+                maxlength:100,
+                remote: {
+                    url: $("#username").data("href"),
+                    type: "POST",
+                }
+            },
             email:{
                 required:true,
                 email:true,
+                maxlength:255,
                 remote: {
-                    url: "{{route('check_email_unique')}}",
+                    url: $("#email").data("href"),
                     type: "POST",
-                    data: {
-                        email: function() {
-                            return $( "#register_email" ).val();
-                        },
-                        '_token':$('meta[name="csrf-token"]').attr('content')
-                    }
                 }
             },
             password:{
                 required:true,
-                minlength:6,
-                maxlength:100
+                minlength:8,
+                maxlength:255
             },
-            confirm_password:{
+            password_confirmation:{
                 required:true,
-                equalTo:'#register_password'
+                minlength:8,
+                maxlength:255,
+                equalTo:"#password"
             },
-            terms:"required",
-            grecaptcha:"required"
+            terms:{
+                required: true,
+            },
+            grecaptcha:{
+                required: true,
+            },
         },
         messages: {
             first_name: {
@@ -192,19 +228,28 @@ $(document).ready(function () {
             last_name: {
                 required:"Please enter last name"
             },
+            username:{
+                required: "We need your username to register you",
+                remote: "Username is already in use. Try with different username or <a href='"+
+                    $("#modal_registration_form").data("login-href") +
+                    "'> Sign in </a>"
+            },
             email: {
                 required: "We need your email address to contact you",
                 email: "Your email address must be in the format of name@domain.com",
-                remote:"Email already in use. Try with different email"
+                remote: "Email is already in use. Try with different email or <a href='"+
+                    $("#modal_registration_form").data("login-href") +
+                    "'> Sign in </a>"
             },
             password:{
-                required:"Enter your password"
+                required: "Enter your password"
             },
-            confirm_password:{
-                required:"Need to confirm your password"
+            password_confirmation:{
+                required: "Confirm your password",
+                equalTo: "The given passwords don't match"
             },
-            terms:"Please accept our terms and conditions",
-            grecaptcha:"Captcha field is required"
+            terms: "Please accept our terms and conditions",
+            grecaptcha: "Check reCaptcha"
         },
         errorPlacement:function(error,element){
             if(element.attr("name")==="terms"){
@@ -263,73 +308,77 @@ $(document).ready(function () {
     });
 
     $("#login_form").validate({
-        ignore:".ignore",
-        errorClass:"invalid",
-        validClass:"success",
+        ignore: ".ignore",
+        errorInputClass: "is-invalid",
+        errorLabelClass: "invalid-feedback",
+        validClass: "is-valid",
         rules:{
-            email:{
+            username:{
                 required:true,
-                email:true,
-            },
-            password:{
-                required:true,
-                minlength:6,
                 maxlength:100
             },
-            grecaptcha:"required"
+            password:{
+                required:true,
+                minlength:8,
+                maxlength:255
+            },
+            grecaptcha: {
+                required:true
+            }
         },
         messages: {
-            email: {
-                required: "Email is required",
-                email: "Your email address must be in the format of name@domain.com",
+            username: {
+                required: "Username or E-mail is required"
             },
             password:{
-                required:"Enter your password"
+                required: "Enter your password"
             },
-            grecaptcha:"Captcha field is required"
+            grecaptcha: "Check reCaptcha"
         },
-        errorPlacement:function(error,element){
-            if(element.attr("name")==="grecaptcha"){
-                error.appendTo($('#LoginRecaptchaErrorDiv'));
+        errorPlacement: function(error,element){
+            if ( element.attr("name")==="grecaptcha" ) {
+                error.appendTo($("#LoginRecaptchaErrorDiv"));
             } else {
                 error.insertAfter(element);
             }
         },
-        submitHandler:function(form){
-            $.LoadingOverlay("show");
+        submitHandler: function(form){
+            // $.LoadingOverlay("show");
             form.submit();
         }
     });
 
     var login_validator=$("#modal_login_form").validate({
         ignore:".ignore",
-        errorClass:"invalid",
-        validClass:"success",
+        errorInputClass: "is-invalid",
+        errorLabelClass: "invalid-feedback",
+        validClass: "is-valid",
         rules:{
-            email:{
+            username:{
                 required:true,
-                email:true,
-            },
-            password:{
-                required:true,
-                minlength:6,
                 maxlength:100
             },
-            grecaptcha:"required"
+            password:{
+                required:true,
+                minlength:8,
+                maxlength:255
+            },
+            grecaptcha: {
+                required:true
+            }
         },
         messages: {
-            email: {
-                required: "Email is required",
-                email: "Your email address must be in the format of name@domain.com",
+            username: {
+                required: "Username is required"
             },
             password:{
-                required:"Enter your password"
+                required: "Enter your password"
             },
-            grecaptcha:"Captcha field is required"
+            grecaptcha: "Check reCaptcha"
         },
         errorPlacement:function(error,element){
             if(element.attr("name")==="grecaptcha"){
-                error.appendTo($("#hiddenRecaptchaLoginError"));
+                error.appendTo($("#LoginRecaptchaErrorDiv"));
             } else {
                 error.insertAfter(element);
             }
@@ -362,18 +411,18 @@ $(document).ready(function () {
                     var status=jqXHR.status;
                     form.reset();
                     login_validator.resetForm();
-                    if(status=="422"){
+                    if ( status=="422" ) {
                         //console.log(response.errors,'response.errors');
                         for (const property in response.errors) {
-                            toastr.error(response.errors[property][0], "Error", {timeOut: 5000})
+                            alertify.error(response.errors[property][0]);
                         }
                     } else if (status=="400") {
-                        toastr.error(response.message, "Error", {timeOut: 5000});
+                        alertify.error(response.errors);
                     } else {
-                        toastr.error("Internal server error.", "Error", {timeOut: 5000})
+                        alertify.error("Internal server error.");
                     }
                     grecaptcha.reset(0);
-                    $("#hiddenRecaptchaLogin").val("");
+                    $("#hiddenInputRecaptchaLogin").val("");
                 }
             });
         }

@@ -24,8 +24,8 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'   => 'required | string | min:3 | max:255',
-            'password'   => 'required | string | min:3 | max:255',
+            'username'   => 'required | string | max:255',
+            'password'   => 'required | string | min:8 | max:255',
             'remember'   => 'nullable',
             'grecaptcha' => 'required'
         ];
@@ -38,12 +38,13 @@ class LoginRequest extends FormRequest
 //        ];
 //    }
 
-//    public function messages()
-//    {
-//        return [
-//            'username.required' => 'A username or e-mail is required',
-//            'password.required' => 'A password is required',
-//        ];
-//    }
+    public function messages()
+    {
+        return [
+            'username.required'   => 'A username or e-mail is required',
+            'password.required'   => 'A password is required',
+            'grecaptcha.required' => 'Check reCaptcha'
+        ];
+    }
 
 }
