@@ -129,7 +129,7 @@ class TaskController extends Controller
     {
         $this->authorize('delete_task', $task);
         $task->delete();
-        return redirect()->back();
+        return redirect()->route("tasks.tasks");
     }
 
 }

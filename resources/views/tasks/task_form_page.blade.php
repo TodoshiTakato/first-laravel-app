@@ -182,9 +182,10 @@
                                     default:
                                         break;
                                 }
-
                             }
-                            window.onload = function () {setStarRating(rating)};
+                            @isset($found_task)
+                                window.onload = function () {setStarRating(rating)};
+                            @endisset
                         </script>
                     </div>  {{-- Rating (End) --}}
                     <div class="w-1">
@@ -194,40 +195,40 @@
                     </div>
                 </div>  {{-- Status / Priority / Rating / Hello (End) --}}
                 <div class="row row-cols-3">   {{-- Start_time (Start) --}}
-                    <div class="col-4">
-                        <div class="row input-group justify-content-between align-items-center">
-                            <div class="input-group-prepend">
+                    <div class="col-6 pl-0">
+                        <div class="row input-group">
+                            <div class="col-3 px-0 input-group-prepend">
                                 <label class="input-group-text" for="start_time">Start time:</label>
                             </div>
-                            <div class="d-flex">
+                            <div class="col-9 px-0">
                                 <input type="datetime-local" id="start_time" name="start_time" @isset($found_task) value="{{$found_task->start_time}}" @endisset
                                        class="form-control @error('start_time') is-invalid @enderror" step="1">
                                 @error('start_time')<div class="invalid-feedback"><strong>{{$message}}</strong></div>@enderror
                             </div>
                         </div>   {{-- Start_time (End) --}}
-                        <div class="row input-group justify-content-between align-items-center">   {{-- Finish_time (Start) --}}
-                            <div class="input-group-prepend">
+                        <div class="row input-group">   {{-- Finish_time (Start) --}}
+                            <div class="col-3 px-0 input-group-prepend">
                                 <label class="input-group-text" for="finish_time">Finish time:</label>
                             </div>
-                            <div class="d-flex">
+                            <div class="col-9 px-0">
                                 <input type="datetime-local" id="finish_time" name="finish_time" @isset($found_task) value="{{$found_task->finish_time}}" @endisset
                                        class="form-control @error('finish_time') is-invalid @enderror"  step="1">
                                 @error('finish_time')<div class="invalid-feedback"><strong>{{$message}}</strong></div>@enderror
                             </div>
                         </div>   {{-- Finish_time (End) --}}
-                        <div class="row input-group justify-content-between align-items-center">   {{-- Time_spent (Start) --}}
-                            <div class="input-group-prepend">
+                        <div class="row input-group">   {{-- Time_spent (Start) --}}
+                            <div class="col-3 px-0 input-group-prepend">
                                 <label class="input-group-text" for="time_spent">Time spent:</label>
                             </div>
-                            <div class="d-flex">
+                            <div class="col-9 px-0">
                                 <input type="number" id="time_spent" name="time_spent" @isset($found_task) value="{{$found_task->time_spent}}" @endisset
                                        step="1" class="form-control @error('time_spent') is-invalid @enderror">
                                 @error('time_spent')<div class="invalid-feedback"><strong>{{$message}}</strong></div>@enderror
                             </div>
                         </div>   {{-- Time_spent (End) --}}
                     </div>
-                    <div class="col-8 p-1">
-                        <textarea id="comment" name="comment" rows="6" cols="90"
+                    <div class="col-6 p-1">
+                        <textarea id="comment" name="comment" rows="8" cols="65"
                                   placeholder="Write Some Nice Comment">@isset($found_task) @isset($found_task->ratings->first()->comment){{$found_task->ratings->first()->comment}} @endisset @endisset</textarea>
                     </div>
                 </div>
