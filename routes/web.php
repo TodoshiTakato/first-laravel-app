@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 
-    Route::get('/register',      'UserController@getRegister')->name('getRegister');  // User Get Register Page.
+Route::get('/register',      'UserController@getRegister')->name('getRegister');  // User Get Register Page.
 Route::post('/register',      'UserController@postRegister')->name('postRegister');  // User Post Register. Create a user.
 Route::post('/ajax-register','UserController@ajaxRegister')->name('ajaxRegister');  // User Ajax Register. Create a user.
 
@@ -80,9 +81,9 @@ Route::group([              // Route Group Shop.
         'as' => 'cart',
     ], function () {
         Route::get('/', 'ShopController@cart');  // Shop Cart Page.
-        Route::put('/update/{product}', 'ShopController@cartUpdateQuantity')->name('.update_quantity');  // Shop Cart change_quantity Action.
-        Route::get('/load', 'ShopController@cartLoadData')->name('.load_cart_data');  // Shop Cart load_cart_data Action.
-        Route::get('/clear', 'ShopController@cartClear')->name('.clear_cart');  // Shop Cart clear_cart Action.
+        Route::put('/update/{product}', 'ShopController@cartUpdateQuantity')->name('.update_quantity');  // shop.cart.update_quantity Action.
+        Route::get('/load', 'ShopController@cartLoadData')->name('.load_cart_data');  // shop.cart.load_cart_data Action.
+        Route::get('/clear', 'ShopController@cartClear')->name('.clear_cart');  // shop.cart.clear_cart Action.
     });
 });
 

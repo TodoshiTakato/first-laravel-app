@@ -173,7 +173,8 @@ jQuery( document ).ready(function( $ ) {
         });
 
 });
-
+// document.getElementById("demo").innerHTML = routes.shop.products+"/";
+// document.getElementById("demo").innerHTML = routes.shop.cart.clear_cart;
 $(document).ready(function () {
     cartload();
 
@@ -183,7 +184,7 @@ $(document).ready(function () {
         let product_id = add_to_cart_btn.closest("#product_data").find("#product_id").val();
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.products')}}/"+product_id,
+            url: routes.shop.products+"/"+product_id,
             method: "POST",
             success: function (response) {
                 let value = response; //Single Data Viewing
@@ -228,7 +229,7 @@ $(document).ready(function () {
         let product_id = $(this).closest('#product_data').find("#product_id").val();
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.products')}}/"+product_id,
+            url: routes.shop.products+"/"+product_id,
             method: "DELETE",
             success: function (response) {
                 let buttons = remove_from_cart_btn.closest(".buttons");
@@ -254,7 +255,7 @@ $(document).ready(function () {
         let product_id = $(this).closest("#product_data").find('#product_id').val();
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.products')}}/"+product_id,
+            url: routes.shop.products+"/"+product_id,
             method: "POST",
             success: function (response) {
                 let item_qty = add_another_one_btn.closest('.item').find('#qty');
@@ -272,7 +273,7 @@ $(document).ready(function () {
         let product_id = $(this).closest("#product_data").find("#product_id").val();
         $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.products')}}/"+product_id,
+            url: routes.shop.products+"/"+product_id,
             method: "PUT",
             success: function (response) {
                 let buttons = subtract_one_from_cart_btn.closest(".buttons");
@@ -302,7 +303,7 @@ $(document).ready(function () {
         event.preventDefault();
         $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.cart.clear_cart')}}",
+            url: routes.shop.cart.clear_cart,
             type: "GET",
             success: function (response) {
                 window.location.reload();
@@ -319,7 +320,7 @@ $(document).ready(function () {
         let grand_price = $("#grand_price");
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.cart')}}/update/"+product_id,
+            url: routes.shop.cart.cart+"/update/"+product_id,
             type: "PUT",
             data: { "quantity": quantity },
             success: function (response) {
@@ -339,7 +340,7 @@ $(document).ready(function () {
         let grand_price = $("#grand_price");
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.products')}}/"+product_id,
+            url: routes.shop.products+"/"+product_id,
             type: "DELETE",
             success: function (response) {
                 cart_item_row.remove();
@@ -353,7 +354,7 @@ $(document).ready(function () {
     function cartload() {
         $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: "{{route('shop.cart.load_cart_data')}}",
+            url: routes.shop.cart.load_cart_data,
             method: "GET",
             success: function (response) {
                 let counter = $(".basket-item-count");
@@ -366,6 +367,7 @@ $(document).ready(function () {
         });
     }
 
+    // Nurlan got this from github or stackoverflow
     function number_format(number, decimals, decPoint, thousandsSep) {
         number = (number + '').replace(/[^0-9+\-Ee.]/g, '')
         const n = !isFinite(+number) ? 0 : +number

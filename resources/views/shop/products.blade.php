@@ -8,6 +8,7 @@
                     <div class="text-content">
                         <h4>new arrivals</h4>
                         <h2>our market's products</h2>
+                        <h2 id="demo"></h2>
                     </div>
                 </div>
             </div>
@@ -54,106 +55,118 @@
                                                 {{$product->description}}
                                             </p>
                                             <div class="buttons">
-                                            {{--  @if ($order->order_items->where('product_id', $product->id)->count())--}}
-                                            @if (isset($prod_id_list) && in_array($product->id, $prod_id_list))
-                                                <div class="d-flex justify-content-between item">
-                                                    <button class="btn btn-primary btn-vsm disabled">
-                                                        <i class="fas fa-shopping-cart fa-1x"></i>
-                                                        Уже в корзине(
-                                                            <div id="qty" class="d-inline">
-                                                                {{$cart_data[$product->id]["item_quantity"]}} штук
-                                                            </div>
-                                                        }
+                                                {{--  @if ($order->order_items->where('product_id', $product->id)->count())--}}
+                                                @if (isset($prod_id_list) && in_array($product->id, $prod_id_list))
+                                                    <div class="d-flex justify-content-between item">
+                                                        <button class="btn btn-primary btn-vsm disabled">
+                                                            <i class="fas fa-shopping-cart fa-1x"></i>
+                                                            Уже в корзине(
+                                                                <div id="qty" class="d-inline">
+                                                                    {{$cart_data[$product->id]["item_quantity"]}} штук
+                                                                </div>
+                                                            }
                                                         </button>
-{{--                                                    <button class="btn btn-primary btn-vsm disabled">--}}
-{{--                                                        <i class="fas fa-shopping-cart fa-1x"></i>--}}
-{{--                                                        Уже в корзине(--}}
-{{--                                                        <div id="qty" class="d-inline">--}}
-{{--                                                            {{$order->order_items->where('product_id', $product->id)->first()->quantity}}--}}
-{{--                                                        </div>--}}
-{{--                                                        )--}}
-{{--                                                    </button>--}}
+    {{--                                                    <button class="btn btn-primary btn-vsm disabled">--}}
+    {{--                                                        <i class="fas fa-shopping-cart fa-1x"></i>--}}
+    {{--                                                        Уже в корзине(--}}
+    {{--                                                        <div id="qty" class="d-inline">--}}
+    {{--                                                            {{$order->order_items->where('product_id', $product->id)->first()->quantity}}--}}
+    {{--                                                        </div>--}}
+    {{--                                                        )--}}
+    {{--                                                    </button>--}}
+                                                        {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
+                                                        {{--    @csrf()--}}
+                                                        {{--    @method('POST')--}}
+                                                        {{--    <button class="btn btn-success btn-vsm">--}}
+                                                        {{--        <i class="fas fa-plus-square"></i>--}}
+                                                        {{--    </button>--}}
+                                                        {{--</form>--}}
+                                                        <div id="product_data">
+                                                            <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                            {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                            <button id="add_another_one_btn" class="btn btn-success btn-vsm">
+                                                                <i class="fas fa-plus-square"></i>
+                                                            </button>
+                                                        </div>
+                                                        {{--<form action="{{route('shop.subtract_one_from_cart', $product->id)}}" method="POST">--}}
+                                                        {{--    @csrf()--}}
+                                                        {{--    @method('PUT')--}}
+                                                        {{--    <button class="btn btn-danger btn-vsm">--}}
+                                                        {{--        <i class="fas fa-minus-square"></i>--}}
+                                                        {{--    </button>--}}
+                                                        {{--</form>--}}
+                                                        <div id="product_data">
+                                                            <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                            {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                            <button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">
+                                                                <i class="fas fa-minus-square"></i>
+                                                            </button>
+                                                        </div>
+                                                        {{--<form action="{{route('shop.remove_from_cart', $product->id)}}" method="POST">--}}
+                                                        {{--    @csrf()--}}
+                                                        {{--    @method('DELETE')--}}
+                                                        {{--    <button class="btn btn-danger btn-vsm">--}}
+                                                        {{--        <i class="fas fa-shopping-cart fa-1x"></i> Удалить--}}
+                                                        {{--    </button>--}}
+                                                        {{--</form>--}}
+                                                        <div id="product_data">
+                                                            <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
+                                                            {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
+                                                            <button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">
+                                                                <i class="fas fa-shopping-cart fa-1x"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                @else
                                                     {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
                                                     {{--    @csrf()--}}
                                                     {{--    @method('POST')--}}
-                                                    {{--    <button class="btn btn-success btn-vsm">--}}
-                                                    {{--        <i class="fas fa-plus-square"></i>--}}
+                                                    {{--    <button class="btn btn-success">--}}
+                                                    {{--        <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину--}}
                                                     {{--    </button>--}}
                                                     {{--</form>--}}
                                                     <div id="product_data">
                                                         <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
                                                         {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-                                                        <button id="add_another_one_btn" class="btn btn-success btn-vsm">
-                                                            <i class="fas fa-plus-square"></i>
+                                                        <button id="add_to_cart_btn" class="btn btn-success">
+                                                            <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину
                                                         </button>
                                                     </div>
-                                                    {{--<form action="{{route('shop.subtract_one_from_cart', $product->id)}}" method="POST">--}}
-                                                    {{--    @csrf()--}}
-                                                    {{--    @method('PUT')--}}
-                                                    {{--    <button class="btn btn-danger btn-vsm">--}}
-                                                    {{--        <i class="fas fa-minus-square"></i>--}}
-                                                    {{--    </button>--}}
-                                                    {{--</form>--}}
-                                                    <div id="product_data">
-                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
-                                                        {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-                                                        <button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">
-                                                            <i class="fas fa-minus-square"></i>
-                                                        </button>
-                                                    </div>
-                                                    {{--<form action="{{route('shop.remove_from_cart', $product->id)}}" method="POST">--}}
-                                                    {{--    @csrf()--}}
-                                                    {{--    @method('DELETE')--}}
-                                                    {{--    <button class="btn btn-danger btn-vsm">--}}
-                                                    {{--        <i class="fas fa-shopping-cart fa-1x"></i> Удалить--}}
-                                                    {{--    </button>--}}
-                                                    {{--</form>--}}
-                                                    <div id="product_data">
-                                                        <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
-                                                        {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-                                                        <button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">
-                                                            <i class="fas fa-shopping-cart fa-1x"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            @else
-                                                {{--<form action="{{route('shop.add_to_cart', $product->id)}}" method="POST">--}}
-                                                {{--    @csrf()--}}
-                                                {{--    @method('POST')--}}
-                                                {{--    <button class="btn btn-success">--}}
-                                                {{--        <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину--}}
-                                                {{--    </button>--}}
-                                                {{--</form>--}}
-                                                <div id="product_data">
-                                                    <input type="hidden" id="product_id" value="{{$product->id}}"> <!-- Your Product ID -->
-                                                    {{--<input type="text" id="qty-input" value="1"> <!-- Your Number of Quantity -->--}}
-                                                    <button id="add_to_cart_btn" class="btn btn-success">
-                                                        <i class="fas fa-cart-plus fa-1x"></i> Добавить в корзину
-                                                    </button>
-                                                </div>
-                                            @endif
+                                                @endif
                                             </div>
-                                                <ul class="stars">
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                    <li><i class="fa fa-star"></i></li>
-                                                </ul>
-                                                <span>Reviews (12)</span>
-                                            </div>
+                                            <ul class="stars">
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                                <li><i class="fa fa-star"></i></li>
+                                            </ul>
+                                            <span>Reviews (12)</span>
                                         </div>
                                     </div>
-                                @endforeach
-                            </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        {{$products->onEachSide(2)->links('layout.pagination-links')}}
-                    </div>
-
-
+                </div>
+                <div class="col-md-12">
+                    {{$products->onEachSide(2)->links('layout.pagination-links')}}
                 </div>
             </div>
         </div>
-    @endsection
+    </div>
+
+    <script>
+        // global app configuration object GO TO CUSTOM.JS!!!
+        var routes = {
+            shop: {
+                products: "{{route('shop.products')}}", {{-- // $.ajax({ url: routes.shop.products+"/"+product_id })--}}
+                cart: {
+                    cart: "{{route('shop.cart')}}", {{-- // $.ajax({ url: routes.shop.cart.cart+"/update/"+product_id })--}}
+                    load_cart_data: "{{route('shop.cart.load_cart_data')}}", {{-- // $.ajax({ url: routes.shop.cart.load_cart_data })--}}
+                    clear_cart: "{{route('shop.cart.clear_cart')}}" {{-- // $.ajax({ url: routes.shop.products+"/"+product_id })--}}
+                }
+            }
+        };
+    </script>
+@endsection
