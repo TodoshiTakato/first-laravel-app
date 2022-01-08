@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/registration',      'UserController@getRegister')->name('getRegister');  // User Get Register Page.
+    Route::get('/register',      'UserController@getRegister')->name('getRegister');  // User Get Register Page.
 Route::post('/register',      'UserController@postRegister')->name('postRegister');  // User Post Register. Create a user.
 Route::post('/ajax-register','UserController@ajaxRegister')->name('ajaxRegister');  // User Ajax Register. Create a user.
 
@@ -44,6 +44,8 @@ Route::get('/hello0004', 'MyController0001@hello0004'); // Passing variable way 
 Route::get('/hello0005',      'MyController0001@index');     // User. Using Controller. Returning HTML as a string.
 Route::get('/hello0006/{variable?}', 'MyController0001@outputting_variable'); // Routing with optional variable.
                                                                                   // Passing variable way #1
+Route::get('/hello_user', 'MyController0001@index'); //~dfgdsfgdfgdfgdg
+Route::get('/hello_user/{variable?}', 'MyController0001@outputting_variable'); //~dfgdsfgdfgdfgdg
 
 //                            HTTP Parser Pages
 Route::get('/http',      'MyController0001@parsed_http')->name('get_parsed_http');              // Using HTTP request.
@@ -54,7 +56,7 @@ Route::get('/layout',      'MyController0001@layout')->name('layout');  // Verif
 
 
 
-
+//Route::post('/shop/products/', 'MyController0001@index');
 Route::group([              // Route Group Shop.
     'prefix' => 'shop',
     'as' => 'shop.',

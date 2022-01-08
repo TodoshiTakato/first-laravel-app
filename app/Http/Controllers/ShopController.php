@@ -56,8 +56,10 @@ class ShopController extends Controller {
     public function products(Request $request)
     {
         $products = Product::paginate(6);
-//        $order = $this->get_order($request);
-//        $order_items_count = $order->order_items->count();
+        if(Auth::check()) {
+            $order = $this->getOrder($request);
+            $order_items_count = $order->order_items->count();
+        }
         $class_array = array(
             "des",
             "dev",
@@ -105,7 +107,7 @@ class ShopController extends Controller {
             return view("shop.products", compact(
                 "products",
                 "images_array",
-                "class_array",
+                "class_array"
             ));
         }
     }
@@ -114,7 +116,7 @@ class ShopController extends Controller {
     {
         if (Auth::check()) {
             // TODO Add addToCart logic
-            $order_item = $this->get_order_item($request, $product);
+            $order_item = $this->getOrderItem($request, $product);
             $order_item->quantity += 1;
             $order_item->save();
             return redirect()->back();
@@ -173,7 +175,7 @@ class ShopController extends Controller {
     {
         if (Auth::check()) {
             // TODO Add subtractOneFromCart logic
-            $order_item = $this->get_order_item($request, $product);
+            $order_item = $this->getOrderItem($request, $product);
             $qty = $order_item->quantity;
             if ($qty > 1) {
                 $order_item->quantity -= 1;
@@ -221,7 +223,7 @@ class ShopController extends Controller {
     {
         if (Auth::check()) {
             // TODO Add removeFromCart logic
-            $order_item = $this->get_order_item($request, $product);
+            $order_item = $this->getOrderItem($request, $product);
             $order_item->delete();
             return redirect()->back();
         } else {
@@ -253,7 +255,7 @@ class ShopController extends Controller {
         $cart_data = $this->getCartData();
         if (Auth::check()) {
             // TODO Add cart logic
-            $order = $this->get_order($request);
+            $order = $this->getOrder($request);
             return view('shop.cart', compact('order'));
         } else {
             Session::put("url.intended", request()->fullUrl());

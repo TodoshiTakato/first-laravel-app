@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\LoginRequest;
-use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\User;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Session;
-use Mail;
+use Illuminate\Support\Facades\Mail;
+//use Illuminate\Auth\SessionGuard;
+use Illuminate\Support\Str;
+use GuzzleHttp\Client;
+use App\User;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Mail\EmailVerificationMail;
 use App\Mail\ForgetPasswordMail;
 use App\PasswordReset;
 use Carbon\Carbon;
-use Illuminate\Support\Str;
 
 
 class UserController extends Controller
@@ -49,15 +49,15 @@ class UserController extends Controller
                 $user=User::create([
                     "first_name"=>$request->first_name,
                     "last_name"=>$request->last_name,
-                    "username"=>$request->username, // TODO add to frontend
+                    "username"=>$request->username,
                     "email"=>$request->email,
                     "password"=>Hash::make($request->password),
-                    "email_verification_code"=>Str::random(40) // TODO know what is that
+                    "email_verification_code"=>$request->username.Str::random(40) // TODO know what is that
                 ])
             ) {
-                return redirect()->route("getLogin")->withInput($validatedData);
+//                return redirect()->route("getLogin")->withInput($validatedData);
                 Mail::to($request->email)->send(new EmailVerificationMail($user));
-                return redirect()->back()->with(
+                return redirect()->route("getLogin")->withInput($validatedData)->with(
                     "success",
                     "Registration successfull. Please check your email address for email verification link."
                 );
@@ -77,9 +77,10 @@ class UserController extends Controller
             $user=User::create([
                 "first_name"=>$request->first_name,
                 "last_name"=>$request->last_name,
+                "username"=>$request->username,
                 "email"=>$request->email,
                 "password"=>Hash::make($request->password),
-                "email_verification_code"=>Str::random(40)
+                "email_verification_code"=>$request->username.Str::random(40)
             ]);
             Mail::to($request->email)->send(new EmailVerificationMail($user));
             return response()->json([
@@ -109,7 +110,7 @@ class UserController extends Controller
         if($response_getBody->success==true){
             $remember = ( $request->remember ) ? true : false;
             if (
-                Auth::attempt($userData)
+            Auth::attempt($userData)
             ) {
                 Auth::login(Auth::user(), $remember);
                 if (session("url.intended")) {
@@ -252,17 +253,17 @@ class UserController extends Controller
     }
 
     public function verify_email($verification_code){
-        $user = User::where("email_verification_code",$verification_code)->first();
+        $user = User::where("email_verification_code", $verification_code)->first();
         if(!$user){
             return redirect()->route("getRegister")->with("error", "Invalid URL");
         } else {
             if($user->email_verified_at){
-                return redirect()->route("getRegister")->with("error", "Email already verified");
+                return redirect()->route("getLogin")->with("error", "Email already verified");
             } else {
                 $user->update([
                     "email_verified_at"=>\Carbon\Carbon::now()
                 ]);
-                return redirect()->route("getRegister")->with("success", "Email successfully verified");
+                return redirect()->route("getLogin")->with("success", "Email successfully verified");
             }
         }
     }

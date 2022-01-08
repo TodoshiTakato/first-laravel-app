@@ -72,8 +72,9 @@
                         <div class="col-3"></div>
                         <div class="col-7">
                             <div class="g-recaptcha" data-sitekey="{{env("GOOGLE_CAPTCHA_KEY")}}"
-                             data-callback="recaptchaDataCallbackLogin"
-                             data-expired-callback="recaptchaExpireCallbackLogin"></div>
+                                 data-callback="recaptchaDataCallbackLogin"
+                                 data-expired-callback="recaptchaExpireCallbackLogin">
+                            </div>
                         <input type="hidden" name="grecaptcha" id="hiddenInputRecaptchaLogin">
                         @error('grecaptcha')
                             <div class="invalid-feedback">

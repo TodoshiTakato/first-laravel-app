@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use App\Task;
-use App\User;
+//use App\User;
+//use Illuminate\Auth\EloquentUserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Auth\EloquentUserProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {

@@ -27,7 +27,7 @@ class Task extends Model
      * @param int|null $task_user
      * @return Model
      */
-    public function rate($rating = null, $task_user = null, $comment = null)
+    public function rate($rating, $task_user = null, $comment = null)
     {
         if ($rating > 5 || $rating < 1) {
             throw new InvalidArgumentException('Ratings must be between 1-5.');

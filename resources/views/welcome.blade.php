@@ -41,13 +41,13 @@
                 <div><a href="/hello0002">3. /hello0002 Alex</a></div>
                 <div><a href="/hello0003">4. /hello0003 Smith</a></div>
                 <div><a href="/hello0004">5. /hello0003 John</a></div>
-                <div><a href="/user">6. /user</a></div>
-                <div><a href="/user/'some_variable'">7. /user/'some_variable'</a></div>
+                <div><a href="/hello_user">6. /hello_user</a></div>
+                <div><a href="/hello_user/some_variable">7. /hello_user/some_variable</a></div>
                 <div> {{-- style="grid-column: 2 / 4" --}}
                     <form action="/index.php" method="GET" autocomplete="on" id="var_form"
                           oninput=" let new_link = '/user/'.concat(variable.value)
                                     link.value = new_link
-                                    myAnchor.href = new_link ">
+                                    myAnchor.href = new_link">
                         @csrf
                         @method('GET')
                         <label for="variable">8. </label>

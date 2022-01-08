@@ -15,5 +15,5 @@
 
 {{-- Scripts --}}
 {{--<script src="https://www.google.com/recaptcha/api.js" async defer></script>    --}}{{-- reCaptcha --}}
-
+{{-- Look at the login and register blades for recaptcha and auth js --}}
 @stack('header')

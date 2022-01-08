@@ -69,6 +69,7 @@ class TaskController extends Controller
             $validatedData = $request->validate([
                 'rating' => 'nullable | integer | between:1,5',
             ]);
+
             $task = Task::find($task_ID);
             $task->rate($validatedData['rating'], Auth::user());
         }
