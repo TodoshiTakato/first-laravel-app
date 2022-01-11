@@ -20,11 +20,12 @@ class OrderItem extends Model
 
     public function product()
     {
-        return $this->hasOne('App\Product');
+        return $this->belongsTo('App\Product');
     }
 
-//    public function setItemPriceAttribute ($quantity) {
-//        $price = $this->product()->price;
-//        $this->attributes['item_price'] = ($price*$quantity);
-//    }
+    public function setItemPriceAttribute ($quantity) {
+        $price = $this->product->price;
+        $this->attributes['item_price'] = ($price*$quantity);
+    }
+
 }

@@ -324,9 +324,12 @@ $(document).ready(function () {
             type: "PUT",
             data: { "quantity": quantity },
             success: function (response) {
-                item_price.html(number_format(response["item_price"], 2, ',', ' ')+" UZS");
-                subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
-                grand_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
+                // item_price.html(number_format(response["item_price"], 2, ',', ' ')+" UZS");
+                // subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
+                // grand_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
+                item_price.html(response["item_price"]);
+                subtotal_price.html(response["total"]);
+                grand_price.html(response["total"]);
                 alertify.success(response.status);
             }
         });
@@ -344,8 +347,8 @@ $(document).ready(function () {
             type: "DELETE",
             success: function (response) {
                 cart_item_row.remove();
-                subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
-                grand_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
+                subtotal_price.html(response["total"]);
+                grand_price.html(response["total"]);
                 alertify.success(response.status);
             }
         });

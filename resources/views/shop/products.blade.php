@@ -49,7 +49,7 @@
                                         </a>
                                         <div class="down-content">
                                             <a href="#"><h4>{{$product->name}}</h4></a>
-                                            <h6>{{number_format($product->price, 2, ",", " ").' UZS'}}</h6>
+                                            <h6>{{number_format((($product->price)/100), 2, ",", " ") . " UZS"}}</h6>
                                             <p style="display: -webkit-box; max-width: 100%; height: 120px;
                                                       overflow: hidden; -webkit-line-clamp: 5; -webkit-box-orient: vertical; ">
                                                 {{$product->description}}

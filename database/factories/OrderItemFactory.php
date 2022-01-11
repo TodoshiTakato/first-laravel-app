@@ -11,7 +11,7 @@ $factory->define(OrderItem::class, function (Faker $faker) {
         'order_id' => factory(\App\Order::class),
         'product_id' => App\Product::all()->pluck('id')->random(),
         'quantity' => $faker->randomNumber($nbDigits = 2, $strict = false),
-        'item_price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 2000),
+        'item_price' => $faker->numberBetween($min = 1000000, $max = 10000000), // add 00 at the end because price is integer
 //        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
 //        'updated_at' => $faker->dateTimeBetween('-4 months','now', null),
     ];

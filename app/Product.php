@@ -21,7 +21,7 @@ class Product extends Model
 
     public function order_item()
     {
-        return $this->belongsTo('App\OrderItem');
+        return $this->hasMany('App\OrderItem');
     }
 
 //    public function getPriceAttribute($price)

@@ -16,8 +16,8 @@ class CreateOrderItemsTable extends Migration
         if (!Schema::hasTable('order_items')) {
             Schema::create('order_items', function (Blueprint $table) {
                 $table->id();
-                $table->unsignedBigInteger('quantity')->default(0)->nullable();
-                $table->unsignedDecimal('item_price', 16, 2)->default(0.00)->nullable();
+                $table->unsignedInteger('quantity')->default(0)->nullable();
+                $table->unsignedBigInteger('item_price')->default(0)->nullable();
                 $table->timestamps();
             });
         }

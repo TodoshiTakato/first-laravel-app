@@ -10,7 +10,7 @@ $factory->define(Product::class, function (Faker $faker) {
     return [
         'name' => $faker->word,
         'description' => $faker->paragraph($nbSentences = 3, $variableNbSentences = true),
-        'price' => $faker->randomFloat($nbMaxDecimals = 2, $min = 1, $max = 100000),
+        'price' => $faker->numberBetween($min = 1000000, $max = 10000000), // add 00 at the end because price is integer
         'status' => $faker->randomElement($array = array (0, 1)),
         'category_id' => App\Category::all()->pluck('id')->random(),
 //        'created_at' => $faker->dateTimeBetween('-4 months', 'now', null),
