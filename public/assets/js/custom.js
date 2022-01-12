@@ -187,35 +187,40 @@ $(document).ready(function () {
             url: routes.shop.products+"/"+product_id,
             method: "POST",
             success: function (response) {
-                let value = response; //Single Data Viewing
-                let buttons = add_to_cart_btn.closest(".buttons");
-                buttons.html("");
-                buttons.append($(
-                    '<div class="d-flex justify-content-between item">' +
-                    '<button class="btn btn-primary btn-vsm disabled"> ' +
-                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                    'Уже в корзине(<div id="qty" class="d-inline">' + value['item_quantity'] + ' штук</div>)' +
-                    '</button>' +
-                    '<div id="product_data">' +
-                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                    '<button id="add_another_one_btn" class="btn btn-success btn-vsm">' +
-                    '<i class="fas fa-plus-square"></i>' +
-                    '</button>' +
-                    '</div>' +
-                    '<div id="product_data">' +
-                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                    '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                    '<i class="fas fa-minus-square"></i>' +
-                    '</button>' +
-                    '</div>' +
-                    '<div id="product_data">' +
-                    '<input type="hidden" id="product_id" value="' + product_id +'">' +
-                    '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
-                    '<i class="fas fa-shopping-cart fa-1x"></i>' +
-                    '</button>' +
-                    '</div>' +
-                    '</div>'
-                ));
+
+                if (response["item_quantity"] == 1) {
+                    let buttons = add_to_cart_btn.closest(".buttons");
+                    buttons.html("");
+                    buttons.append($(
+                        '<div class="d-flex justify-content-between item">' +
+                        '<button class="btn btn-primary btn-vsm disabled"> ' +
+                        '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                        'Уже в корзине(<div id="qty" class="d-inline">' + response["item_quantity"] + ' штук</div>)' +
+                        '</button>' +
+                        '<div id="product_data">' +
+                        '<input type="hidden" id="product_id" value="' + product_id + '">' +
+                        '<button id="add_another_one_btn" class="btn btn-success btn-vsm">' +
+                        '<i class="fas fa-plus-square"></i>' +
+                        '</button>' +
+                        '</div>' +
+                        '<div id="product_data">' +
+                        '<input type="hidden" id="product_id" value="' + product_id + '">' +
+                        '<button id="subtract_one_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                        '<i class="fas fa-minus-square"></i>' +
+                        '</button>' +
+                        '</div>' +
+                        '<div id="product_data">' +
+                        '<input type="hidden" id="product_id" value="' + product_id + '">' +
+                        '<button id="remove_from_cart_btn" class="btn btn-danger btn-vsm">' +
+                        '<i class="fas fa-shopping-cart fa-1x"></i>' +
+                        '</button>' +
+                        '</div>' +
+                        '</div>'
+                    ));
+                } else {
+                    let disabled_button_quantity_indicator = add_to_cart_btn.find("#qty");
+                    disabled_button_quantity_indicator.val(response["item_quantity"]);
+                }
 
                 cartload();
                 alertify.success(response.status);

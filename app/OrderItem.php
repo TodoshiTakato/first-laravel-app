@@ -23,6 +23,13 @@ class OrderItem extends Model
         return $this->belongsTo('App\Product');
     }
 
+//    public function setQuantityAttribute ($quantity) {
+//        $this->attributes['quantity'] = $quantity;
+//
+//        $price = $this->product->price;
+//        $this->attributes['item_price'] = ($price*$quantity);
+//    }
+
     public function setItemPriceAttribute ($quantity) {
         $price = $this->product->price;
         $this->attributes['item_price'] = ($price*$quantity);

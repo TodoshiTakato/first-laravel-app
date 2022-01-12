@@ -9,15 +9,19 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 
 class ShopController extends Controller {
 
-    public function getOrder()
+    public function getOrder($withCount=null)
     {
         $user = Auth::user();
+        if (isset($withCount)) {
+            return Order::withCount($withCount)->firstOrCreate(['user_id' => $user->id, 'paid' => 0]);
+        }
         return Order::firstOrCreate(['user_id' => $user->id, 'paid' => 0]);
     }
 
@@ -26,14 +30,13 @@ class ShopController extends Controller {
         if(!isset($order)) {
             $order = $this->getOrder();
         }
-        $orderitem = OrderItem::firstOrCreate(
+        return OrderItem::firstOrCreate(
             ['order_id' => $order->id,'product_id' => $product->id]
         );
-        return $orderitem;
     }
     public function getCartData()
     {
-        if (Cookie::get("shopping_cart")) {
+        if (Cookie::has("shopping_cart")) {
             $cookie_data = stripslashes(Cookie::get("shopping_cart"));
             return json_decode($cookie_data, true);
         } else {
@@ -53,37 +56,27 @@ class ShopController extends Controller {
         return view("shop.index");
     }
 
-    public function get()
+    public function getCart()
     {
-        if(Auth::check()) {
-            $cart_data = $this->getCartData(); // Get Cart/Order data from Cookie
-//            TODO uncomment this line below after everything is done
-//            Cookie::queue(Cookie::forget("shopping_cart")); // Delete the cookie, because we are already authenticated
-
-            $order = $this->getOrder();
-            $order->total_price = 0;
-//            $order->total_price = $cart_data["total"];
-            unset($cart_data["total"]); // delete the "total" field form array
-            foreach ($cart_data as $key => $value) {
-                $product = Product::find($key);
-                $order_item = $this->getOrderItem($product, $order);
-                $order_item->quantity = $value["item_quantity"];
-                $order_item->setItemPriceAttribute($order_item->quantity);
-                $order_item->save();
-                $order_items[] = ["order_item".$key => $order_item];
-                $order->total_price += $order_item->item_price;
-                $order_total_prices[] = ["order".$key => $order->total_price];
-
-            }
-
-            $order->save();
-
-//            dd($order);
-            return [$order_items, $order_total_prices];
-        }
+        $cart_data = $this->getCartData();
+        return $cart_data;
     }
 
-    public function products(Request $request)
+    public function getOrderData()
+    {
+        $order = $this->getOrder();
+        $cart_data = [];
+        foreach ($order->order_items as $key => $values) {
+            $cart_data[$values->product_id] = [
+                "item_quantity" => $values->quantity,
+            ];
+        }
+        $prod_id_list = array_keys($cart_data);
+
+        return $cart_data;
+    }
+
+    public function products()
     {
         $products = Product::paginate(6);
         $class_array = array(
@@ -112,30 +105,38 @@ class ShopController extends Controller {
 
         if(Auth::check()) {
             $cart_data = $this->getCartData(); // Get Cart/Order data from Cookie
-//            TODO uncomment this line below after everything is done
+//            TODO uncomment this line below to delete the cookie after everything is done
 //            Cookie::queue(Cookie::forget("shopping_cart")); // Delete the cookie, because we are already authenticated
 
             $order = $this->getOrder();
+            $order->total_price = 0;
 //            $order->total_price = $cart_data["total"];
             unset($cart_data["total"]); // delete the "total" field form array
             foreach ($cart_data as $key => $value) {
                 $product = Product::find($key);
                 $order_item = $this->getOrderItem($product, $order);
-                $order_item->quantity = $value["item_quantity"];
-                $order_item->setItemPriceAttribute($order_item->quantity);
-                $order_item->save();
+                $order_item->update(["quantity" => $value["item_quantity"]]);
+//                $order_item->setItemPriceAttribute($order_item->quantity);
                 $order->total_price += $order_item->item_price;
             }
             $order->save();
 
+            $cart_data = [];
+            foreach ($order->order_items as $key => $values) {
+                $cart_data[$values->product_id] = [
+                    "item_quantity" => $values->quantity,
+                ];
+            }
+            $prod_id_list = array_keys($cart_data);
+
             return view("shop.products", compact(
                 "products",
                 "images_array",
-//                "cart_data",
                 "class_array",
-                "order"
+                "cart_data",
+                "prod_id_list"
             ));
-        } elseif (Cookie::get("shopping_cart")) {
+        } elseif (Cookie::has("shopping_cart")) {
             $cart_data = $this->getCartData();
             $prod_id_list = array_keys($cart_data);
 
@@ -155,20 +156,34 @@ class ShopController extends Controller {
         }
     }
 
-    public function addToCart(Request $request, Product $product)
+    public function addToCart(Product $product)
     {
         if (Auth::check()) {
-            // TODO Add addToCart logic
             $order_item = $this->getOrderItem($product);
-            $order_item->quantity += 1;
-            $order_item->save();
-            return redirect()->back();
+
+            try {
+                DB::transaction(function () use ($order_item) {
+                    $order_item->increment("quantity");
+                    $order_item->update(['item_price' => $order_item->quantity]);
+//                    $order_item->setItemPriceAttribute($order_item->quantity);
+                    $order_item->order->increment("total_price", $order_item->item_price);
+                });
+            } catch (\Exception $e) {
+                dd("General Exception: ".$e->getMessage());
+            } catch (\Error $e) {
+                dd("General Error: ".$e->getMessage());
+            }
+
+            return response()->json([
+                "status" => '"'.$product->name.'" Added to Cart',
+                "item_quantity" => $order_item->quantity,
+            ]);
         } else {
             $prod_id = intval($product->id);
             $prod_name = $product->name;
             $priceval = intval($product->price);
 
-            if (Cookie::get("shopping_cart")) {
+            if (Cookie::has("shopping_cart")) {
                 $cart_data = $this->getCartData();
             } else {
                 $cart_data = array();
@@ -214,23 +229,51 @@ class ShopController extends Controller {
         }
     }
 
-    public function subtractOneFromCart(Request $request, Product $product)
+    public function subtractOneFromCart(Product $product)
     {
         if (Auth::check()) {
-            // TODO Add subtractOneFromCart logic
+
             $order_item = $this->getOrderItem($product);
-            $qty = $order_item->quantity;
-            if ($qty > 1) {
-                $order_item->quantity -= 1;
-                $order_item->save();
-            } elseif ($qty == 1) {
-                $order_item->delete();
+
+            if ($order_item->quantity > 1) {
+                try {
+                    DB::transaction(function () use ($order_item) {
+                        $order_item->decrement("quantity");
+                        $order_item->update(['item_price' => $order_item->quantity]);
+                        $order_item->order->decrement("total_price", $order_item->item_price);
+                    });
+                } catch (\Exception $e) {
+                    dd("General Exception: ".$e->getMessage());
+                } catch (\Error $e) {
+                    dd("General Error: ".$e->getMessage());
+                }
+
+                return response()->json([
+                    "status" => 'One "'.$product->name.'" was subtracted from your cart',
+                    "item_quantity" => intval($order_item->quantity),
+                    "delete" => 0,
+                ]);
+            } elseif ($order_item->quantity == 1) {
+                try {
+                    DB::transaction(function () use ($order_item) {
+                        $order_item->order->decrement("total_price", $order_item->item_price);
+                        $order_item->delete();
+                    });
+                } catch (\Exception $e) {
+                    dd("General Exception: ".$e->getMessage());
+                } catch (\Error $e) {
+                    dd("General Error: ".$e->getMessage());
+                }
+
+                return response()->json([
+                    "status" => $product->name." was Removed from your Cart",
+                    "delete" => 1,
+                ]);
             }
-            return redirect()->back();
         } else {
             $prod_id = intval($product->id);
             $priceval = intval($product->price);
-            if (Cookie::get("shopping_cart")) {
+            if (Cookie::has("shopping_cart")) {
                 $cart_data = $this->getCartData();
                 $prod_id_list = array_keys($cart_data);
                 if (in_array($prod_id, $prod_id_list)) {
@@ -260,13 +303,25 @@ class ShopController extends Controller {
         }
     }
 
-    public function removeFromCart(Request $request, Product $product)
+    public function removeFromCart(Product $product)
     {
         if (Auth::check()) {
-            // TODO Add removeFromCart logic
             $order_item = $this->getOrderItem($product);
-            $order_item->delete();
-            return redirect()->back();
+            try {
+                DB::transaction(function () use ($order_item) {
+                    $order_item->order->decrement("total_price", $order_item->item_price);
+                    $order_item->delete();
+                });
+            } catch (\Exception $e) {
+                dd("General Exception: ".$e->getMessage());
+            } catch (\Error $e) {
+                dd("General Error: ".$e->getMessage());
+            }
+
+            return response()->json([
+                "status"=> $product->name." was Removed from your Cart",
+                "total" => number_format(($order_item->order->total_price/100), 2, ",", " ") . " UZS",
+            ]);
         } else {
             $prod_id = intval($product->id);
             $priceval = intval($product->price);
@@ -282,22 +337,22 @@ class ShopController extends Controller {
                 unset($cart_data[$prod_id]);
                 $this->setCartData($cart_data);
                 return response()->json([
-                    "status"=>$item_name." was Removed from your Cart",
+                    "status"=> $item_name." was Removed from your Cart",
                     "total" => number_format((($cart_data["total"])/100), 2, ",", " ") . " UZS",
                 ]);
             }
         }
     }
 
-    public function cart(Request $request)
+    public function cart()
     {
-        $cart_data = $this->getCartData();
         if (Auth::check()) {
             // TODO Add cart logic
             $order = $this->getOrder();
             return view('shop.cart', compact('order'));
         } else {
             Session::put("url.intended", request()->fullUrl());
+            $cart_data = $this->getCartData();
             return view("shop.cart", compact("cart_data"));
         }
     }
@@ -332,8 +387,8 @@ class ShopController extends Controller {
     public function cartLoadData()
     {
         if (Auth::check()) {
-            $order = $this->getOrder();
-            $totalcart = $order->order_items->count();
+            $order = $this->getOrder("order_items");
+            $totalcart = $order->order_items_count;
             return response()->json(array("totalcart" => $totalcart));
         } elseif ( Cookie::get("shopping_cart") ) {
             $cookie_data = stripslashes(Cookie::get("shopping_cart"));
@@ -349,7 +404,7 @@ class ShopController extends Controller {
     public function cartClear()
     {
         if (Auth::check()) {
-            // TODO Add cartClear logic
+            $this->getOrder()->delete();
             return response()->json(["status" => "Your Cart was Cleared"]);
         } else {
             Cookie::queue(Cookie::forget("shopping_cart"));

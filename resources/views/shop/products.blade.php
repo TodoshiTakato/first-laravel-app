@@ -64,7 +64,7 @@
                                                                 <div id="qty" class="d-inline">
                                                                     {{$cart_data[$product->id]["item_quantity"]}} штук
                                                                 </div>
-                                                            }
+                                                            )
                                                         </button>
     {{--                                                    <button class="btn btn-primary btn-vsm disabled">--}}
     {{--                                                        <i class="fas fa-shopping-cart fa-1x"></i>--}}

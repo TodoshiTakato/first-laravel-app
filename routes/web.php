@@ -82,7 +82,8 @@ Route::group([              // Route Group Shop.
     ], function () {
         Route::get('/', 'ShopController@cart');  // Shop Cart Page.
         Route::put('/update/{product}', 'ShopController@cartUpdateQuantity')->name('.update_quantity');  // shop.cart.update_quantity Action.
-        Route::get('/get', 'ShopController@get');  // shop.cart.load_cart_data Action.
+        Route::get('/getcart', 'ShopController@getCart');
+        Route::get('/getorder', 'ShopController@getOrderData');
         Route::get('/load', 'ShopController@cartLoadData')->name('.load_cart_data');  // shop.cart.load_cart_data Action.
         Route::get('/clear', 'ShopController@cartClear')->name('.clear_cart');  // shop.cart.clear_cart Action.
     });
