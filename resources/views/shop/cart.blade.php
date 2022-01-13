@@ -34,25 +34,25 @@
                                 </tr>
                             </thead>
                             <tbody class="my-auto">
-                                @foreach ($cart_data as $key => $value)@if($key != 'total')
+                                @foreach ($cart_data as $key => $value)@if($key != "total")
                                     <tr id="cart_item_row">
                                         <td><a class="img-thumbnail" href="#">
                                             <img src="../assets/images/products/product_01.jpg" width="70px" alt="">
                                         </a></td>
                                         <td><h4>
-                                            <a href="#">{{ $value["item_name"] }}</a>
+                                            <a href="#">{{ $value["product_name"] }}</a>
                                         </h4></td>
                                         <td><span>
-                                            {{ number_format($value["item_price"]/$value["item_quantity"], 2, ",", " ")." UZS" }}
+                                            {{ number_format($value["product_price"]/100, 2, ",", " ")." UZS" }}
                                         </span></td>
-                                        <td>
-                                            <input type="hidden" id="product_id" value="{{$value['item_id']}}">
+                                        <td>@dump($value["product_id"])
+                                            <input type="hidden" id="product_id" value="{{$value["product_id"]}}">
                                             <input type="number" min=1 max=100 step=1
                                                    id="quantity" class="form-control"
-                                                   value="{{$value["item_quantity"]}}">
+                                                   value="{{$value["item_quantity"]}}">@dump($value["item_quantity"])
                                         </td>
                                         <td><span id="item_price">
-                                            {{number_format($value["item_price"], 2, ",", " ")." UZS" }}
+                                            {{number_format($value["item_price"]/100, 2, ",", " ")." UZS" }}
                                         </span></td>
                                         <td style="font-size: 20px;">
                                             <button type="button" id="delete_from_cart_btn">
@@ -79,7 +79,7 @@
                                 </div>
                                 <div class="col-6">
                                     <span id="subtotal_price">
-                                        {{ number_format($cart_data['total'], 2, ",", " ")." UZS" }}
+                                        {{ number_format($cart_data["total"]/100, 2, ",", " ")." UZS" }}
                                     </span>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                                 </div>
                                 <div class="col-6">
                                     <span id="grand_price">
-                                        {{ number_format($cart_data['total'], 2, ",", " ")." UZS" }}
+                                        {{ number_format($cart_data['total']/100, 2, ",", " ")." UZS" }}
                                     </span>
                                 </div>
                             </div>

@@ -155,18 +155,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // global app configuration object GO TO CUSTOM.JS!!!
-        var routes = {
-            shop: {
-                products: "{{route('shop.products')}}", {{-- // $.ajax({ url: routes.shop.products+"/"+product_id })--}}
-                cart: {
-                    cart: "{{route('shop.cart')}}", {{-- // $.ajax({ url: routes.shop.cart.cart+"/update/"+product_id })--}}
-                    load_cart_data: "{{route('shop.cart.load_cart_data')}}", {{-- // $.ajax({ url: routes.shop.cart.load_cart_data })--}}
-                    clear_cart: "{{route('shop.cart.clear_cart')}}" {{-- // $.ajax({ url: routes.shop.products+"/"+product_id })--}}
-                }
-            }
-        };
-    </script>
 @endsection

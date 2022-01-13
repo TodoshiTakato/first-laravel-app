@@ -306,12 +306,26 @@ $(document).ready(function () {
 
     $(document).on("click", "#clear_cart", function(event) {
         event.preventDefault();
+        let cart = $(this).closest(".container");
         $.ajaxSetup( { headers: {"X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
             url: routes.shop.cart.clear_cart,
             type: "GET",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function (response) {
-                window.location.reload();
+                cart.html(
+                    '<div class="row">' +
+                        '<div class="col-md-12 mycard py-5 text-center">' +
+                        '<div class="mycards">' +
+                        '<h4>Your cart is currently empty.</h4>' +
+                    '<a href="' + routes.shop.products + '" class="btn btn-upper btn-primary outer-left-xs mt-5">Continue Shopping</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>'
+                );
+                alertify.success(response.status);
+                // window.location.reload();
             }
         });
     });
@@ -325,8 +339,10 @@ $(document).ready(function () {
         let grand_price = $("#grand_price");
         $.ajaxSetup( { headers: { "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content") } });
         $.ajax({
-            url: routes.shop.cart.cart+"/update/"+product_id,
+            url: routes.shop.cart.cart+"/update/" + product_id,
             type: "PUT",
+            // contentType: "application/json; charset=utf-8",
+            // dataType: "json",
             data: { "quantity": quantity },
             success: function (response) {
                 // item_price.html(number_format(response["item_price"], 2, ',', ' ')+" UZS");
@@ -350,6 +366,8 @@ $(document).ready(function () {
         $.ajax({
             url: routes.shop.products+"/"+product_id,
             type: "DELETE",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
             success: function (response) {
                 cart_item_row.remove();
                 subtotal_price.html(response["total"]);

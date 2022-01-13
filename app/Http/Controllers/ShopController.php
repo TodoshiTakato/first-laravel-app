@@ -25,23 +25,49 @@ class ShopController extends Controller {
         return Order::firstOrCreate(['user_id' => $user->id, 'paid' => 0]);
     }
 
-    public function getOrderItem(Product $product, $order=null)
+    public function getOrderItem(Product $product, $order=null, $withCount=null)
     {
         if(!isset($order)) {
-            $order = $this->getOrder();
+            $order = $this->getOrder($withCount);
         }
         return OrderItem::firstOrCreate(
             ['order_id' => $order->id,'product_id' => $product->id]
         );
     }
-    public function getCartData()
+
+    public function getCartData($delete=null)
     {
         if (Cookie::has("shopping_cart")) {
             $cookie_data = stripslashes(Cookie::get("shopping_cart"));
+            if (isset($delete)) {
+                Cookie::queue(Cookie::forget("shopping_cart")); // Delete the cookie, because we are already authenticated
+            }
             return json_decode($cookie_data, true);
         } else {
             return null;
         }
+    }
+
+    public function getOrderData()
+    {
+        $order = $this->getOrder();
+        $cart_data = [];
+        foreach ($order->order_items as $key => $values) {
+            $cart_data[$values->product_id] = [
+                "product_id" => $values->product_id,
+                "product_name" => $values->product->name,
+//                "product_price" => number_format(($values->product->price/100), 2, ",", " ") . " UZS",
+                "product_price" => $values->product->price,
+                "item_quantity" => $values->quantity,
+//                "item_price" => number_format(($values->item_price/100), 2, ",", " ") . " UZS",
+                "item_price" => $values->item_price,
+            ];
+        }
+//        $cart_data["total"] = number_format(($order->total_price/100), 2, ",", " ") . " UZS";
+        $cart_data["total"] = $order->total_price;
+//        $prod_id_list = array_keys($cart_data);
+
+        return $cart_data;
     }
 
     public function setCartData($cart_data)
@@ -54,26 +80,6 @@ class ShopController extends Controller {
     public function index()
     {
         return view("shop.index");
-    }
-
-    public function getCart()
-    {
-        $cart_data = $this->getCartData();
-        return $cart_data;
-    }
-
-    public function getOrderData()
-    {
-        $order = $this->getOrder();
-        $cart_data = [];
-        foreach ($order->order_items as $key => $values) {
-            $cart_data[$values->product_id] = [
-                "item_quantity" => $values->quantity,
-            ];
-        }
-        $prod_id_list = array_keys($cart_data);
-
-        return $cart_data;
     }
 
     public function products()
@@ -104,23 +110,30 @@ class ShopController extends Controller {
         );
 
         if(Auth::check()) {
-            $cart_data = $this->getCartData(); // Get Cart/Order data from Cookie
-//            TODO uncomment this line below to delete the cookie after everything is done
-//            Cookie::queue(Cookie::forget("shopping_cart")); // Delete the cookie, because we are already authenticated
-
+            $cart_data = $this->getCartData(true); // Get Cart/Order data from Cookie
             $order = $this->getOrder();
-            $order->total_price = 0;
-//            $order->total_price = $cart_data["total"];
-            unset($cart_data["total"]); // delete the "total" field form array
-            foreach ($cart_data as $key => $value) {
-                $product = Product::find($key);
-                $order_item = $this->getOrderItem($product, $order);
-                $order_item->update(["quantity" => $value["item_quantity"]]);
-//                $order_item->setItemPriceAttribute($order_item->quantity);
-                $order->total_price += $order_item->item_price;
+            if (is_array($cart_data)) {
+                unset($cart_data["total"]); // delete the "total" field from array
+                try {
+                    DB::transaction(function () use ($order, $cart_data) {
+                        $order->total_price = 0;
+//                        $order->total_price = $cart_data["total"];
+                        foreach ($cart_data as $key => $value) {
+                            $product = Product::find($key);
+                            $order_item = $this->getOrderItem($product, $order);
+                            $order_item->update(["quantity" => $value["item_quantity"], "item_price" => $value["item_quantity"]]);
+//                            $order_item->setItemPriceAttribute($order_item->quantity);
+//                            $order->total_price += $order_item->item_price;
+                            $order->increment("total_price", $order_item->item_price);
+                        }
+//                        $order->save();
+                    });
+                } catch (\Exception $e) {
+                    dd("General Exception: ".$e->getMessage());
+                } catch (\Error $e) {
+                    dd("General Error: ".$e->getMessage());
+                }
             }
-            $order->save();
-
             $cart_data = [];
             foreach ($order->order_items as $key => $values) {
                 $cart_data[$values->product_id] = [
@@ -128,7 +141,6 @@ class ShopController extends Controller {
                 ];
             }
             $prod_id_list = array_keys($cart_data);
-
             return view("shop.products", compact(
                 "products",
                 "images_array",
@@ -198,15 +210,16 @@ class ShopController extends Controller {
                     $cart_data["total"] += $priceval;
                     $this->setCartData($cart_data);
                     return response()->json([
-                        "status" => '"' . $cart_data[$prod_id]["item_name"] . '" Already Added to Cart + Quantity was Updated',
+                        "status" => '"' . $cart_data[$prod_id]["product_name"] . '" Already Added to Cart + Quantity was Updated',
                         "item_quantity" => $cart_data[$prod_id]["item_quantity"],
                     ]);
                 }
             } else {
                 if ($product) {
                     $item_array = array(
-                        "item_id" => $prod_id,
-                        "item_name" => $prod_name,
+                        "product_id" => $prod_id,
+                        "product_name" => $prod_name,
+                        "product_price" => $priceval,
                         "item_quantity" => 1,
                         "item_price" => $priceval,
 //                    'item_image' => $prod_image
@@ -233,7 +246,7 @@ class ShopController extends Controller {
     {
         if (Auth::check()) {
 
-            $order_item = $this->getOrderItem($product);
+            $order_item = $this->getOrderItem($product, null, "order_items");
 
             if ($order_item->quantity > 1) {
                 try {
@@ -256,8 +269,13 @@ class ShopController extends Controller {
             } elseif ($order_item->quantity == 1) {
                 try {
                     DB::transaction(function () use ($order_item) {
-                        $order_item->order->decrement("total_price", $order_item->item_price);
+                        $item_price = $order_item->item_price;
                         $order_item->delete();
+                        if ($order_item->order->order_items_count == 0){
+                            $order_item->order->delete();
+                        } else {
+                            $order_item->order->decrement("total_price", $item_price);
+                        }
                     });
                 } catch (\Exception $e) {
                     dd("General Exception: ".$e->getMessage());
@@ -284,17 +302,17 @@ class ShopController extends Controller {
                         $cart_data["total"] -= $priceval;
                         $this->setCartData($cart_data);
                         return response()->json([
-                            "status" => 'One "' . $cart_data[$prod_id]["item_name"] . '" was subtracted from your cart',
+                            "status" => 'One "' . $cart_data[$prod_id]["product_name"] . '" was subtracted from your cart',
                             "item_quantity" => intval($cart_data[$prod_id]["item_quantity"]),
                             "delete" => 0,
                         ]);
                     } else {
-                        $item_name = $cart_data[$prod_id]["item_name"];
+                        $product_name = $cart_data[$prod_id]["product_name"];
                         $cart_data["total"] -= $priceval;
                         unset($cart_data[$prod_id]);
                         $this->setCartData($cart_data);
                         return response()->json([
-                            "status" => $item_name . " was Removed from your Cart",
+                            "status" => $product_name . " was Removed from your Cart",
                             "delete" => 1,
                         ]);
                     }
@@ -332,12 +350,12 @@ class ShopController extends Controller {
             $prod_id_list = array_keys($cart_data);
 
             if(in_array($prod_id, $prod_id_list)) {
-                $item_name = $cart_data[$prod_id]["item_name"];
+                $product_name = $cart_data[$prod_id]["product_name"];
                 $cart_data["total"] -= $cart_data[$prod_id]["item_price"];
                 unset($cart_data[$prod_id]);
                 $this->setCartData($cart_data);
                 return response()->json([
-                    "status"=> $item_name." was Removed from your Cart",
+                    "status"=> $product_name." was Removed from your Cart",
                     "total" => number_format((($cart_data["total"])/100), 2, ",", " ") . " UZS",
                 ]);
             }
@@ -347,21 +365,45 @@ class ShopController extends Controller {
     public function cart()
     {
         if (Auth::check()) {
-            // TODO Add cart logic
-            $order = $this->getOrder();
-            return view('shop.cart', compact('order'));
+            $cart_data = $this->getOrderData();
+            return view('shop.cart', compact('cart_data'));
         } else {
             Session::put("url.intended", request()->fullUrl());
             $cart_data = $this->getCartData();
+//            dd($cart_data);
             return view("shop.cart", compact("cart_data"));
         }
+    }
+
+    public function getCart(Request $request, Product $product){
+        $cart_data = $this->getCartData();
+        return $cart_data;
     }
 
     public function cartUpdateQuantity(Request $request, Product $product)
     {
         if (Auth::check()) {
-            // TODO Add cartUpdateQuantity logic
-            $order = $this->getOrder();
+            $order_item = $this->getOrderItem($product);
+            try {
+                DB::transaction(function () use ($request, $product, $order_item) {
+                    $order_item->order->decrement("total_price", $order_item->item_price);
+                    $order_item->update([
+                        "quantity"=> $request->quantity,
+                        "item_price"=> $request->quantity
+                    ]);
+                    $order_item->order->increment("total_price", $order_item->item_price);
+                });
+            } catch (\Exception $e) {
+                dd("General Exception: ".$e->getMessage());
+            } catch (\Error $e) {
+                dd("General Error: ".$e->getMessage());
+            }
+
+            return response()->json([
+                "status" => $order_item->quantity.' "'.$product->name.'"(s) are in the cart',
+                "item_price" => number_format(($order_item->item_price/100), 2, ",", " ") . " UZS",
+                "total" => number_format(($order_item->order->total_price/100), 2, ",", " ") . " UZS",
+            ]);
         } else {
             $cart_data = $this->getCartData();
             $prod_id = $product->id;
@@ -369,18 +411,19 @@ class ShopController extends Controller {
             $quantity = intval($request->quantity);
             $prod_id_list = array_keys($cart_data);
 
+//            dd($cart_data, $prod_id, $priceval, $quantity, $prod_id_list);
             if (in_array($prod_id, $prod_id_list) && isset($cart_data[$prod_id])) {
                 $cart_data["total"] -= $cart_data[$prod_id]["item_price"];
                 $cart_data[$prod_id]["item_quantity"] = $quantity;
                 $cart_data[$prod_id]["item_price"] = ($quantity * $priceval);
                 $cart_data["total"] += $cart_data[$prod_id]["item_price"];
                 $this->setCartData($cart_data);
-                return response()->json([
-                    "status" => $quantity . ' "' . $cart_data[$prod_id]["item_name"] . '"(s) are in the cart',
-                    "item_price" => number_format((($cart_data[$prod_id]["item_price"])/100), 2, ",", " ") . " UZS",
-                    "total" => number_format((($cart_data["total"])/100), 2, ",", " ") . " UZS",
-                ]);
             }
+            return response()->json([
+                "status" => $quantity . ' "' . $cart_data[$prod_id]["product_name"] . '"(s) are in the cart',
+                "item_price" => number_format((($cart_data[$prod_id]["item_price"])/100), 2, ",", " ") . " UZS",
+                "total" => number_format((($cart_data["total"])/100), 2, ",", " ") . " UZS",
+            ]);
         }
     }
 
@@ -404,7 +447,15 @@ class ShopController extends Controller {
     public function cartClear()
     {
         if (Auth::check()) {
-            $this->getOrder()->delete();
+            try {
+                DB::transaction(function () {
+                    $this->getOrder()->delete();
+                });
+            } catch (\Exception $e) {
+                dd("General Exception: ".$e->getMessage());
+            } catch (\Error $e) {
+                dd("General Error: ".$e->getMessage());
+            }
             return response()->json(["status" => "Your Cart was Cleared"]);
         } else {
             Cookie::queue(Cookie::forget("shopping_cart"));
