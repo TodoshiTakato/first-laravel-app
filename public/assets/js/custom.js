@@ -341,9 +341,9 @@ $(document).ready(function () {
         $.ajax({
             url: routes.shop.cart.cart+"/update/" + product_id,
             type: "PUT",
-            // contentType: "application/json; charset=utf-8",
-            // dataType: "json",
-            data: { "quantity": quantity },
+            contentType: "application/json; charset=UTF-8",
+            dataType: "json",
+            data: JSON.stringify({ "quantity": quantity }),
             success: function (response) {
                 // item_price.html(number_format(response["item_price"], 2, ',', ' ')+" UZS");
                 // subtotal_price.html(number_format(response["total"], 2, ',', ' ')+" UZS");
@@ -367,7 +367,7 @@ $(document).ready(function () {
             url: routes.shop.products+"/"+product_id,
             type: "DELETE",
             contentType: "application/json; charset=utf-8",
-            dataType: "json",
+            // dataType: "json",
             success: function (response) {
                 cart_item_row.remove();
                 subtotal_price.html(response["total"]);

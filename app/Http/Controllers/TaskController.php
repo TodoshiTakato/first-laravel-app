@@ -94,7 +94,7 @@ class TaskController extends Controller
 
     }
 
-    public function update(TaskPostRequest $request, Task $task)
+    public function update(Task $task, TaskPostRequest $request)
     {
         $this->authorize('update_task', $task);
         $user = Auth::user();

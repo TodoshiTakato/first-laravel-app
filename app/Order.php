@@ -18,12 +18,6 @@ class Order extends Model
         return $this->hasMany('App\OrderItem');
     }
 
-//    public function setTotalPriceAttribute ($quantity) {
-//        //        dd($price = $this->product->price);
-//        $price = $this->product->price;
-//        $this->attributes['item_price'] = ($price*$quantity);
-//    }
-
     public function user()
     {
         return $this->belongsTo('App\User');

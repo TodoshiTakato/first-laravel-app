@@ -28,10 +28,11 @@ class TaskPostRequest extends FormRequest
             'details' => 'nullable | string | min:10 | max:65535',
             'status' => 'nullable | integer | between:0,1',
             'priority' => 'nullable | integer | between:0,5',
-            'start_time' => 'nullable | date_format:Y-m-d\TH:i:s',
-            'finish_time' => 'nullable | date_format:Y-m-d\TH:i:s',
+            'start_time' => 'nullable | date_format:Y-m-d\TH:i',
+            'finish_time' => 'nullable | date_format:Y-m-d\TH:i',
             'time_spent' => 'nullable | integer',
             'rating' => 'nullable | integer | between:1,5',
+            'comment' => 'nullable | string',
         ];
     }
 
