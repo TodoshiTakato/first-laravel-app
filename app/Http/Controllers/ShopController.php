@@ -20,6 +20,8 @@ class ShopController extends Controller {
     {
         $user = Auth::user();
         if (isset($withCount)) {
+//            dump(Order::withCount($withCount)->firstOrCreate(['user_id' => $user->id, 'paid' => 0])->lockForUpdate()->first());
+//            dump(Order::withCount($withCount)->firstOrCreate(['user_id' => $user->id, 'paid' => 0])->lockForUpdate()->first()->order_items_count);
             return Order::withCount($withCount)->firstOrCreate(['user_id' => $user->id, 'paid' => 0]);
         }
         return Order::firstOrCreate(['user_id' => $user->id, 'paid' => 0]);
@@ -34,9 +36,7 @@ class ShopController extends Controller {
                 $order = $this->getOrder($withCount);
             }
         }
-        return OrderItem::firstOrCreate(
-            ['order_id' => $order->id,'product_id' => $product->id]
-        );
+        return OrderItem::firstOrCreate(['order_id' => $order->id,'product_id' => $product->id]);
     }
 
     public function getCartData($delete=null)
@@ -50,6 +50,7 @@ class ShopController extends Controller {
 
     public function getOrderData($order)
     {
+//        dd($order->order_items_count);
         if ($order->order_items_count != 0) {
             $cart_data = [];
             foreach ($order->order_items as $key => $values) {
@@ -64,7 +65,7 @@ class ShopController extends Controller {
             $cart_data["total"] = $order->total_price;
             return $cart_data;
         } else {
-            dd("Error in getOrderData");
+            dd("Error in getOrderData $ order->order_items_count is null or something");
         }
     }
 
@@ -77,7 +78,7 @@ class ShopController extends Controller {
 
     public function setOrderData()
     {
-        $cart_data = $this->getCartData(true); // Get Cart/Order data from Cookie
+        $cart_data = $this->getCartData(true); // Get Cart/Order data from Cookie and DELETE the cookie
         $order = $this->getOrder();
         if (is_array($cart_data)) {
             unset($cart_data["total"]); // delete the "total" field from item list array
@@ -177,13 +178,12 @@ class ShopController extends Controller {
     {
         if (Auth::check()) {
             $order_item = $this->getOrderItem($product);
-
             try {
                 DB::transaction(function () use ($order_item) {
-                    $order_item->increment("quantity");
+                    $order_item->lockForUpdate()->increment("quantity");
                     $order_item->update(['item_price' => $order_item->quantity]);
 //                    $order_item->setItemPriceAttribute($order_item->quantity);
-                    $order_item->order->increment("total_price", $order_item->item_price);
+                    $order_item->order->lockForUpdate()->increment("total_price", $order_item->item_price);
                 });
             } catch (\Exception $e) {
                 dd("General Exception: ".$e->getMessage());
