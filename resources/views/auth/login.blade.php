@@ -71,7 +71,7 @@
                     <div class="form-group row align-items-center">
                         <div class="col-3"></div>
                         <div class="col-7">
-                            <div class="g-recaptcha" data-sitekey="{{env("GOOGLE_CAPTCHA_KEY")}}"
+                            <div class="g-recaptcha" data-sitekey="{{config('recapcha.GOOGLE_CAPTCHA_KEY')}}"
                                  data-callback="recaptchaDataCallbackLogin"
                                  data-expired-callback="recaptchaExpireCallbackLogin">
                             </div>
